@@ -11,17 +11,51 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
   background: black;
-  color: #fff;
+  color: white;
+  overflow: hidden;
 }
 
-html { scroll-behavior: smooth; }
+/* ================= DOOR INTRO ================= */
+#doorIntro {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: url('images/home.jpg') center/cover no-repeat;
+  z-index: 999;
+}
 
+.door {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  background: rgba(0,0,0,0.85);
+  transition: transform 2s ease;
+}
+
+.left { left: 0; transform-origin: left; }
+.right { right: 0; transform-origin: right; }
+
+.open .left { transform: rotateY(-100deg); }
+.open .right { transform: rotateY(100deg); }
+
+.door-text {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: gold;
+}
+
+.door-text h1 {
+  font-size: 3em;
+}
+
+/* ================= SECTIONS ================= */
 section {
   height: 100vh;
-  scroll-snap-align: start;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,47 +63,20 @@ section {
   text-align: center;
 }
 
-/* CARD */
-#opening { perspective: 1500px; }
-
-.card {
-  width: 280px;
-  height: 380px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 2s;
-  cursor: pointer;
+/* ================= HERO ================= */
+#hero {
+  background: url('images/home.jpg') center/cover no-repeat;
 }
 
-.card.open { transform: rotateY(-180deg); }
-
-.face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border: 2px solid gold;
+.overlay {
+  background: rgba(0,0,0,0.6);
+  padding: 20px;
   border-radius: 10px;
-  background: linear-gradient(145deg, #1a1a1a, #000);
-  box-shadow: 0 0 30px gold;
 }
 
-.front, .back {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Playfair Display';
-  font-size: 28px;
-}
-
-.back { transform: rotateY(180deg); }
-
-/* HERO */
-#hero { background: radial-gradient(circle, #2b1b00, #000); }
-
+/* ================= GLOW ================= */
 h1 {
   font-family: 'Playfair Display';
-  font-size: 3em;
   color: gold;
   animation: glow 2s infinite alternate;
 }
@@ -79,108 +86,86 @@ h1 {
   to { text-shadow: 0 0 30px gold; }
 }
 
-/* FADE */
-.fade {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 1s;
-}
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* PARTICLES */
-.particle {
+/* ================= PETALS ================= */
+.petal {
   position: fixed;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  opacity: 0.7;
-  animation: float 10s linear infinite;
-}
-@keyframes float {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-10vh); }
+  top: -50px;
+  width: 20px;
+  height: 20px;
+  background: url('images/petal.png') no-repeat center/contain;
+  pointer-events: none;
+  z-index: 1000;
+  animation: fall linear forwards;
 }
 
-a {
-  color: gold;
-  text-decoration: none;
-  border: 1px solid gold;
-  padding: 10px 20px;
-  margin-top: 10px;
+@keyframes fall {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) translateX(100px) rotate(360deg);
+    opacity: 0.7;
+  }
 }
-
-#date { background: #111; }
-#invite { background: #1a1a1a; }
-#countdown { background: #000; }
 </style>
 </head>
 
 <body>
 
+<!-- MUSIC -->
 <audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- OPEN -->
-<section id="opening">
-  <div class="card" onclick="openCard()">
-    <div class="face front">A ❤️ B</div>
-    <div class="face back">Tap to Open 💍</div>
+<!-- DOOR -->
+<div id="doorIntro">
+  <div class="door left" onclick="openDoor()"></div>
+  <div class="door right" onclick="openDoor()"></div>
+  <div class="door-text">
+    <h1>A ❤️ B</h1>
+    <p>Tap to Open</p>
   </div>
-  <p style="font-size:12px;color:#aaa;">Tap card for music 🎶</p>
-</section>
+</div>
 
 <!-- HERO -->
-<section id="hero" class="fade">
-  <h1>A & B</h1>
-  <p>Are Getting Married ✨</p>
+<section id="hero">
+  <div class="overlay">
+    <h1>A & B</h1>
+    <p>Are Getting Married ✨</p>
+  </div>
 </section>
 
 <!-- DATE -->
-<section id="date" class="fade">
+<section style="background:#111;">
   <h1>Wedding</h1>
   <p>December 25, 2026</p>
-  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
+  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank" style="color:gold;">
     View Venue 📍
   </a>
 </section>
 
-<!-- INVITE -->
-<section id="invite" class="fade">
-  <h1>Invitation</h1>
-  <p>With love, we invite you to celebrate our special day.</p>
-</section>
-
 <!-- COUNTDOWN -->
-<section id="countdown" class="fade">
+<section style="background:black;">
   <h1>Countdown</h1>
   <p id="timer"></p>
 </section>
 
 <script>
-function openCard() {
-  document.querySelector('.card').classList.add('open');
-  let music = document.getElementById("music");
-  music.play().catch(() => {});
+// DOOR OPEN
+function openDoor() {
+  let intro = document.getElementById("doorIntro");
+  intro.classList.add("open");
+
+  document.getElementById("music").play().catch(()=>{});
+
   setTimeout(() => {
-    document.getElementById("hero").scrollIntoView();
-  }, 2500);
+    intro.style.display = "none";
+  }, 2000);
 }
 
-// fade
-const faders = document.querySelectorAll('.fade');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('show');
-  });
-});
-faders.forEach(el => observer.observe(el));
-
-// countdown
-const date = new Date("Dec 25, 2026 00:00:00").getTime();
+// COUNTDOWN
+const date = new Date("Dec 25, 2026").getTime();
 setInterval(() => {
   let now = new Date().getTime();
   let gap = date - now;
@@ -193,15 +178,20 @@ setInterval(() => {
     `<span style="font-size:2em;color:gold;">${d}</span> Days<br>${h}h ${m}m`;
 }, 1000);
 
-// particles
-for (let i = 0; i < 30; i++) {
-  let p = document.createElement("div");
-  p.className = "particle";
-  p.style.left = Math.random()*100 + "vw";
-  p.style.background = Math.random() > 0.5 ? "gold" : "#ffb6c1";
-  p.style.animationDuration = (5 + Math.random()*5) + "s";
-  document.body.appendChild(p);
+// PETALS
+function createPetal() {
+  let petal = document.createElement("div");
+  petal.className = "petal";
+
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.animationDuration = (5 + Math.random()*5) + "s";
+
+  document.body.appendChild(petal);
+
+  setTimeout(() => petal.remove(), 10000);
 }
+
+setInterval(createPetal, 300);
 </script>
 
 </body>
