@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pathu 💍 Kettiyon Wedding</title>
+<title>Fathima 💍 Habeeb Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
@@ -19,13 +19,9 @@ body {
   scroll-snap-type: y mandatory;
 }
 
-/* ===================== */
-/* SWIPE INTRO (INSTAGRAM STYLE) */
-/* ===================== */
+/* ================= SWIPE INTRO ================= */
 #introSwipe {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100vh;
   background: black;
@@ -44,11 +40,11 @@ body {
 .card {
   flex: 0 0 100%;
   height: 100vh;
-  scroll-snap-align: start;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  scroll-snap-align: start;
   color: white;
 }
 
@@ -58,16 +54,13 @@ body {
   border-radius: 15px;
 }
 
-/* ===================== */
-/* DOOR */
-/* ===================== */
+/* ================= DOOR ================= */
 #doorIntro {
   position: fixed;
   width: 100%;
   height: 100vh;
   background: url('images/home.jpg') center/cover no-repeat;
   z-index: 999;
-  perspective: 1200px;
   transition: opacity 1s;
 }
 
@@ -87,9 +80,7 @@ body {
 .open .left { transform: rotateY(-100deg); }
 .open .right { transform: rotateY(100deg); }
 
-/* ===================== */
-/* SECTIONS */
-/* ===================== */
+/* ================= SECTIONS ================= */
 section {
   height: 100vh;
   display: flex;
@@ -106,7 +97,7 @@ section {
 }
 
 .overlay {
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   padding: 25px;
   border-radius: 15px;
 }
@@ -156,12 +147,10 @@ h1 {
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
 }
 
-/* RSVP MODAL */
+/* RSVP */
 #rsvpModal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.6);
@@ -186,14 +175,22 @@ input, textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
 }
+
+/* ================= LOCATION CARD (HYPER) ================= */
+.locationCard {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  text-align: center;
+  max-width: 350px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- ===================== -->
-<!-- SWIPE INTRO (RING VERSION) -->
-<!-- ===================== -->
+<!-- ================= SWIPE INTRO ================= -->
 <div id="introSwipe">
   <div class="swipeContainer">
 
@@ -206,7 +203,7 @@ input, textarea {
 
     <div class="card" style="background:#b8962e;">
       <div class="overlayCard">
-        <h1>Pathu 💍 Kettiyon</h1>
+        <h1>Fathima 💍 Habeeb</h1>
         <p>Two souls, one journey</p>
       </div>
     </div>
@@ -214,21 +211,21 @@ input, textarea {
     <div class="card" style="background:#fffaf5;color:black;">
       <div class="overlayCard">
         <h1>Save The Date 💍</h1>
-        <p>May 26, 2026</p>
+        <p>May 24, 2026</p>
       </div>
     </div>
 
     <div class="card" style="background:#333;">
       <div class="overlayCard">
         <h1>Venue 📍</h1>
-        <p>Bangalore Palace</p>
+        <p>Luxury Celebration</p>
       </div>
     </div>
 
     <div class="card" style="background:#b8962e;">
       <div class="overlayCard">
         <h1>You’re Invited 💍</h1>
-        <button class="rsvpBtn" onclick="enterWedding()">Enter Wedding 💍</button>
+        <button class="rsvpBtn" onclick="enterWedding()">Enter Wedding</button>
       </div>
     </div>
 
@@ -251,7 +248,7 @@ input, textarea {
 <!-- HERO -->
 <section id="hero">
   <div class="overlay">
-    <h1>Pathu 💍 Kettiyon</h1>
+    <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
   </div>
 </section>
@@ -259,7 +256,21 @@ input, textarea {
 <!-- DATE -->
 <section>
   <h1>Wedding Date</h1>
-  <p>May 26, 2026</p>
+  <p>May 24, 2026</p>
+</section>
+
+<!-- LOCATION (HYPER CARD) -->
+<section>
+  <div class="locationCard">
+    <div style="font-size:40px;">📍</div>
+    <h1>Wedding Venue</h1>
+    <p>Bangalore Palace Grounds</p>
+    <p style="font-size:14px;color:#777;">A royal celebration of love 💍</p>
+
+    <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank" class="rsvpBtn" style="display:inline-block;margin-top:10px;text-decoration:none;">
+      Open Maps 🗺️
+    </a>
+  </div>
 </section>
 
 <!-- COUNTDOWN -->
@@ -281,9 +292,7 @@ input, textarea {
     <button class="rsvpBtn" onclick="submitRSVP()">Submit</button>
     <p id="status"></p>
 
-    <button onclick="closeRSVP()" style="border:none;background:none;color:red;">
-      Close ✖
-    </button>
+    <button onclick="closeRSVP()" style="border:none;background:none;color:red;">Close ✖</button>
   </div>
 </div>
 
@@ -291,8 +300,8 @@ input, textarea {
 
 /* SWIPE EXIT */
 function enterWedding(){
-  document.getElementById("introSwipe").style.display = "none";
-  document.body.style.overflow = "auto";
+  document.getElementById("introSwipe").style.display="none";
+  document.body.style.overflow="auto";
 }
 
 /* DOOR */
@@ -316,15 +325,24 @@ function toggleMusic(){
   m.paused ? m.play() : m.pause();
 }
 
-/* COUNTDOWN */
-const date=new Date("May 26, 2026").getTime();
-setInterval(()=>{
-  let now=new Date().getTime();
-  let gap=date-now;
-  let d=Math.floor(gap/(1000*60*60*24));
-  document.getElementById("timer").innerHTML =
-  `<span style="color:#b8962e;font-size:2em">${d}</span> Days Left`;
-},1000);
+/* COUNTDOWN (BIG + SECONDS) */
+const date = new Date("May 24, 2026 00:00:00").getTime();
+
+setInterval(() => {
+  let now = new Date().getTime();
+  let gap = date - now;
+
+  let d = Math.floor(gap / (1000*60*60*24));
+  let h = Math.floor((gap / (1000*60*60)) % 24);
+  let m = Math.floor((gap / (1000*60)) % 60);
+  let s = Math.floor((gap / 1000) % 60);
+
+  document.getElementById("timer").innerHTML = `
+    <div style="font-size:3em;color:#b8962e;font-weight:bold;">${d}</div>
+    Days<br>
+    ${h}h : ${m}m : <span style="font-size:2em;color:#b8962e;">${s}s</span>
+  `;
+}, 1000);
 
 /* RSVP */
 function openRSVP(){document.getElementById("rsvpModal").style.display="flex";}
