@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pathu 💍 Kettiyon Wedding</title>
+<title>Fathima 💍 Habeeb Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
@@ -87,16 +87,6 @@ h1 {
 
 p { color: #555; }
 
-/* LINKS */
-a {
-  color: #b8962e;
-  text-decoration: none;
-  border: 1px solid #b8962e;
-  padding: 10px 20px;
-  margin-top: 10px;
-  border-radius: 20px;
-}
-
 /* MUSIC */
 button.music {
   position: fixed;
@@ -110,7 +100,7 @@ button.music {
   border-radius: 50%;
 }
 
-/* RSVP BUTTON */
+/* RSVP */
 .rsvpBtn {
   padding: 12px 20px;
   border: 1px solid #b8962e;
@@ -121,16 +111,14 @@ button.music {
   font-size: 16px;
 }
 
-/* ================= COUNTDOWN BIG STYLE ================= */
+/* COUNTDOWN BIG */
 #timer {
   font-size: 2.8em;
   color: #b8962e;
   font-weight: bold;
-  text-align: center;
-  line-height: 1.5em;
 }
 
-/* ================= PETALS FIXED ================= */
+/* PETALS */
 .petal {
   position: fixed;
   top: -50px;
@@ -162,8 +150,9 @@ button.music {
 <div id="doorIntro">
   <div class="door left" onclick="openDoor()"></div>
   <div class="door right" onclick="openDoor()"></div>
+
   <div class="door-text">
-    <h1>Pathu 💍 Kettiyon</h1>
+    <h1>Fathima 💍 Habeeb</h1>
     <p>Tap to Open</p>
   </div>
 </div>
@@ -171,7 +160,7 @@ button.music {
 <!-- HERO -->
 <section id="hero">
   <div class="overlay">
-    <h1>Pathu 💍 Kettiyon</h1>
+    <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
   </div>
 </section>
@@ -179,7 +168,7 @@ button.music {
 <!-- DATE -->
 <section>
   <h1>Wedding</h1>
-  <p>May 26, 2026</p>
+  <p>May 24, 2026</p>
 
   <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
     View Venue 📍
@@ -215,8 +204,8 @@ function toggleMusic(){
   m.paused ? m.play() : m.pause();
 }
 
-/* COUNTDOWN (BIG + SECONDS) */
-const date = new Date("May 26, 2026 00:00:00").getTime();
+/* COUNTDOWN */
+const date = new Date("May 24, 2026 00:00:00").getTime();
 
 setInterval(()=>{
   let now=new Date().getTime();
@@ -239,7 +228,7 @@ setInterval(()=>{
   `;
 },1000);
 
-/* PETALS (FIXED) */
+/* PETALS */
 function createPetal(){
   let p=document.createElement("div");
   p.className="petal";
@@ -250,32 +239,29 @@ function createPetal(){
 }
 setInterval(createPetal,300);
 
-/* RSVP NEW WINDOW */
+/* RSVP WINDOW */
 function openRSVP(){
-  let w = window.open("", "_blank", "width=400,height=500");
+  let w = window.open("", "_blank", "width=420,height=520");
 
   w.document.write(`
-    <title>RSVP</title>
+    <title>RSVP - Fathima & Habeeb</title>
     <style>
-      body{font-family:Poppins;text-align:center;padding:20px;}
-      input,textarea{width:90%;padding:10px;margin:8px;}
+      body{font-family:Poppins;text-align:center;padding:20px;background:#fffaf5;}
+      input,textarea{width:90%;padding:10px;margin:8px;border-radius:8px;border:1px solid #ccc;}
       button{padding:10px 20px;background:#b8962e;color:white;border:none;border-radius:20px;}
+      h2{color:#b8962e;}
     </style>
 
     <h2>💍 RSVP</h2>
+    <p>Fathima & Habeeb Wedding</p>
 
-    <input placeholder="Your Name"><br>
-    <input placeholder="Guests" type="number"><br>
-    <textarea placeholder="Message"></textarea><br>
+    <input placeholder="Your Name">
+    <input placeholder="Guests" type="number">
+    <textarea placeholder="Message"></textarea>
 
     <button onclick="alert('RSVP Saved ❤️')">Submit</button>
   `);
 }
-
-/* UNLOCK SCROLL AFTER LOAD */
-window.onload = () => {
-  document.body.style.overflow = "hidden";
-};
 
 </script>
 
