@@ -3,30 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fathima 💍 Habeeb Wedding</title>
+<title>Pathu 💍 Kettiyon Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: #fffaf5;
   color: #333;
-  overflow: hidden; /* locked until intro finishes */
+  overflow: hidden; /* locked until intro ends */
+  scroll-snap-type: y mandatory;
 }
 
-/* ================= DOOR INTRO ================= */
+/* ===================== SWIPE INTRO ===================== */
+#introSwipe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 10000;
+  touch-action: pan-y; /* FIX MOBILE FREEZE */
+}
+
+.swipeContainer {
+  display: flex;
+  width: 500%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.card {
+  flex: 0 0 100%;
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.overlayCard {
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+/* ===================== DOOR ===================== */
 #doorIntro {
   position: fixed;
   width: 100%;
   height: 100vh;
   background: url('images/home.jpg') center/cover no-repeat;
-  z-index: 9999;
+  z-index: 999;
   perspective: 1200px;
   transition: opacity 1s;
 }
@@ -47,13 +84,14 @@ body {
 .open .left { transform: rotateY(-100deg); }
 .open .right { transform: rotateY(100deg); }
 
-/* ================= SECTIONS ================= */
+/* ===================== SECTIONS ===================== */
 section {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  scroll-snap-align: start;
   text-align: center;
   padding: 20px;
 }
@@ -63,7 +101,7 @@ section {
 }
 
 .overlay {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.8);
   padding: 25px;
   border-radius: 15px;
 }
@@ -74,12 +112,12 @@ h1 {
   color: #b8962e;
 }
 
-/* MUSIC BUTTON */
+/* BUTTONS */
 .musicBtn {
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 20000;
+  z-index: 2000;
   border-radius: 50%;
   padding: 10px;
   border: 1px solid #b8962e;
@@ -87,13 +125,13 @@ h1 {
   color: #b8962e;
 }
 
-/* RSVP */
 .rsvpBtn {
   padding: 12px 20px;
   border: 1px solid #b8962e;
   background: white;
   color: #b8962e;
   border-radius: 25px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -116,10 +154,12 @@ h1 {
 #rsvpModal {
   display: none;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.6);
-  z-index: 99999;
+  z-index: 9999;
   justify-content: center;
   align-items: center;
 }
@@ -140,22 +180,51 @@ input, textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
 }
-
-/* COUNTDOWN */
-#timer {
-  font-size: 2em;
-  color: #b8962e;
-  text-align: center;
-}
 </style>
 </head>
 
 <body>
 
-<!-- DOOR INTRO -->
-<div id="doorIntro">
-  <div class="door left" onclick="openDoor()"></div>
-  <div class="door right" onclick="openDoor()"></div>
+<!-- ===================== SWIPE INTRO ===================== -->
+<div id="introSwipe">
+  <div class="swipeContainer">
+
+    <div class="card" style="background:url('images/home.jpg') center/cover;">
+      <div class="overlayCard">
+        <h1>Welcome 💍</h1>
+        <p>Swipe to continue</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#b8962e;">
+      <div class="overlayCard">
+        <h1>Fathima 💍 Habeeb</h1>
+        <p>Two souls, one journey</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#fffaf5;color:black;">
+      <div class="overlayCard">
+        <h1>Save The Date 💍</h1>
+        <p>May 24, 2026</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#333;">
+      <div class="overlayCard">
+        <h1>Venue 📍</h1>
+        <p>Bangalore Palace</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#b8962e;">
+      <div class="overlayCard">
+        <h1>You’re Invited 💍</h1>
+        <button class="rsvpBtn" onclick="enterWedding()">Enter Wedding 💍</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- MUSIC -->
@@ -164,6 +233,12 @@ input, textarea {
 </audio>
 
 <button class="musicBtn" onclick="toggleMusic()">🔊</button>
+
+<!-- DOOR -->
+<div id="doorIntro">
+  <div class="door left" onclick="openDoor()"></div>
+  <div class="door right" onclick="openDoor()"></div>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -179,21 +254,10 @@ input, textarea {
   <p>May 24, 2026</p>
 </section>
 
-<!-- LOCATION -->
-<section>
-  <h1>Venue 📍</h1>
-  <p>Bangalore Palace Grounds</p>
-
-  <a class="rsvpBtn" href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
-    Open Maps 🗺️
-  </a>
-</section>
-
 <!-- COUNTDOWN -->
 <section>
   <h1>Countdown</h1>
   <p id="timer"></p>
-
   <button class="rsvpBtn" onclick="openRSVP()">RSVP 💌</button>
 </section>
 
@@ -209,13 +273,23 @@ input, textarea {
     <button class="rsvpBtn" onclick="submitRSVP()">Submit</button>
     <p id="status"></p>
 
-    <button onclick="closeRSVP()" style="border:none;background:none;color:red;">Close ✖</button>
+    <button onclick="closeRSVP()" style="border:none;background:none;color:red;">
+      Close ✖
+    </button>
   </div>
 </div>
 
 <script>
 
-/* DOOR FIX */
+/* FIX SWIPE EXIT */
+function enterWedding(){
+  document.getElementById("introSwipe").style.display = "none";
+
+  document.body.style.overflow = "auto";
+  document.documentElement.style.overflow = "auto";
+}
+
+/* DOOR */
 function openDoor(){
   document.getElementById("doorIntro").classList.add("open");
   document.getElementById("music").play().catch(()=>{});
@@ -226,8 +300,6 @@ function openDoor(){
 
   setTimeout(()=>{
     document.getElementById("doorIntro").style.display="none";
-
-    // 🔥 RESTORE SCROLL
     document.body.style.overflow="auto";
   },2200);
 }
@@ -238,21 +310,21 @@ function toggleMusic(){
   m.paused ? m.play() : m.pause();
 }
 
-/* COUNTDOWN (WITH SECONDS) */
+/* COUNTDOWN */
 const date = new Date("May 24, 2026 00:00:00").getTime();
 
-setInterval(() => {
+setInterval(()=>{
   let now = new Date().getTime();
   let gap = date - now;
 
-  let d = Math.floor(gap / (1000*60*60*24));
-  let h = Math.floor((gap / (1000*60*60)) % 24);
-  let m = Math.floor((gap / (1000*60)) % 60);
-  let s = Math.floor((gap / 1000) % 60);
+  let d = Math.floor(gap/(1000*60*60*24));
+  let h = Math.floor((gap/(1000*60*60))%24);
+  let m = Math.floor((gap/(1000*60))%60);
+  let s = Math.floor((gap/1000)%60);
 
   document.getElementById("timer").innerHTML =
     `${d} Days<br>${h}h : ${m}m : ${s}s`;
-}, 1000);
+},1000);
 
 /* RSVP */
 function openRSVP(){document.getElementById("rsvpModal").style.display="flex";}
