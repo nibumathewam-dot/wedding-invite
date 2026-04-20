@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Pathu ❤️ Kettiyon Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
@@ -19,7 +20,7 @@ body {
   scroll-snap-type: y mandatory;
 }
 
-/* DOOR INTRO */
+/* DOOR */
 #doorIntro {
   position: fixed;
   width: 100%;
@@ -35,17 +36,15 @@ body {
   width: 50%;
   height: 100%;
   top: 0;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(5px);
+  background: rgba(255,255,255,0.75);
   transition: transform 2s ease;
-  box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
 }
 
 .left { left: 0; transform-origin: left; }
 .right { right: 0; transform-origin: right; }
 
-.open .left { transform: rotateY(-100deg); }
-.open .right { transform: rotateY(100deg); }
+.open .left { transform: rotateY(-105deg); }
+.open .right { transform: rotateY(105deg); }
 
 .door-text {
   position: absolute;
@@ -57,7 +56,8 @@ body {
 }
 
 .door-text h1 {
-  font-size: 3em;
+  font-family: 'Playfair Display';
+  font-size: 2.5em;
 }
 
 /* SECTIONS */
@@ -67,8 +67,9 @@ section {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  text-align: center;
   scroll-snap-align: start;
+  text-align: center;
+  padding: 20px;
 }
 
 /* HERO */
@@ -77,41 +78,45 @@ section {
 }
 
 .overlay {
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.8);
   padding: 25px;
   border-radius: 15px;
-  backdrop-filter: blur(6px);
 }
 
-/* TEXT ANIMATION */
+/* TEXT */
+h1 {
+  font-family: 'Playfair Display';
+  color: #b8962e;
+}
+
+/* FADE */
 .fade {
   opacity: 0;
   transform: translateY(40px);
-  transition: 1.2s ease;
+  transition: 1s ease;
 }
-
 .fade.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-h1 {
-  font-family: 'Playfair Display';
+/* BUTTON */
+button {
+  padding: 10px 15px;
+  margin-top: 10px;
+  border-radius: 20px;
+  border: 1px solid #b8962e;
+  background: white;
   color: #b8962e;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: textReveal 1.5s ease forwards;
 }
 
-@keyframes textReveal {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-p {
-  color: #555;
+/* INPUTS */
+input, textarea {
+  width: 80%;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 /* PETALS */
@@ -120,64 +125,33 @@ p {
   top: -50px;
   background: url('images/petal.png') no-repeat center/contain;
   pointer-events: none;
-  z-index: 1000;
   animation: fall linear forwards;
+  z-index: 1000;
 }
 
 @keyframes fall {
-  0% {
-    transform: translateY(-50px) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(110vh) translateX(120px) rotate(360deg);
-    opacity: 0.7;
-  }
+  0% { transform: translateY(-50px); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
 }
 
-/* LINKS */
-a {
-  color: #b8962e;
-  text-decoration: none;
-  border: 1px solid #b8962e;
-  padding: 10px 20px;
-  margin-top: 10px;
-  border-radius: 20px;
-}
-
-/* MUSIC BUTTON */
-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 2000;
-  background: white;
-  color: #b8962e;
-  border: 1px solid #b8962e;
-  padding: 10px;
-  border-radius: 50%;
+/* RSVP LIST */
+#list {
+  max-height: 200px;
+  overflow-y: auto;
+  width: 90%;
 }
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<button onclick="toggleMusic()">🔊</button>
-
 <!-- DOOR -->
 <div id="doorIntro">
   <div class="door left" onclick="openDoor()"></div>
   <div class="door right" onclick="openDoor()"></div>
   <div class="door-text">
-    <h1>
-      Pathu <br> ❤️ <br> Kettiyon
-    </h1>
-    <p>Tap to Open</p>
+    <h1>Pathu ❤️ Kettiyon</h1>
+    <p>Tap to Enter</p>
   </div>
 </div>
 
@@ -190,98 +164,135 @@ button {
 </section>
 
 <!-- DATE -->
-<section style="background:#fff;" class="fade">
-  <h1>Wedding</h1>
+<section class="fade">
+  <h1>Wedding Date</h1>
   <p>May 26, 2026</p>
-  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
-    View Venue 📍
-  </a>
 </section>
 
 <!-- COUNTDOWN -->
-<section style="background:#fffaf5;" class="fade">
+<section class="fade">
   <h1>Countdown</h1>
   <p id="timer"></p>
 </section>
 
+<!-- RSVP FORM -->
+<section class="fade">
+  <h1>RSVP</h1>
+
+  <input id="name" placeholder="Your Name">
+  <input id="guests" type="number" placeholder="Guests">
+  <textarea id="message" placeholder="Message (optional)"></textarea>
+
+  <button onclick="submitRSVP()">Submit RSVP</button>
+
+  <p id="status"></p>
+</section>
+
+<!-- RSVP LIST -->
+<section class="fade">
+  <h1>Guest List</h1>
+  <button onclick="showRSVPs()">Load List</button>
+  <div id="list"></div>
+</section>
+
 <script>
-// DOOR
+
+// OPEN DOOR
 function openDoor() {
-  let intro = document.getElementById("doorIntro");
-  intro.classList.add("open");
-
-  document.getElementById("music").play().catch(()=>{});
+  document.getElementById("doorIntro").classList.add("open");
 
   setTimeout(() => {
-    intro.style.opacity = "0";
-  }, 1500);
-
-  setTimeout(() => {
-    intro.style.display = "none";
+    document.getElementById("doorIntro").style.display = "none";
     document.body.style.overflow = "auto";
   }, 2200);
 }
 
-// MUSIC TOGGLE
-function toggleMusic(){
-  let m = document.getElementById("music");
-  m.muted = !m.muted;
-}
-
-// FADE ON SCROLL
-const faders = document.querySelectorAll('.fade');
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    }
+// FADE
+const faders = document.querySelectorAll(".fade");
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add("show");
   });
 });
+faders.forEach(el => obs.observe(el));
 
-faders.forEach(el => observer.observe(el));
-
-// COUNTDOWN WITH SECONDS
-const date = new Date("May 26, 2026 00:00:00").getTime();
+// COUNTDOWN
+const target = new Date("May 26, 2026 00:00:00").getTime();
 
 setInterval(() => {
   let now = new Date().getTime();
-  let gap = date - now;
+  let d = target - now;
 
-  if (gap <= 0) {
+  if (d <= 0) {
     document.getElementById("timer").innerHTML = "🎉 Wedding Day 🎉";
     return;
   }
 
-  let d = Math.floor(gap / (1000*60*60*24));
-  let h = Math.floor((gap / (1000*60*60)) % 24);
-  let m = Math.floor((gap / (1000*60)) % 60);
-  let s = Math.floor((gap / 1000) % 60);
-
-  document.getElementById("timer").innerHTML =
-    `<span style="font-size:2.5em;color:#b8962e;">${d}</span> Days<br>
-     ${h}h : ${m}m : ${s}s`;
+  let days = Math.floor(d / (1000*60*60*24));
+  document.getElementById("timer").innerHTML = days + " Days Left";
 }, 1000);
 
-// PETALS
-function createPetal() {
-  let petal = document.createElement("div");
-  petal.className = "petal";
+// RSVP SAVE
+function submitRSVP() {
+  let name = document.getElementById("name").value;
+  let guests = document.getElementById("guests").value;
+  let message = document.getElementById("message").value;
 
-  petal.style.left = Math.random() * 100 + "vw";
+  if (!name || !guests) {
+    alert("Fill Name & Guests ❤️");
+    return;
+  }
 
-  let size = 10 + Math.random()*20;
-  petal.style.width = size + "px";
-  petal.style.height = size + "px";
+  let data = JSON.parse(localStorage.getItem("rsvps") || "[]");
 
-  petal.style.animationDuration = (5 + Math.random()*5) + "s";
+  data.push({
+    name, guests, message,
+    time: new Date().toLocaleString()
+  });
 
-  document.body.appendChild(petal);
+  localStorage.setItem("rsvps", JSON.stringify(data));
 
-  setTimeout(() => petal.remove(), 10000);
+  document.getElementById("status").innerText = "RSVP Saved ❤️";
+
+  document.getElementById("name").value = "";
+  document.getElementById("guests").value = "";
+  document.getElementById("message").value = "";
 }
 
-setInterval(createPetal, 300);
+// SHOW LIST
+function showRSVPs() {
+  let data = JSON.parse(localStorage.getItem("rsvps") || "[]");
+
+  let html = "<ul>";
+
+  data.forEach(r => {
+    html += `<li>
+      <b>${r.name}</b> (${r.guests})<br>
+      ${r.message}<br>
+      <small>${r.time}</small>
+      <hr>
+    </li>`;
+  });
+
+  html += "</ul>";
+
+  document.getElementById("list").innerHTML = html;
+}
+
+// PETALS
+function petal() {
+  let p = document.createElement("div");
+  p.className = "petal";
+  p.style.left = Math.random()*100 + "vw";
+  p.style.width = "15px";
+  p.style.height = "15px";
+  p.style.animationDuration = (4 + Math.random()*4) + "s";
+
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(), 9000);
+}
+setInterval(petal, 500);
+
 </script>
 
 </body>
