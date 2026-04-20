@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A ❤️ B Wedding</title>
+<title>Pathu ❤️ Kettiyon Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
@@ -16,7 +16,7 @@ body {
   overflow: hidden;
 }
 
-/* ================= DOOR INTRO ================= */
+/* DOOR INTRO */
 #doorIntro {
   position: fixed;
   width: 100%;
@@ -53,7 +53,7 @@ body {
   font-size: 3em;
 }
 
-/* ================= SECTIONS ================= */
+/* SECTIONS */
 section {
   height: 100vh;
   display: flex;
@@ -63,7 +63,7 @@ section {
   text-align: center;
 }
 
-/* ================= HERO ================= */
+/* HERO */
 #hero {
   background: url('images/home.jpg') center/cover no-repeat;
 }
@@ -74,7 +74,7 @@ section {
   border-radius: 10px;
 }
 
-/* ================= GLOW ================= */
+/* GLOW */
 h1 {
   font-family: 'Playfair Display';
   color: gold;
@@ -86,7 +86,7 @@ h1 {
   to { text-shadow: 0 0 30px gold; }
 }
 
-/* ================= PETALS ================= */
+/* PETALS */
 .petal {
   position: fixed;
   top: -50px;
@@ -108,6 +108,14 @@ h1 {
     opacity: 0.7;
   }
 }
+
+a {
+  color: gold;
+  text-decoration: none;
+  border: 1px solid gold;
+  padding: 10px 20px;
+  margin-top: 10px;
+}
 </style>
 </head>
 
@@ -118,12 +126,12 @@ h1 {
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- DOOR -->
+<!-- DOOR INTRO -->
 <div id="doorIntro">
   <div class="door left" onclick="openDoor()"></div>
   <div class="door right" onclick="openDoor()"></div>
   <div class="door-text">
-    <h1>A ❤️ B</h1>
+    <h1>Pathu ❤️ Kettiyon</h1>
     <p>Tap to Open</p>
   </div>
 </div>
@@ -131,7 +139,7 @@ h1 {
 <!-- HERO -->
 <section id="hero">
   <div class="overlay">
-    <h1>A & B</h1>
+    <h1>Pathu ❤️ Kettiyon</h1>
     <p>Are Getting Married ✨</p>
   </div>
 </section>
@@ -139,8 +147,8 @@ h1 {
 <!-- DATE -->
 <section style="background:#111;">
   <h1>Wedding</h1>
-  <p>December 25, 2026</p>
-  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank" style="color:gold;">
+  <p>May 26, 2026</p>
+  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
     View Venue 📍
   </a>
 </section>
@@ -161,21 +169,29 @@ function openDoor() {
 
   setTimeout(() => {
     intro.style.display = "none";
+    document.body.style.overflow = "auto";
   }, 2000);
 }
 
 // COUNTDOWN
-const date = new Date("Dec 25, 2026").getTime();
+const date = new Date("May 26, 2026 00:00:00").getTime();
+
 setInterval(() => {
   let now = new Date().getTime();
   let gap = date - now;
+
+  if (gap <= 0) {
+    document.getElementById("timer").innerHTML = "🎉 Wedding Day 🎉";
+    return;
+  }
 
   let d = Math.floor(gap / (1000*60*60*24));
   let h = Math.floor((gap / (1000*60*60)) % 24);
   let m = Math.floor((gap / (1000*60)) % 60);
 
   document.getElementById("timer").innerHTML =
-    `<span style="font-size:2em;color:gold;">${d}</span> Days<br>${h}h ${m}m`;
+    `<span style="font-size:2.5em;color:gold;">${d}</span> Days<br>
+     ${h} Hours ${m} Minutes`;
 }, 1000);
 
 // PETALS
