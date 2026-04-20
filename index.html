@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pathu ❤️ Kettiyon Wedding</title>
+<title>Pathu 💍 Kettiyon Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
@@ -19,7 +19,48 @@ body {
   scroll-snap-type: y mandatory;
 }
 
+/* ===================== */
+/* SWIPE INTRO (INSTAGRAM STYLE) */
+/* ===================== */
+#introSwipe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  z-index: 10000;
+}
+
+.swipeContainer {
+  display: flex;
+  width: 500%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.card {
+  flex: 0 0 100%;
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.overlayCard {
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+/* ===================== */
 /* DOOR */
+/* ===================== */
 #doorIntro {
   position: fixed;
   width: 100%;
@@ -46,21 +87,9 @@ body {
 .open .left { transform: rotateY(-100deg); }
 .open .right { transform: rotateY(100deg); }
 
-.door-text {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  text-align: center;
-  color: #b8962e;
-}
-
-.door-text h1 {
-  font-family: 'Playfair Display';
-  font-size: 2.5em;
-}
-
+/* ===================== */
 /* SECTIONS */
+/* ===================== */
 section {
   height: 100vh;
   display: flex;
@@ -72,7 +101,6 @@ section {
   padding: 20px;
 }
 
-/* HERO */
 #hero {
   background: url('images/home.jpg') center/cover no-repeat;
 }
@@ -89,7 +117,7 @@ h1 {
   color: #b8962e;
 }
 
-/* MUSIC BUTTON */
+/* MUSIC */
 .musicBtn {
   position: fixed;
   top: 15px;
@@ -102,7 +130,7 @@ h1 {
   color: #b8962e;
 }
 
-/* RSVP BUTTON */
+/* RSVP */
 .rsvpBtn {
   padding: 12px 20px;
   border: 1px solid #b8962e;
@@ -155,13 +183,57 @@ input, textarea {
   width: 90%;
   padding: 10px;
   margin: 5px;
-  border: 1px solid #ccc;
   border-radius: 8px;
+  border: 1px solid #ccc;
 }
 </style>
 </head>
 
 <body>
+
+<!-- ===================== -->
+<!-- SWIPE INTRO (RING VERSION) -->
+<!-- ===================== -->
+<div id="introSwipe">
+  <div class="swipeContainer">
+
+    <div class="card" style="background:url('images/home.jpg') center/cover;">
+      <div class="overlayCard">
+        <h1>Welcome 💍</h1>
+        <p>Swipe to continue</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#b8962e;">
+      <div class="overlayCard">
+        <h1>Pathu 💍 Kettiyon</h1>
+        <p>Two souls, one journey</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#fffaf5;color:black;">
+      <div class="overlayCard">
+        <h1>Save The Date 💍</h1>
+        <p>May 26, 2026</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#333;">
+      <div class="overlayCard">
+        <h1>Venue 📍</h1>
+        <p>Bangalore Palace</p>
+      </div>
+    </div>
+
+    <div class="card" style="background:#b8962e;">
+      <div class="overlayCard">
+        <h1>You’re Invited 💍</h1>
+        <button class="rsvpBtn" onclick="enterWedding()">Enter Wedding 💍</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- MUSIC -->
 <audio id="music" loop>
@@ -174,16 +246,12 @@ input, textarea {
 <div id="doorIntro">
   <div class="door left" onclick="openDoor()"></div>
   <div class="door right" onclick="openDoor()"></div>
-  <div class="door-text">
-    <h1>Pathu ❤️ Kettiyon</h1>
-    <p>Tap to Open</p>
-  </div>
 </div>
 
 <!-- HERO -->
 <section id="hero">
   <div class="overlay">
-    <h1>Pathu ❤️ Kettiyon</h1>
+    <h1>Pathu 💍 Kettiyon</h1>
     <p>Are Getting Married ✨</p>
   </div>
 </section>
@@ -192,37 +260,27 @@ input, textarea {
 <section>
   <h1>Wedding Date</h1>
   <p>May 26, 2026</p>
-
-  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
-    View Venue 📍
-  </a>
 </section>
 
 <!-- COUNTDOWN -->
 <section>
   <h1>Countdown</h1>
   <p id="timer"></p>
-
-  <br>
-
-  <!-- RSVP BUTTON -->
-  <button class="rsvpBtn" onclick="openRSVP()">RSVP Now 💌</button>
+  <button class="rsvpBtn" onclick="openRSVP()">RSVP 💌</button>
 </section>
 
-<!-- RSVP MODAL -->
+<!-- RSVP -->
 <div id="rsvpModal">
   <div class="modalBox">
     <h2 style="color:#b8962e;">RSVP</h2>
 
-    <input id="name" placeholder="Your Name">
+    <input id="name" placeholder="Name">
     <input id="guests" type="number" placeholder="Guests">
-    <textarea id="msg" placeholder="Message (optional)"></textarea>
+    <textarea id="msg" placeholder="Message"></textarea>
 
-    <button onclick="submitRSVP()" class="rsvpBtn">Submit</button>
-
+    <button class="rsvpBtn" onclick="submitRSVP()">Submit</button>
     <p id="status"></p>
 
-    <br>
     <button onclick="closeRSVP()" style="border:none;background:none;color:red;">
       Close ✖
     </button>
@@ -231,95 +289,73 @@ input, textarea {
 
 <script>
 
-// DOOR
-function openDoor() {
-  document.getElementById("doorIntro").classList.add("open");
+/* SWIPE EXIT */
+function enterWedding(){
+  document.getElementById("introSwipe").style.display = "none";
+  document.body.style.overflow = "auto";
+}
 
+/* DOOR */
+function openDoor(){
+  document.getElementById("doorIntro").classList.add("open");
   document.getElementById("music").play().catch(()=>{});
 
-  setTimeout(() => {
-    document.getElementById("doorIntro").style.opacity = "0";
-  }, 1500);
+  setTimeout(()=>{
+    document.getElementById("doorIntro").style.opacity="0";
+  },1500);
 
-  setTimeout(() => {
-    document.getElementById("doorIntro").style.display = "none";
-    document.body.style.overflow = "auto";
-  }, 2200);
+  setTimeout(()=>{
+    document.getElementById("doorIntro").style.display="none";
+    document.body.style.overflow="auto";
+  },2200);
 }
 
-// MUSIC
+/* MUSIC */
 function toggleMusic(){
-  let m = document.getElementById("music");
-  if(m.paused) m.play();
-  else m.pause();
+  let m=document.getElementById("music");
+  m.paused ? m.play() : m.pause();
 }
 
-// COUNTDOWN
-const date = new Date("May 26, 2026 00:00:00").getTime();
-
-setInterval(() => {
-  let now = new Date().getTime();
-  let gap = date - now;
-
-  if (gap <= 0) {
-    document.getElementById("timer").innerHTML = "🎉 Wedding Day 🎉";
-    return;
-  }
-
-  let d = Math.floor(gap / (1000*60*60*24));
-
+/* COUNTDOWN */
+const date=new Date("May 26, 2026").getTime();
+setInterval(()=>{
+  let now=new Date().getTime();
+  let gap=date-now;
+  let d=Math.floor(gap/(1000*60*60*24));
   document.getElementById("timer").innerHTML =
-    `<span style="font-size:2.5em;color:#b8962e;">${d}</span> Days Left`;
-}, 1000);
+  `<span style="color:#b8962e;font-size:2em">${d}</span> Days Left`;
+},1000);
 
-// PETALS
-function createPetal(){
-  let p = document.createElement("div");
-  p.className = "petal";
-  p.style.left = Math.random()*100 + "vw";
-  p.style.width = "15px";
-  p.style.height = "15px";
-  p.style.animationDuration = (4 + Math.random()*4) + "s";
+/* RSVP */
+function openRSVP(){document.getElementById("rsvpModal").style.display="flex";}
+function closeRSVP(){document.getElementById("rsvpModal").style.display="none";}
 
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(), 9000);
-}
-setInterval(createPetal, 400);
-
-// RSVP OPEN
-function openRSVP(){
-  document.getElementById("rsvpModal").style.display = "flex";
-}
-
-// CLOSE RSVP
-function closeRSVP(){
-  document.getElementById("rsvpModal").style.display = "none";
-}
-
-// SAVE RSVP
 function submitRSVP(){
-  let name = document.getElementById("name").value;
-  let guests = document.getElementById("guests").value;
-  let msg = document.getElementById("msg").value;
+  let name=document.getElementById("name").value;
+  let guests=document.getElementById("guests").value;
 
-  if(!name || !guests){
-    alert("Please fill details ❤️");
-    return;
-  }
+  if(!name||!guests){alert("Fill details");return;}
 
-  let data = JSON.parse(localStorage.getItem("rsvps") || "[]");
+  let data=JSON.parse(localStorage.getItem("rsvps")||"[]");
+  data.push({name,guests,time:new Date().toLocaleString()});
+  localStorage.setItem("rsvps",JSON.stringify(data));
 
-  data.push({
-    name, guests, msg,
-    time: new Date().toLocaleString()
-  });
-
-  localStorage.setItem("rsvps", JSON.stringify(data));
-
-  document.getElementById("status").innerText = "Saved ❤️";
-
-  setTimeout(closeRSVP, 1000);
+  document.getElementById("status").innerText="Saved ❤️";
+  setTimeout(closeRSVP,1000);
 }
+
+/* PETALS */
+function createPetal(){
+  let p=document.createElement("div");
+  p.className="petal";
+  p.style.left=Math.random()*100+"vw";
+  p.style.width="15px";
+  p.style.height="15px";
+  p.style.animationDuration=(4+Math.random()*4)+"s";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),9000);
+}
+setInterval(createPetal,400);
 
 </script>
 
