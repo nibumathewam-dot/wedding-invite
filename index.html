@@ -15,11 +15,13 @@ body {
   font-family: 'Poppins', sans-serif;
   background: #fffaf5;
   color: #333;
-  overflow: hidden; /* locked until intro ends */
+  overflow: hidden;
   scroll-snap-type: y mandatory;
 }
 
-/* ===================== SWIPE INTRO ===================== */
+/* ===================== */
+/* 🔥 FIXED SWIPE INTRO */
+/* ===================== */
 #introSwipe {
   position: fixed;
   top: 0;
@@ -28,36 +30,49 @@ body {
   height: 100vh;
   background: black;
   z-index: 10000;
-  touch-action: pan-y; /* FIX MOBILE FREEZE */
 }
 
 .swipeContainer {
   display: flex;
-  width: 500%;
   height: 100%;
+  width: 100%;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .card {
   flex: 0 0 100%;
   height: 100vh;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: white;
+  padding: 20px;
 }
 
 .overlayCard {
-  background: rgba(0,0,0,0.4);
-  padding: 20px;
-  border-radius: 15px;
+  background: rgba(0,0,0,0.45);
+  padding: 25px;
+  border-radius: 18px;
+  max-width: 80%;
+  color: white;
 }
 
-/* ===================== DOOR ===================== */
+.overlayCard h1 {
+  font-size: 2.2em;
+  margin: 0;
+}
+
+.overlayCard p {
+  margin-top: 10px;
+}
+
+/* ===================== */
+/* DOOR */
+/* ===================== */
 #doorIntro {
   position: fixed;
   width: 100%;
@@ -84,7 +99,9 @@ body {
 .open .left { transform: rotateY(-100deg); }
 .open .right { transform: rotateY(100deg); }
 
-/* ===================== SECTIONS ===================== */
+/* ===================== */
+/* SECTIONS */
+/* ===================== */
 section {
   height: 100vh;
   display: flex;
@@ -101,9 +118,10 @@ section {
 }
 
 .overlay {
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.7);
   padding: 25px;
   border-radius: 15px;
+  backdrop-filter: blur(6px);
 }
 
 /* TEXT */
@@ -113,106 +131,60 @@ h1 {
 }
 
 /* BUTTONS */
-.musicBtn {
+button {
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 20px;
+  right: 20px;
   z-index: 2000;
+  background: white;
+  color: #b8962e;
+  border: 1px solid #b8962e;
+  padding: 10px;
   border-radius: 50%;
-  padding: 10px;
-  border: 1px solid #b8962e;
-  background: white;
+}
+
+/* LINKS */
+a {
   color: #b8962e;
-}
-
-.rsvpBtn {
-  padding: 12px 20px;
+  text-decoration: none;
   border: 1px solid #b8962e;
-  background: white;
-  color: #b8962e;
-  border-radius: 25px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* PETALS */
-.petal {
-  position: fixed;
-  top: -50px;
-  background: url('images/petal.png') no-repeat center/contain;
-  pointer-events: none;
-  animation: fall linear forwards;
-  z-index: 1000;
-}
-
-@keyframes fall {
-  0% { transform: translateY(-50px); opacity: 1; }
-  100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
-}
-
-/* RSVP MODAL */
-#rsvpModal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-}
-
-.modalBox {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-}
-
-input, textarea {
-  width: 90%;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===================== SWIPE INTRO ===================== -->
+<!-- ===================== SWIPE INTRO (FIXED) ===================== -->
 <div id="introSwipe">
   <div class="swipeContainer">
 
     <div class="card" style="background:url('images/home.jpg') center/cover;">
       <div class="overlayCard">
-        <h1>Welcome 💍</h1>
+        <h1>💍 Welcome</h1>
         <p>Swipe to continue</p>
       </div>
     </div>
 
     <div class="card" style="background:#b8962e;">
       <div class="overlayCard">
-        <h1>Fathima 💍 Habeeb</h1>
+        <h1>Pathu 💍 Kettiyon</h1>
         <p>Two souls, one journey</p>
       </div>
     </div>
 
-    <div class="card" style="background:#fffaf5;color:black;">
+    <div class="card" style="background:#fffaf5;">
       <div class="overlayCard">
-        <h1>Save The Date 💍</h1>
-        <p>May 24, 2026</p>
+        <h1 style="color:black;">Save The Date</h1>
+        <p style="color:black;">May 26, 2026</p>
       </div>
     </div>
 
     <div class="card" style="background:#333;">
       <div class="overlayCard">
-        <h1>Venue 📍</h1>
+        <h1>📍 Venue</h1>
         <p>Bangalore Palace</p>
       </div>
     </div>
@@ -220,7 +192,7 @@ input, textarea {
     <div class="card" style="background:#b8962e;">
       <div class="overlayCard">
         <h1>You’re Invited 💍</h1>
-        <button class="rsvpBtn" onclick="enterWedding()">Enter Wedding 💍</button>
+        <button onclick="enterWedding()" class="rsvpBtn">Enter Wedding</button>
       </div>
     </div>
 
@@ -232,7 +204,7 @@ input, textarea {
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<button class="musicBtn" onclick="toggleMusic()">🔊</button>
+<button onclick="toggleMusic()">🔊</button>
 
 <!-- DOOR -->
 <div id="doorIntro">
@@ -243,55 +215,39 @@ input, textarea {
 <!-- HERO -->
 <section id="hero">
   <div class="overlay">
-    <h1>Fathima 💍 Habeeb</h1>
+    <h1>Pathu 💍 Kettiyon</h1>
     <p>Are Getting Married ✨</p>
   </div>
 </section>
 
 <!-- DATE -->
-<section>
-  <h1>Wedding Date</h1>
-  <p>May 24, 2026</p>
+<section style="background:#fff;">
+  <h1>Wedding</h1>
+  <p>May 26, 2026</p>
+
+  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
+    View Venue 📍
+  </a>
 </section>
 
 <!-- COUNTDOWN -->
-<section>
+<section style="background:#fffaf5;">
   <h1>Countdown</h1>
   <p id="timer"></p>
-  <button class="rsvpBtn" onclick="openRSVP()">RSVP 💌</button>
 </section>
-
-<!-- RSVP -->
-<div id="rsvpModal">
-  <div class="modalBox">
-    <h2 style="color:#b8962e;">RSVP</h2>
-
-    <input id="name" placeholder="Name">
-    <input id="guests" type="number" placeholder="Guests">
-    <textarea id="msg" placeholder="Message"></textarea>
-
-    <button class="rsvpBtn" onclick="submitRSVP()">Submit</button>
-    <p id="status"></p>
-
-    <button onclick="closeRSVP()" style="border:none;background:none;color:red;">
-      Close ✖
-    </button>
-  </div>
-</div>
 
 <script>
 
-/* FIX SWIPE EXIT */
+/* SWIPE EXIT */
 function enterWedding(){
   document.getElementById("introSwipe").style.display = "none";
-
   document.body.style.overflow = "auto";
-  document.documentElement.style.overflow = "auto";
 }
 
 /* DOOR */
 function openDoor(){
   document.getElementById("doorIntro").classList.add("open");
+
   document.getElementById("music").play().catch(()=>{});
 
   setTimeout(()=>{
@@ -307,55 +263,21 @@ function openDoor(){
 /* MUSIC */
 function toggleMusic(){
   let m=document.getElementById("music");
-  m.paused ? m.play() : m.pause();
+  m.muted = !m.muted;
 }
 
 /* COUNTDOWN */
-const date = new Date("May 24, 2026 00:00:00").getTime();
+const date = new Date("May 26, 2026 00:00:00").getTime();
 
 setInterval(()=>{
-  let now = new Date().getTime();
-  let gap = date - now;
+  let now=new Date().getTime();
+  let gap=date-now;
 
-  let d = Math.floor(gap/(1000*60*60*24));
-  let h = Math.floor((gap/(1000*60*60))%24);
-  let m = Math.floor((gap/(1000*60))%60);
-  let s = Math.floor((gap/1000)%60);
+  let d=Math.floor(gap/(1000*60*60*24));
 
   document.getElementById("timer").innerHTML =
-    `${d} Days<br>${h}h : ${m}m : ${s}s`;
+    `<span style="font-size:2.5em;color:#b8962e;">${d}</span> Days Left`;
 },1000);
-
-/* RSVP */
-function openRSVP(){document.getElementById("rsvpModal").style.display="flex";}
-function closeRSVP(){document.getElementById("rsvpModal").style.display="none";}
-
-function submitRSVP(){
-  let name=document.getElementById("name").value;
-  let guests=document.getElementById("guests").value;
-
-  if(!name||!guests){alert("Fill details");return;}
-
-  let data=JSON.parse(localStorage.getItem("rsvps")||"[]");
-  data.push({name,guests,time:new Date().toLocaleString()});
-  localStorage.setItem("rsvps",JSON.stringify(data));
-
-  document.getElementById("status").innerText="Saved ❤️";
-  setTimeout(closeRSVP,1000);
-}
-
-/* PETALS */
-function createPetal(){
-  let p=document.createElement("div");
-  p.className="petal";
-  p.style.left=Math.random()*100+"vw";
-  p.style.width="15px";
-  p.style.height="15px";
-  p.style.animationDuration=(4+Math.random()*4)+"s";
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),9000);
-}
-setInterval(createPetal,400);
 
 </script>
 
