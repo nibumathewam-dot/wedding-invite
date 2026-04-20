@@ -8,59 +8,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: #fffaf5;
   color: #333;
-  overflow: hidden;
-  scroll-snap-type: y mandatory;
+  overflow: hidden; /* locked until intro finishes */
 }
 
-/* ================= SWIPE INTRO ================= */
-#introSwipe {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  background: black;
-  z-index: 10000;
-}
-
-.swipeContainer {
-  display: flex;
-  width: 500%;
-  height: 100%;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-}
-
-.card {
-  flex: 0 0 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  scroll-snap-align: start;
-  color: white;
-}
-
-.overlayCard {
-  background: rgba(0,0,0,0.4);
-  padding: 20px;
-  border-radius: 15px;
-}
-
-/* ================= DOOR ================= */
+/* ================= DOOR INTRO ================= */
 #doorIntro {
   position: fixed;
   width: 100%;
   height: 100vh;
   background: url('images/home.jpg') center/cover no-repeat;
-  z-index: 999;
+  z-index: 9999;
+  perspective: 1200px;
   transition: opacity 1s;
 }
 
@@ -87,7 +54,6 @@ section {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  scroll-snap-align: start;
   text-align: center;
   padding: 20px;
 }
@@ -108,12 +74,12 @@ h1 {
   color: #b8962e;
 }
 
-/* MUSIC */
+/* MUSIC BUTTON */
 .musicBtn {
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 2000;
+  z-index: 20000;
   border-radius: 50%;
   padding: 10px;
   border: 1px solid #b8962e;
@@ -128,7 +94,6 @@ h1 {
   background: white;
   color: #b8962e;
   border-radius: 25px;
-  font-size: 16px;
   cursor: pointer;
 }
 
@@ -147,14 +112,14 @@ h1 {
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
 }
 
-/* RSVP */
+/* RSVP MODAL */
 #rsvpModal {
   display: none;
   position: fixed;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.6);
-  z-index: 9999;
+  z-index: 99999;
   justify-content: center;
   align-items: center;
 }
@@ -176,60 +141,21 @@ input, textarea {
   border: 1px solid #ccc;
 }
 
-/* ================= LOCATION CARD (HYPER) ================= */
-.locationCard {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+/* COUNTDOWN */
+#timer {
+  font-size: 2em;
+  color: #b8962e;
   text-align: center;
-  max-width: 350px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= SWIPE INTRO ================= -->
-<div id="introSwipe">
-  <div class="swipeContainer">
-
-    <div class="card" style="background:url('images/home.jpg') center/cover;">
-      <div class="overlayCard">
-        <h1>Welcome 💍</h1>
-        <p>Swipe to continue</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#b8962e;">
-      <div class="overlayCard">
-        <h1>Fathima 💍 Habeeb</h1>
-        <p>Two souls, one journey</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#fffaf5;color:black;">
-      <div class="overlayCard">
-        <h1>Save The Date 💍</h1>
-        <p>May 24, 2026</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#333;">
-      <div class="overlayCard">
-        <h1>Venue 📍</h1>
-        <p>Luxury Celebration</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#b8962e;">
-      <div class="overlayCard">
-        <h1>You’re Invited 💍</h1>
-        <button class="rsvpBtn" onclick="enterWedding()">Enter Wedding</button>
-      </div>
-    </div>
-
-  </div>
+<!-- DOOR INTRO -->
+<div id="doorIntro">
+  <div class="door left" onclick="openDoor()"></div>
+  <div class="door right" onclick="openDoor()"></div>
 </div>
 
 <!-- MUSIC -->
@@ -238,12 +164,6 @@ input, textarea {
 </audio>
 
 <button class="musicBtn" onclick="toggleMusic()">🔊</button>
-
-<!-- DOOR -->
-<div id="doorIntro">
-  <div class="door left" onclick="openDoor()"></div>
-  <div class="door right" onclick="openDoor()"></div>
-</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -259,24 +179,21 @@ input, textarea {
   <p>May 24, 2026</p>
 </section>
 
-<!-- LOCATION (HYPER CARD) -->
+<!-- LOCATION -->
 <section>
-  <div class="locationCard">
-    <div style="font-size:40px;">📍</div>
-    <h1>Wedding Venue</h1>
-    <p>Bangalore Palace Grounds</p>
-    <p style="font-size:14px;color:#777;">A royal celebration of love 💍</p>
+  <h1>Venue 📍</h1>
+  <p>Bangalore Palace Grounds</p>
 
-    <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank" class="rsvpBtn" style="display:inline-block;margin-top:10px;text-decoration:none;">
-      Open Maps 🗺️
-    </a>
-  </div>
+  <a class="rsvpBtn" href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
+    Open Maps 🗺️
+  </a>
 </section>
 
 <!-- COUNTDOWN -->
 <section>
   <h1>Countdown</h1>
   <p id="timer"></p>
+
   <button class="rsvpBtn" onclick="openRSVP()">RSVP 💌</button>
 </section>
 
@@ -298,13 +215,7 @@ input, textarea {
 
 <script>
 
-/* SWIPE EXIT */
-function enterWedding(){
-  document.getElementById("introSwipe").style.display="none";
-  document.body.style.overflow="auto";
-}
-
-/* DOOR */
+/* DOOR FIX */
 function openDoor(){
   document.getElementById("doorIntro").classList.add("open");
   document.getElementById("music").play().catch(()=>{});
@@ -315,6 +226,8 @@ function openDoor(){
 
   setTimeout(()=>{
     document.getElementById("doorIntro").style.display="none";
+
+    // 🔥 RESTORE SCROLL
     document.body.style.overflow="auto";
   },2200);
 }
@@ -325,7 +238,7 @@ function toggleMusic(){
   m.paused ? m.play() : m.pause();
 }
 
-/* COUNTDOWN (BIG + SECONDS) */
+/* COUNTDOWN (WITH SECONDS) */
 const date = new Date("May 24, 2026 00:00:00").getTime();
 
 setInterval(() => {
@@ -337,11 +250,8 @@ setInterval(() => {
   let m = Math.floor((gap / (1000*60)) % 60);
   let s = Math.floor((gap / 1000) % 60);
 
-  document.getElementById("timer").innerHTML = `
-    <div style="font-size:3em;color:#b8962e;font-weight:bold;">${d}</div>
-    Days<br>
-    ${h}h : ${m}m : <span style="font-size:2em;color:#b8962e;">${s}s</span>
-  `;
+  document.getElementById("timer").innerHTML =
+    `${d} Days<br>${h}h : ${m}m : ${s}s`;
 }, 1000);
 
 /* RSVP */
