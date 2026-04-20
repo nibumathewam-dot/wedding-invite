@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A ❤️ B Wedding</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background: black;
+  color: #fff;
+}
+
+html { scroll-behavior: smooth; }
+
+section {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* CARD */
+#opening { perspective: 1500px; }
+
+.card {
+  width: 280px;
+  height: 380px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 2s;
+  cursor: pointer;
+}
+
+.card.open { transform: rotateY(-180deg); }
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border: 2px solid gold;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #1a1a1a, #000);
+  box-shadow: 0 0 30px gold;
+}
+
+.front, .back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Playfair Display';
+  font-size: 28px;
+}
+
+.back { transform: rotateY(180deg); }
+
+/* HERO */
+#hero { background: radial-gradient(circle, #2b1b00, #000); }
+
+h1 {
+  font-family: 'Playfair Display';
+  font-size: 3em;
+  color: gold;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px gold; }
+  to { text-shadow: 0 0 30px gold; }
+}
+
+/* FADE */
+.fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 1s;
+}
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* PARTICLES */
+.particle {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: float 10s linear infinite;
+}
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
+}
+
+a {
+  color: gold;
+  text-decoration: none;
+  border: 1px solid gold;
+  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+#date { background: #111; }
+#invite { background: #1a1a1a; }
+#countdown { background: #000; }
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- OPEN -->
+<section id="opening">
+  <div class="card" onclick="openCard()">
+    <div class="face front">A ❤️ B</div>
+    <div class="face back">Tap to Open 💍</div>
+  </div>
+  <p style="font-size:12px;color:#aaa;">Tap card for music 🎶</p>
+</section>
+
+<!-- HERO -->
+<section id="hero" class="fade">
+  <h1>A & B</h1>
+  <p>Are Getting Married ✨</p>
+</section>
+
+<!-- DATE -->
+<section id="date" class="fade">
+  <h1>Wedding</h1>
+  <p>December 25, 2026</p>
+  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
+    View Venue 📍
+  </a>
+</section>
+
+<!-- INVITE -->
+<section id="invite" class="fade">
+  <h1>Invitation</h1>
+  <p>With love, we invite you to celebrate our special day.</p>
+</section>
+
+<!-- COUNTDOWN -->
+<section id="countdown" class="fade">
+  <h1>Countdown</h1>
+  <p id="timer"></p>
+</section>
+
+<script>
+function openCard() {
+  document.querySelector('.card').classList.add('open');
+  let music = document.getElementById("music");
+  music.play().catch(() => {});
+  setTimeout(() => {
+    document.getElementById("hero").scrollIntoView();
+  }, 2500);
+}
+
+// fade
+const faders = document.querySelectorAll('.fade');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('show');
+  });
+});
+faders.forEach(el => observer.observe(el));
+
+// countdown
+const date = new Date("Dec 25, 2026 00:00:00").getTime();
+setInterval(() => {
+  let now = new Date().getTime();
+  let gap = date - now;
+
+  let d = Math.floor(gap / (1000*60*60*24));
+  let h = Math.floor((gap / (1000*60*60)) % 24);
+  let m = Math.floor((gap / (1000*60)) % 60);
+
+  document.getElementById("timer").innerHTML =
+    `<span style="font-size:2em;color:gold;">${d}</span> Days<br>${h}h ${m}m`;
+}, 1000);
+
+// particles
+for (let i = 0; i < 30; i++) {
+  let p = document.createElement("div");
+  p.className = "particle";
+  p.style.left = Math.random()*100 + "vw";
+  p.style.background = Math.random() > 0.5 ? "gold" : "#ffb6c1";
+  p.style.animationDuration = (5 + Math.random()*5) + "s";
+  document.body.appendChild(p);
+}
+</script>
+
+</body>
+</html>
