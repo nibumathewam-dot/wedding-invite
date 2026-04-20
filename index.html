@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Pathu ❤️ Kettiyon Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
@@ -36,15 +35,16 @@ body {
   width: 50%;
   height: 100%;
   top: 0;
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(5px);
   transition: transform 2s ease;
 }
 
 .left { left: 0; transform-origin: left; }
 .right { right: 0; transform-origin: right; }
 
-.open .left { transform: rotateY(-105deg); }
-.open .right { transform: rotateY(105deg); }
+.open .left { transform: rotateY(-100deg); }
+.open .right { transform: rotateY(100deg); }
 
 .door-text {
   position: absolute;
@@ -89,34 +89,28 @@ h1 {
   color: #b8962e;
 }
 
-/* FADE */
-.fade {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 1s ease;
-}
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* BUTTON */
-button {
-  padding: 10px 15px;
-  margin-top: 10px;
-  border-radius: 20px;
+/* MUSIC BUTTON */
+.musicBtn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 2000;
+  border-radius: 50%;
+  padding: 10px;
   border: 1px solid #b8962e;
   background: white;
   color: #b8962e;
 }
 
-/* INPUTS */
-input, textarea {
-  width: 80%;
-  padding: 10px;
-  margin: 5px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+/* RSVP BUTTON */
+.rsvpBtn {
+  padding: 12px 20px;
+  border: 1px solid #b8962e;
+  background: white;
+  color: #b8962e;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 /* PETALS */
@@ -134,16 +128,47 @@ input, textarea {
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0.6; }
 }
 
-/* RSVP LIST */
-#list {
-  max-height: 200px;
-  overflow-y: auto;
+/* RSVP MODAL */
+#rsvpModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalBox {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
   width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+input, textarea {
+  width: 90%;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 </style>
 </head>
 
 <body>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="musicBtn" onclick="toggleMusic()">🔊</button>
 
 <!-- DOOR -->
 <div id="doorIntro">
@@ -151,12 +176,12 @@ input, textarea {
   <div class="door right" onclick="openDoor()"></div>
   <div class="door-text">
     <h1>Pathu ❤️ Kettiyon</h1>
-    <p>Tap to Enter</p>
+    <p>Tap to Open</p>
   </div>
 </div>
 
 <!-- HERO -->
-<section id="hero" class="fade">
+<section id="hero">
   <div class="overlay">
     <h1>Pathu ❤️ Kettiyon</h1>
     <p>Are Getting Married ✨</p>
@@ -164,42 +189,57 @@ input, textarea {
 </section>
 
 <!-- DATE -->
-<section class="fade">
+<section>
   <h1>Wedding Date</h1>
   <p>May 26, 2026</p>
+
+  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
+    View Venue 📍
+  </a>
 </section>
 
 <!-- COUNTDOWN -->
-<section class="fade">
+<section>
   <h1>Countdown</h1>
   <p id="timer"></p>
+
+  <br>
+
+  <!-- RSVP BUTTON -->
+  <button class="rsvpBtn" onclick="openRSVP()">RSVP Now 💌</button>
 </section>
 
-<!-- RSVP FORM -->
-<section class="fade">
-  <h1>RSVP</h1>
+<!-- RSVP MODAL -->
+<div id="rsvpModal">
+  <div class="modalBox">
+    <h2 style="color:#b8962e;">RSVP</h2>
 
-  <input id="name" placeholder="Your Name">
-  <input id="guests" type="number" placeholder="Guests">
-  <textarea id="message" placeholder="Message (optional)"></textarea>
+    <input id="name" placeholder="Your Name">
+    <input id="guests" type="number" placeholder="Guests">
+    <textarea id="msg" placeholder="Message (optional)"></textarea>
 
-  <button onclick="submitRSVP()">Submit RSVP</button>
+    <button onclick="submitRSVP()" class="rsvpBtn">Submit</button>
 
-  <p id="status"></p>
-</section>
+    <p id="status"></p>
 
-<!-- RSVP LIST -->
-<section class="fade">
-  <h1>Guest List</h1>
-  <button onclick="showRSVPs()">Load List</button>
-  <div id="list"></div>
-</section>
+    <br>
+    <button onclick="closeRSVP()" style="border:none;background:none;color:red;">
+      Close ✖
+    </button>
+  </div>
+</div>
 
 <script>
 
-// OPEN DOOR
+// DOOR
 function openDoor() {
   document.getElementById("doorIntro").classList.add("open");
+
+  document.getElementById("music").play().catch(()=>{});
+
+  setTimeout(() => {
+    document.getElementById("doorIntro").style.opacity = "0";
+  }, 1500);
 
   setTimeout(() => {
     document.getElementById("doorIntro").style.display = "none";
@@ -207,80 +247,33 @@ function openDoor() {
   }, 2200);
 }
 
-// FADE
-const faders = document.querySelectorAll(".fade");
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add("show");
-  });
-});
-faders.forEach(el => obs.observe(el));
+// MUSIC
+function toggleMusic(){
+  let m = document.getElementById("music");
+  if(m.paused) m.play();
+  else m.pause();
+}
 
 // COUNTDOWN
-const target = new Date("May 26, 2026 00:00:00").getTime();
+const date = new Date("May 26, 2026 00:00:00").getTime();
 
 setInterval(() => {
   let now = new Date().getTime();
-  let d = target - now;
+  let gap = date - now;
 
-  if (d <= 0) {
+  if (gap <= 0) {
     document.getElementById("timer").innerHTML = "🎉 Wedding Day 🎉";
     return;
   }
 
-  let days = Math.floor(d / (1000*60*60*24));
-  document.getElementById("timer").innerHTML = days + " Days Left";
+  let d = Math.floor(gap / (1000*60*60*24));
+
+  document.getElementById("timer").innerHTML =
+    `<span style="font-size:2.5em;color:#b8962e;">${d}</span> Days Left`;
 }, 1000);
 
-// RSVP SAVE
-function submitRSVP() {
-  let name = document.getElementById("name").value;
-  let guests = document.getElementById("guests").value;
-  let message = document.getElementById("message").value;
-
-  if (!name || !guests) {
-    alert("Fill Name & Guests ❤️");
-    return;
-  }
-
-  let data = JSON.parse(localStorage.getItem("rsvps") || "[]");
-
-  data.push({
-    name, guests, message,
-    time: new Date().toLocaleString()
-  });
-
-  localStorage.setItem("rsvps", JSON.stringify(data));
-
-  document.getElementById("status").innerText = "RSVP Saved ❤️";
-
-  document.getElementById("name").value = "";
-  document.getElementById("guests").value = "";
-  document.getElementById("message").value = "";
-}
-
-// SHOW LIST
-function showRSVPs() {
-  let data = JSON.parse(localStorage.getItem("rsvps") || "[]");
-
-  let html = "<ul>";
-
-  data.forEach(r => {
-    html += `<li>
-      <b>${r.name}</b> (${r.guests})<br>
-      ${r.message}<br>
-      <small>${r.time}</small>
-      <hr>
-    </li>`;
-  });
-
-  html += "</ul>";
-
-  document.getElementById("list").innerHTML = html;
-}
-
 // PETALS
-function petal() {
+function createPetal(){
   let p = document.createElement("div");
   p.className = "petal";
   p.style.left = Math.random()*100 + "vw";
@@ -291,7 +284,42 @@ function petal() {
   document.body.appendChild(p);
   setTimeout(()=>p.remove(), 9000);
 }
-setInterval(petal, 500);
+setInterval(createPetal, 400);
+
+// RSVP OPEN
+function openRSVP(){
+  document.getElementById("rsvpModal").style.display = "flex";
+}
+
+// CLOSE RSVP
+function closeRSVP(){
+  document.getElementById("rsvpModal").style.display = "none";
+}
+
+// SAVE RSVP
+function submitRSVP(){
+  let name = document.getElementById("name").value;
+  let guests = document.getElementById("guests").value;
+  let msg = document.getElementById("msg").value;
+
+  if(!name || !guests){
+    alert("Please fill details ❤️");
+    return;
+  }
+
+  let data = JSON.parse(localStorage.getItem("rsvps") || "[]");
+
+  data.push({
+    name, guests, msg,
+    time: new Date().toLocaleString()
+  });
+
+  localStorage.setItem("rsvps", JSON.stringify(data));
+
+  document.getElementById("status").innerText = "Saved ❤️";
+
+  setTimeout(closeRSVP, 1000);
+}
 
 </script>
 
