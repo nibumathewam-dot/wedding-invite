@@ -6,26 +6,45 @@
 <title>Fathima 💍 Habeeb Wedding</title>
 
 <style>
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   height: 100vh;
   background: #e8dcc7;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
   font-family: serif;
+  overflow: hidden;
 }
 
-/* CARD CONTAINER */
+/* FULL SCREEN 3D SPACE */
+.scene {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1400px;
+}
+
+/* CARD */
 .card {
   position: relative;
-  width: 90vw;
-  max-width: 380px;
-  aspect-ratio: 3/4;
+
+  width: min(90vw, 380px);
+  height: min(80vh, 520px);
+
+  transform-style: preserve-3d;
+
   background: url('https://raw.githubusercontent.com/nibumathewam-dot/wedding-invite/main/images/F_H.png') center/cover no-repeat;
+
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.35);
   overflow: hidden;
 }
 
@@ -36,64 +55,69 @@ body {
   width: 100%;
   height: 50%;
   background: url('https://raw.githubusercontent.com/nibumathewam-dot/wedding-invite/main/images/F_H.png') center/cover no-repeat;
+
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   transform-origin: top;
-  transition: transform 1.2s ease;
+  transition: transform 1s ease;
   z-index: 3;
 }
 
-/* SEAL BUTTON */
+/* SEAL */
 .seal {
   position: absolute;
-  bottom: 30%;
+  bottom: 28%;
   left: 50%;
   transform: translateX(-50%);
   width: 85px;
   height: 85px;
+
   background: radial-gradient(circle, #d4af37, #b8962e);
   border-radius: 50%;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   font-weight: bold;
   font-size: 24px;
   cursor: pointer;
-  z-index: 4;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.4);
-  transition: transform 0.3s;
-}
 
-.seal:hover {
-  transform: translateX(-50%) scale(1.1);
+  z-index: 4;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
 
 /* INNER CARD */
 .inner {
   position: absolute;
-  bottom: -100%;
-  width: 100%;
-  height: 100%;
+  width: 88%;
+  height: 80%;
+  left: 6%;
+  bottom: 0;
+
   background: #fffaf5;
-  border-radius: 20px;
+  border-radius: 15px;
+  padding: 25px;
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 25px;
-  transition: bottom 1.2s ease;
-  z-index: 2;
+
+  /* 3D hidden */
+  transform: translateY(100%) rotateX(35deg) scale(0.9);
+  transition: transform 1.2s ease;
 }
 
 /* TEXT */
 .inner h2 {
-  font-size: 28px;
   color: #b8962e;
   margin-bottom: 10px;
 }
 
 .inner p {
   color: #555;
-  font-size: 16px;
 }
 
 /* OPEN STATE */
@@ -102,36 +126,35 @@ body {
 }
 
 .open .inner {
-  bottom: 0;
+  transform: translateY(-15%) rotateX(0deg) scale(1);
 }
 
 .open .seal {
   opacity: 0;
-  transform: translateX(-50%) scale(0.5);
+  transform: translateX(-50%) scale(0.6);
 }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="card">
+<div class="scene">
+  <div class="card" id="card">
 
-  <!-- FLAP -->
-  <div class="flap"></div>
+    <div class="flap"></div>
 
-  <!-- SEAL BUTTON -->
-  <div class="seal" onclick="openCard()">FH</div>
+    <div class="seal" onclick="openCard()">FH</div>
 
-  <!-- INNER INVITE -->
-  <div class="inner">
-    <div>
-      <h2>Fathima 💍 Habeeb</h2>
-      <p>Are Getting Married ✨</p>
-      <p><b>May 24, 2026</b></p>
-      <p>Bangalore Palace 📍</p>
+    <div class="inner">
+      <div>
+        <h2>Fathima 💍 Habeeb</h2>
+        <p>Are Getting Married ✨</p>
+        <p><b>May 24, 2026</b></p>
+        <p>Bangalore Palace 📍</p>
+      </div>
     </div>
-  </div>
 
+  </div>
 </div>
 
 <script>
