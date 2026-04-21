@@ -5,304 +5,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fathima 💍 Habeeb Wedding</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
-
 <style>
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#f5e6c8,#fffaf5);
-  overflow:hidden;
+body {
+  margin: 0;
+  height: 100vh;
+  background: #e8dcc7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: serif;
 }
 
-/* ===== CARD WRAPPER ===== */
-.wrapper{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+/* CARD CONTAINER */
+.card {
+  position: relative;
+  width: 90vw;
+  max-width: 380px;
+  aspect-ratio: 3/4;
+  background: url('images/envelope.jpg') center/cover no-repeat;
+  border-radius: 15px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  overflow: hidden;
 }
 
-/* ===== CARD ===== */
-.card{
-  width:380px;
-  height:680px;
-  max-width:95vw;
-  max-height:95vh;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.3);
-  position:relative;
-  background:#fffaf5;
+/* FLAP */
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: transform 1.2s ease;
+  z-index: 3;
 }
 
-/* MOBILE FULL */
-@media(max-width:500px){
-  .card{
-    width:100vw;
-    height:100vh;
-    border-radius:0;
-  }
+/* SEAL BUTTON */
+.seal {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  background: gold;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 4;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
 }
 
-/* ===== GREEN COVER ===== */
-#inviteCover{
-  position:absolute;
-  width:100%;
-  height:100%;
-  z-index:9999;
-  perspective:1500px;
+/* INSIDE CARD */
+.inner {
+  position: absolute;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  transition: bottom 1.2s ease;
+  z-index: 2;
 }
 
-.coverFront{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:linear-gradient(145deg,#1f5f3a,#2f7a4f);
-  color:#f5d98f;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  transform-origin:left;
-  transition:transform 1.8s ease;
-  box-shadow:0 15px 40px rgba(0,0,0,0.4);
+/* OPEN STATE */
+.open .flap {
+  transform: rotateX(180deg);
 }
 
-.coverInside{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:#fffaf5;
+.open .inner {
+  bottom: 0;
 }
 
-.openCard .coverFront{
-  transform:rotateY(-140deg);
-}
-
-.coverFront h1{
-  font-family:'Playfair Display';
-  font-size:2.4em;
-}
-
-.coverFront p{
-  color:#f5e6b3;
-}
-
-/* ===== CONTENT ===== */
-section{
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  text-align:center;
-  padding:20px;
-}
-
-#hero{
-  background:url('images/home.jpg') center/cover no-repeat;
-}
-
-.overlay{
-  background:rgba(255,255,255,0.75);
-  padding:20px;
-  border-radius:15px;
-}
-
-h1{
-  font-family:'Playfair Display';
-  color:#b8962e;
-}
-
-p{color:#555;}
-
-/* MUSIC */
-.music{
-  position:absolute;
-  top:15px;
-  right:15px;
-  z-index:2000;
-  background:white;
-  border-radius:50%;
-  border:1px solid #b8962e;
-  padding:10px;
-  color:#b8962e;
-}
-
-/* COUNTDOWN */
-#timer{
-  font-size:2.5em;
-  color:#b8962e;
-  font-weight:bold;
-}
-
-/* RSVP */
-.rsvpBtn{
-  margin-top:15px;
-  padding:12px 25px;
-  border-radius:25px;
-  border:1px solid #b8962e;
-  background:white;
-  color:#b8962e;
-  cursor:pointer;
-}
-
-/* PETALS */
-.petal{
-  position:absolute;
-  top:-50px;
-  width:18px;
-  height:18px;
-  background:url('images/petal.png') no-repeat center/contain;
-  animation:fall linear forwards;
-}
-
-@keyframes fall{
-  0%{transform:translateY(-50px);opacity:1;}
-  100%{transform:translateY(700px) rotate(360deg);opacity:0.6;}
-}
-
-/* LINK */
-a{
-  color:#b8962e;
-  text-decoration:none;
-  border:1px solid #b8962e;
-  padding:10px 20px;
-  border-radius:20px;
+.open .seal {
+  opacity: 0;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
-<div class="card">
+<div class="card" id="card">
 
-<!-- MUSIC -->
-<audio id="music" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
+  <!-- FLAP -->
+  <div class="flap"></div>
 
-<button class="music" onclick="toggleMusic()">🔊</button>
+  <!-- SEAL BUTTON -->
+  <div class="seal" onclick="openCard()">FH</div>
 
-<!-- GREEN CARD COVER -->
-<div id="inviteCover" onclick="openCard()">
-  <div class="coverFront">
+  <!-- INNER INVITE -->
+  <div class="inner">
     <div>
-      <h1>Fathima 💍 Habeeb</h1>
-      <p>Tap to Open Invitation</p>
+      <h2>Fathima 💍 Habeeb</h2>
+      <p>Are Getting Married</p>
+      <p>May 24, 2026</p>
     </div>
   </div>
-  <div class="coverInside"></div>
-</div>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="overlay">
-    <h1>Fathima 💍 Habeeb</h1>
-    <p>Are Getting Married ✨</p>
-  </div>
-</section>
-
-<!-- DATE -->
-<section>
-  <h1>May 24, 2026</h1>
-
-  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
-    📍 View Venue
-  </a>
-</section>
-
-<!-- COUNTDOWN -->
-<section>
-  <h1>Countdown</h1>
-  <div id="timer"></div>
-
-  <button class="rsvpBtn" onclick="openRSVP()">RSVP 💌</button>
-</section>
-
-</div>
 </div>
 
 <script>
-
-/* OPEN CARD */
-function openCard(){
-  let card=document.getElementById("inviteCover");
-  card.classList.add("openCard");
-
-  document.getElementById("music").play().catch(()=>{});
-
-  setTimeout(()=>{
-    card.style.display="none";
-    document.body.style.overflow="auto";
-  },1800);
+function openCard() {
+  document.getElementById("card").classList.add("open");
 }
-
-/* MUSIC */
-function toggleMusic(){
-  let m=document.getElementById("music");
-  m.paused?m.play():m.pause();
-}
-
-/* COUNTDOWN */
-const date=new Date("May 24, 2026 00:00:00").getTime();
-
-setInterval(()=>{
-  let now=new Date().getTime();
-  let gap=date-now;
-
-  if(gap<=0){
-    document.getElementById("timer").innerHTML="🎉 Wedding Day 🎉";
-    return;
-  }
-
-  let d=Math.floor(gap/(1000*60*60*24));
-  let h=Math.floor((gap/(1000*60*60))%24);
-  let m=Math.floor((gap/(1000*60))%60);
-  let s=Math.floor((gap/1000)%60);
-
-  document.getElementById("timer").innerHTML=
-  `<div style="font-size:1.8em">${d} Days</div>
-   <div>${h}h : ${m}m : ${s}s</div>`;
-},1000);
-
-/* PETALS */
-function createPetal(){
-  let p=document.createElement("div");
-  p.className="petal";
-  p.style.left=Math.random()*100+"%";
-  p.style.animationDuration=(4+Math.random()*4)+"s";
-  document.querySelector(".card").appendChild(p);
-  setTimeout(()=>p.remove(),9000);
-}
-setInterval(createPetal,300);
-
-/* RSVP WINDOW */
-function openRSVP(){
-  let w=window.open("","_blank","width=420,height=550");
-
-  w.document.write(`
-    <title>RSVP</title>
-    <style>
-      body{font-family:Poppins;text-align:center;padding:20px;background:#fffaf5;}
-      input,textarea{width:90%;padding:10px;margin:8px;border-radius:8px;border:1px solid #ccc;}
-      button{padding:10px 20px;background:#b8962e;color:white;border:none;border-radius:20px;}
-      h2{color:#b8962e;}
-    </style>
-
-    <h2>💍 RSVP</h2>
-    <p>Fathima & Habeeb Wedding</p>
-
-    <input placeholder="Your Name">
-    <input type="number" placeholder="Guests">
-    <textarea placeholder="Message"></textarea>
-
-    <button onclick="alert('RSVP Saved ❤️')">Submit</button>
-  `);
-}
-
 </script>
 
 </body>
