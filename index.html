@@ -6,150 +6,117 @@
 <title>Fathima 💍 Habeeb Wedding</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body{
+  margin:0;
+  height:100vh;
+  background:#e8dcc7;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:serif;
 }
 
-body {
-  height: 100vh;
-  background: #e8dcc7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  font-family: serif;
+/* SCENE */
+.scene{
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective:1400px;
 }
 
-/* FULL SCREEN SPACE */
-.scene {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1500px;
-}
-
-/* CARD (NOW FULLSCREEN RESPONSIVE) */
-.card {
-  position: relative;
-
-  width: min(95vw, 500px);
-  height: calc(min(95vw, 500px) * 1.3);
-
-  max-height: 90vh;
-
-  background: url('https://raw.githubusercontent.com/nibumathewam-dot/wedding-invite/main/images/F_H.png') center/cover no-repeat;
-
-  border-radius: 20px;
-  box-shadow: 0 30px 70px rgba(0,0,0,0.35);
-  overflow: hidden;
-
-  transform-style: preserve-3d;
+/* ENVELOPE */
+.card{
+  position:relative;
+  width:min(95vw,420px);
+  height:min(80vh,550px);
+  background:url('https://raw.githubusercontent.com/nibumathewam-dot/wedding-invite/main/images/F_H.png') center/cover no-repeat;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 30px 70px rgba(0,0,0,0.35);
+  transform-style:preserve-3d;
 }
 
 /* FLAP */
-.flap {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-  background: inherit;
-
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transform-origin: top;
-  transition: transform 1s ease;
-  z-index: 3;
+.flap{
+  position:absolute;
+  width:100%;
+  height:50%;
+  background:inherit;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  transition:transform 1s ease;
+  z-index:5;
 }
 
 /* SEAL */
-.seal {
-  position: absolute;
-  bottom: 28%;
-  left: 50%;
-  transform: translateX(-50%);
-
-  width: 90px;
-  height: 90px;
-
-  background: radial-gradient(circle, #d4af37, #b8962e);
-  border-radius: 50%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 26px;
-  font-weight: bold;
-  cursor: pointer;
-
-  z-index: 4;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+.seal{
+  position:absolute;
+  bottom:30%;
+  left:50%;
+  transform:translateX(-50%);
+  width:80px;
+  height:80px;
+  background:radial-gradient(circle,#d4af37,#b8962e);
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:22px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:6;
 }
 
-/* INNER CARD */
-.inner {
-  position: absolute;
-  width: 88%;
-  height: 80%;
-  left: 6%;
-  bottom: 0;
+/* INNER CARD (IMPORTANT FIX) */
+.inner{
+  position:absolute;
+  width:85%;
+  height:75%;
+  left:7.5%;
+  bottom:-70%; /* start INSIDE envelope */
 
-  background: #fffaf5;
-  border-radius: 15px;
-  padding: 25px;
+  background:#fffaf5;
+  border-radius:15px;
+  padding:25px;
+  text-align:center;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 
-  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  box-shadow:0 20px 50px rgba(0,0,0,0.25);
 
-  transform: translateY(100%) rotateX(35deg) scale(0.9);
-  transition: transform 1.2s ease;
+  /* hidden inside */
+  transform:rotateX(15deg);
+  transition:all 1.3s ease;
+  z-index:2;
 }
 
 /* TEXT */
-.inner h2 {
-  color: #b8962e;
-  margin-bottom: 10px;
-  font-size: 1.6em;
+.inner h2{
+  color:#b8962e;
 }
 
-.inner p {
-  color: #555;
-  font-size: 1em;
+/* STEP 1: flap open */
+.open .flap{
+  transform:rotateX(180deg);
 }
 
-/* OPEN ANIMATION */
-.open .flap {
-  transform: rotateX(180deg);
+/* STEP 2: card slides out */
+.open .inner{
+  bottom:10%;                /* move upward */
+  transform:rotateX(0deg) scale(1.05);
 }
 
-.open .inner {
-  transform: translateY(-15%) rotateX(0deg) scale(1);
+/* STEP 3: seal fade */
+.open .seal{
+  opacity:0;
+  transform:translateX(-50%) scale(0.7);
 }
 
-.open .seal {
-  opacity: 0;
-  transform: translateX(-50%) scale(0.6);
-}
-
-/* MOBILE PERFECT FIT */
-@media (max-width: 500px) {
-  .card {
-    width: 95vw;
-    height: 80vh;
-  }
-
-  .seal {
-    width: 70px;
-    height: 70px;
-    font-size: 20px;
-  }
-}
 </style>
 </head>
 
