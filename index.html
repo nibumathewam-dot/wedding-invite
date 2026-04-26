@@ -22,10 +22,25 @@ body {
   align-items: center;
 }
 
-/* KEEP ORIGINAL RATIO */
 video {
-  max-height: 100%;
   max-width: 100%;
+  max-height: 100%;
+}
+
+/* TAP OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  background: rgba(0,0,0,0.5);
+  cursor: pointer;
 }
 </style>
 
@@ -34,23 +49,38 @@ video {
 <body>
 
 <div class="video-container">
-  <video autoplay muted playsinline id="vid">
+  <video id="vid" playsinline>
     <source src="opening.mp4" type="video/mp4">
   </video>
 </div>
 
+<!-- TAP TO START -->
+
+<div class="overlay" id="overlay">
+  Tap to Open Invitation 💌
+</div>
+
 <script>
 const vid = document.getElementById("vid");
+const overlay = document.getElementById("overlay");
 
-// go next when video ends
+// Start video on tap
+overlay.addEventListener("click", () => {
+  overlay.style.display = "none";
+  vid.play();
+});
+
+// Go to next page when video ends
 vid.onended = function() {
   window.location.href = "details.html";
 };
 
-// backup timer (adjust if needed)
-setTimeout(function(){
-  window.location.href = "details.html";
-}, 6000);
+// Backup timer after play starts
+vid.onplay = function() {
+  setTimeout(function(){
+    window.location.href = "details.html";
+  }, 6000);
+};
 </script>
 
 </body>
