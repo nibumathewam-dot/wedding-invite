@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,47 +13,52 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: #fffaf5;
-  color: #333;
+  background: black;
   overflow-x: hidden;
   overflow-y: hidden;
-  scroll-snap-type: y mandatory;
 }
 
-/* ===================== */
-/* COMMON BACKGROUND FIX */
-/* ===================== */
-#inviteIntro, #doorIntro, #hero {
-  background: url('images/FandH.jpg') no-repeat;
-  background-size: cover;
-  background-position: center top;
-}
-
-/* ===================== */
-/* INVITE INTRO */
-/* ===================== */
-#inviteIntro {
-  position: fixed;
+/* BACKGROUND SYSTEM */
+.bg {
+  position: relative;
   width: 100%;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20000;
 }
 
-#inviteIntro::after {
+.bg::before {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(10px);
-  background: rgba(0,0,0,0.4);
+  background: url('images/FandH.jpg') center/cover no-repeat;
+  filter: blur(25px);
+  transform: scale(1.1);
+  z-index: 0;
+}
+
+.bg::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('images/FandH.jpg') center/contain no-repeat;
+  z-index: 1;
+}
+
+/* INVITE INTRO */
+#inviteIntro {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 20000;
 }
 
 .inviteContent {
-  position: relative;
+  position: absolute;
   z-index: 2;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
   text-align: center;
 }
 
@@ -78,16 +82,13 @@ body {
   50% { border-color: transparent }
 }
 
-/* ===================== */
 /* DOOR */
-/* ===================== */
 #doorIntro {
   position: fixed;
   width: 100%;
   height: 100vh;
   z-index: 999;
   perspective: 1200px;
-  transition: opacity 1s;
 }
 
 .door {
@@ -95,9 +96,10 @@ body {
   width: 50%;
   height: 100%;
   top: 0;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(5px);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(6px);
   transition: transform 2s ease;
+  z-index: 3;
 }
 
 .left { left: 0; transform-origin: left; }
@@ -106,17 +108,12 @@ body {
 .open .left { transform: rotateY(-100deg); }
 .open .right { transform: rotateY(100deg); }
 
-/* ===================== */
 /* PETALS */
-/* ===================== */
 #petalContainer {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  overflow: hidden;
   z-index: 5000;
 }
 
@@ -127,43 +124,25 @@ body {
 }
 
 @keyframes fall {
-  0% {
-    transform: translateY(-10vh) translateX(0) rotate(0deg);
-  }
-  100% {
-    transform: translateY(110vh) translateX(60px) rotate(360deg);
-  }
+  0% { transform: translateY(-10vh) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
 }
 
-/* ===================== */
 /* SECTIONS */
-/* ===================== */
 section {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  scroll-snap-align: start;
-  text-align: center;
-  padding: 20px;
-}
-
-/* cinematic zoom */
-#hero {
-  animation: zoom 15s ease-in-out infinite alternate;
-}
-
-@keyframes zoom {
-  from { background-size: 100%; }
-  to { background-size: 110%; }
 }
 
 .overlay {
-  background: rgba(255,255,255,0.7);
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.75);
   padding: 25px;
   border-radius: 15px;
-  backdrop-filter: blur(6px);
+  text-align: center;
 }
 
 h1 {
@@ -176,22 +155,18 @@ button {
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 2000;
-  background: white;
-  color: #b8962e;
-  border: 1px solid #b8962e;
-  padding: 10px;
-  border-radius: 50%;
+  z-index: 3000;
 }
 
 /* LINKS */
 a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: 1px solid #b8962e;
+  border-radius: 20px;
   color: #b8962e;
   text-decoration: none;
-  border: 1px solid #b8962e;
-  padding: 10px 20px;
-  margin-top: 10px;
-  border-radius: 20px;
 }
 </style>
 </head>
@@ -199,7 +174,7 @@ a {
 <body>
 
 <!-- INVITE INTRO -->
-<div id="inviteIntro">
+<div id="inviteIntro" class="bg">
   <div class="inviteContent">
     <h1 class="inviteText">You are exclusively invited 💍</h1>
     <p style="color:white;margin-top:15px;">Fathima 💍 Habeeb</p>
@@ -214,7 +189,7 @@ a {
 <button onclick="toggleMusic()">🔊</button>
 
 <!-- DOOR -->
-<div id="doorIntro">
+<div id="doorIntro" class="bg">
   <div class="door left" onclick="openDoor()"></div>
   <div class="door right" onclick="openDoor()"></div>
 </div>
@@ -223,48 +198,47 @@ a {
 <div id="petalContainer"></div>
 
 <!-- HERO -->
-<section id="hero">
+<section class="bg">
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
   </div>
 </section>
 
-<!-- DATE -->
+<!-- DATE & VENUE -->
 <section style="background:#fff;">
-  <h1>Wedding</h1>
-  <p>May 26, 2026</p>
+  <div class="overlay">
+    <h1>Wedding</h1>
+    <p>May 26, 2026</p>
 
-  <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
-    View Venue 📍
-  </a>
+    <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
+      View Venue 📍
+    </a>
+  </div>
 </section>
 
 <!-- COUNTDOWN -->
 <section style="background:#fffaf5;">
-  <h1>Countdown</h1>
-  <p id="timer"></p>
+  <div class="overlay">
+    <h1>Countdown</h1>
+    <div id="timer"></div>
+  </div>
 </section>
 
 <script>
 
-/* AUTO INTRO + MUSIC */
+/* INTRO + MUSIC */
 window.addEventListener("load", () => {
   const music = document.getElementById("music");
 
   music.play().catch(() => {
-    document.body.addEventListener("click", () => {
-      music.play();
-    }, { once: true });
+    document.body.addEventListener("click", () => music.play(), { once: true });
   });
 
   setTimeout(() => {
-    const intro = document.getElementById("inviteIntro");
-    intro.style.transition = "opacity 1s";
-    intro.style.opacity = "0";
-
+    inviteIntro.style.opacity = "0";
     setTimeout(() => {
-      intro.style.display = "none";
+      inviteIntro.style.display = "none";
       document.body.style.overflowY = "auto";
       openDoor();
     }, 1000);
@@ -273,59 +247,61 @@ window.addEventListener("load", () => {
 
 /* DOOR */
 function openDoor(){
-  document.getElementById("doorIntro").classList.add("open");
+  doorIntro.classList.add("open");
 
   setTimeout(()=>{
-    document.getElementById("doorIntro").style.opacity="0";
-  },1500);
-
-  setTimeout(()=>{
-    document.getElementById("doorIntro").style.display="none";
+    doorIntro.style.display="none";
     startPetals();
-  },2200);
+  },2000);
 }
 
 /* PETALS */
-function createPetal() {
-  const petal = document.createElement("div");
-  petal.classList.add("petal");
-
-  petal.style.left = Math.random() * 100 + "vw";
-  let size = 15 + Math.random()*25;
-  petal.style.width = size + "px";
-  petal.style.height = size + "px";
-  petal.style.animationDuration = (3 + Math.random()*3) + "s";
-
-  document.getElementById("petalContainer").appendChild(petal);
-
-  setTimeout(() => petal.remove(), 6000);
+function createPetal(){
+  const p = document.createElement("div");
+  p.className="petal";
+  p.style.left = Math.random()*100+"vw";
+  let size=15+Math.random()*25;
+  p.style.width=size+"px";
+  p.style.height=size+"px";
+  p.style.animationDuration=(3+Math.random()*3)+"s";
+  petalContainer.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
 }
 
-function startPetals() {
-  setInterval(createPetal, 200);
+function startPetals(){
+  setInterval(createPetal,200);
 }
 
 /* MUSIC */
 function toggleMusic(){
-  let m=document.getElementById("music");
-  m.muted = !m.muted;
+  music.muted=!music.muted;
 }
 
-/* COUNTDOWN */
+/* COUNTDOWN (FULL) */
 const date = new Date("May 26, 2026 00:00:00").getTime();
 
 setInterval(()=>{
-  let now=new Date().getTime();
-  let gap=date-now;
+  let now = new Date().getTime();
+  let gap = date - now;
 
-  let d=Math.max(0, Math.floor(gap/(1000*60*60*24)));
+  if (gap < 0) gap = 0;
 
-  document.getElementById("timer").innerHTML =
-    `<span style="font-size:2.5em;color:#b8962e;">${d}</span> Days Left`;
+  let days = Math.floor(gap / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((gap / (1000 * 60 * 60)) % 24);
+  let minutes = Math.floor((gap / (1000 * 60)) % 60);
+  let seconds = Math.floor((gap / 1000) % 60);
+
+  document.getElementById("timer").innerHTML = `
+    <div style="display:flex;gap:15px;justify-content:center;font-size:1.5em;color:#b8962e;">
+      <div>${days}<br><small>Days</small></div>
+      <div>${hours}<br><small>Hours</small></div>
+      <div>${minutes}<br><small>Minutes</small></div>
+      <div>${seconds}<br><small>Seconds</small></div>
+    </div>
+  `;
 },1000);
 
 </script>
 
 </body>
 </html>
-```
