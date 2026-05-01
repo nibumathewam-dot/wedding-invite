@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,59 +16,59 @@ body {
   font-family: 'Poppins', sans-serif;
   background: #fffaf5;
   color: #333;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   scroll-snap-type: y mandatory;
 }
 
 /* ===================== */
-/* 🔥 FIXED SWIPE INTRO */
+/* INVITE INTRO */
 /* ===================== */
-#introSwipe {
+#inviteIntro {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100vh;
-  background: black;
-  z-index: 10000;
-}
-
-.swipeContainer {
-  display: flex;
-  height: 100%;
-  width: 100%;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-
-.card {
-  flex: 0 0 100%;
-  height: 100vh;
-  scroll-snap-align: center;
+  background: url('images/home.jpg') center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 20px;
+  z-index: 20000;
 }
 
-.overlayCard {
-  background: rgba(0,0,0,0.45);
-  padding: 25px;
-  border-radius: 18px;
-  max-width: 80%;
+#inviteIntro::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.4);
+}
+
+.inviteContent {
+  position: relative;
+  z-index: 2;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+/* typing animation */
+.inviteText {
   color: white;
+  font-size: 2em;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid white;
+  width: 0;
+  animation: typing 3s steps(30, end) forwards, blink 0.7s infinite;
 }
 
-.overlayCard h1 {
-  font-size: 2.2em;
-  margin: 0;
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
 }
 
-.overlayCard p {
-  margin-top: 10px;
+@keyframes blink {
+  50% { border-color: transparent }
 }
 
 /* ===================== */
@@ -124,13 +125,12 @@ section {
   backdrop-filter: blur(6px);
 }
 
-/* TEXT */
 h1 {
   font-family: 'Playfair Display';
   color: #b8962e;
 }
 
-/* BUTTONS */
+/* BUTTON */
 button {
   position: fixed;
   top: 20px;
@@ -157,45 +157,10 @@ a {
 
 <body>
 
-<!-- ===================== SWIPE INTRO (FIXED) ===================== -->
-<div id="introSwipe">
-  <div class="swipeContainer">
-
-    <div class="card" style="background:url('images/home.jpg') center/cover;">
-      <div class="overlayCard">
-        <h1>💍 Welcome</h1>
-        <p>Swipe to continue</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#b8962e;">
-      <div class="overlayCard">
-        <h1>Pathu 💍 Kettiyon</h1>
-        <p>Two souls, one journey</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#fffaf5;">
-      <div class="overlayCard">
-        <h1 style="color:black;">Save The Date</h1>
-        <p style="color:black;">May 26, 2026</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#333;">
-      <div class="overlayCard">
-        <h1>📍 Venue</h1>
-        <p>Bangalore Palace</p>
-      </div>
-    </div>
-
-    <div class="card" style="background:#b8962e;">
-      <div class="overlayCard">
-        <h1>You’re Invited 💍</h1>
-        <button onclick="enterWedding()" class="rsvpBtn">Enter Wedding</button>
-      </div>
-    </div>
-
+<!-- INVITE INTRO -->
+<div id="inviteIntro">
+  <div class="inviteContent">
+    <h1 class="inviteText">You are exclusively invited 💍</h1>
   </div>
 </div>
 
@@ -238,17 +203,34 @@ a {
 
 <script>
 
-/* SWIPE EXIT */
-function enterWedding(){
-  document.getElementById("introSwipe").style.display = "none";
-  document.body.style.overflow = "auto";
-}
+/* AUTO INTRO + MUSIC */
+window.addEventListener("load", () => {
+  const music = document.getElementById("music");
+
+  music.play().catch(() => {
+    document.body.addEventListener("click", () => {
+      music.play();
+    }, { once: true });
+  });
+
+  setTimeout(() => {
+    const intro = document.getElementById("inviteIntro");
+    intro.style.transition = "opacity 1s";
+    intro.style.opacity = "0";
+
+    setTimeout(() => {
+      intro.style.display = "none";
+      document.body.style.overflowY = "auto";
+
+      // auto open door after intro
+      openDoor();
+    }, 1000);
+  }, 4000);
+});
 
 /* DOOR */
 function openDoor(){
   document.getElementById("doorIntro").classList.add("open");
-
-  document.getElementById("music").play().catch(()=>{});
 
   setTimeout(()=>{
     document.getElementById("doorIntro").style.opacity="0";
@@ -256,7 +238,6 @@ function openDoor(){
 
   setTimeout(()=>{
     document.getElementById("doorIntro").style.display="none";
-    document.body.style.overflow="auto";
   },2200);
 }
 
@@ -273,7 +254,7 @@ setInterval(()=>{
   let now=new Date().getTime();
   let gap=date-now;
 
-  let d=Math.floor(gap/(1000*60*60*24));
+  let d=Math.max(0, Math.floor(gap/(1000*60*60*24)));
 
   document.getElementById("timer").innerHTML =
     `<span style="font-size:2.5em;color:#b8962e;">${d}</span> Days Left`;
@@ -283,3 +264,4 @@ setInterval(()=>{
 
 </body>
 </html>
+```
