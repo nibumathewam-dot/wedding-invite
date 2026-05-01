@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pathu 💍 Kettiyon Wedding</title>
+<title>Fathima 💍 Habeeb Wedding</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
@@ -47,11 +47,9 @@ body {
 .inviteContent {
   position: relative;
   z-index: 2;
-  padding: 30px;
-  border-radius: 20px;
+  text-align: center;
 }
 
-/* typing animation */
 .inviteText {
   color: white;
   font-size: 2em;
@@ -59,6 +57,7 @@ body {
   overflow: hidden;
   border-right: 3px solid white;
   width: 0;
+  margin: auto;
   animation: typing 3s steps(30, end) forwards, blink 0.7s infinite;
 }
 
@@ -99,6 +98,35 @@ body {
 
 .open .left { transform: rotateY(-100deg); }
 .open .right { transform: rotateY(100deg); }
+
+/* ===================== */
+/* PETALS */
+/* ===================== */
+#petalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5000;
+}
+
+.petal {
+  position: absolute;
+  background: url('images/petal.png') no-repeat center/contain;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(110vh) translateX(60px) rotate(360deg);
+  }
+}
 
 /* ===================== */
 /* SECTIONS */
@@ -161,6 +189,7 @@ a {
 <div id="inviteIntro">
   <div class="inviteContent">
     <h1 class="inviteText">You are exclusively invited 💍</h1>
+    <p style="color:white;margin-top:15px;">Fathima 💍 Habeeb</p>
   </div>
 </div>
 
@@ -177,10 +206,13 @@ a {
   <div class="door right" onclick="openDoor()"></div>
 </div>
 
+<!-- PETALS -->
+<div id="petalContainer"></div>
+
 <!-- HERO -->
 <section id="hero">
   <div class="overlay">
-    <h1>Pathu 💍 Kettiyon</h1>
+    <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
   </div>
 </section>
@@ -221,8 +253,6 @@ window.addEventListener("load", () => {
     setTimeout(() => {
       intro.style.display = "none";
       document.body.style.overflowY = "auto";
-
-      // auto open door after intro
       openDoor();
     }, 1000);
   }, 4000);
@@ -238,7 +268,29 @@ function openDoor(){
 
   setTimeout(()=>{
     document.getElementById("doorIntro").style.display="none";
+    startPetals(); // 🌹 start petals
   },2200);
+}
+
+/* PETALS */
+function createPetal() {
+  const petal = document.createElement("div");
+  petal.classList.add("petal");
+
+  petal.style.left = Math.random() * 100 + "vw";
+  let size = 15 + Math.random()*25;
+  petal.style.width = size + "px";
+  petal.style.height = size + "px";
+
+  petal.style.animationDuration = (3 + Math.random()*3) + "s";
+
+  document.getElementById("petalContainer").appendChild(petal);
+
+  setTimeout(() => petal.remove(), 6000);
+}
+
+function startPetals() {
+  setInterval(createPetal, 200);
 }
 
 /* MUSIC */
@@ -264,4 +316,3 @@ setInterval(()=>{
 
 </body>
 </html>
-```
