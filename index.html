@@ -1,63 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fathima 💍 Habeeb Wedding</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wedding Invite</title>
 
 <style>
 body{
   margin:0;
-  background:black;
   overflow:hidden;
   font-family:sans-serif;
+  background:black;
 }
 
-/* BACKGROUND */
-.bg{
-  position:relative;
-  width:100%;
-  height:100vh;
-  overflow:hidden;
-}
-
-/* ✅ SMART IMAGE FIT (DESKTOP + MOBILE) */
-.bg-blur, .bg-clear{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:url('images/FandH.jpg') 50% 30% / cover no-repeat;
+/* ✅ ONLY ONE IMAGE IN ENTIRE SITE */
+#mainBg{
+  position:fixed;
   top:0;
   left:0;
-}
+  width:100%;
+  height:100vh;
 
-/* ✅ DESKTOP OPTIMIZATION */
-@media (min-width:1024px){
-  .bg-blur, .bg-clear{
-    background-position:center top;  /* ✅ show faces */
-  }
-}
+  background:url('images/FandH.jpg') 50% 30% / cover no-repeat;
 
-.bg-blur{
   filter:blur(20px);
   transform:scale(1.1);
+
   transition:1.5s ease;
   z-index:1;
 }
 
-.bg-clear{
-  opacity:0;
-  transition:1.5s ease;
-  z-index:2;
+/* ✅ DESKTOP FIX */
+@media (min-width:1024px){
+  #mainBg{
+    background-position:center top;
+  }
 }
 
-/* ✅ FIX DOUBLE IMAGE */
-.clearView .bg-blur{
-  opacity:0;
-}
-
-.clearView .bg-clear{
-  opacity:1;
+/* ✅ CLEAR AFTER DOOR */
+.clearView #mainBg{
+  filter:blur(0);
+  transform:scale(1);
 }
 
 /* TEXT */
@@ -68,7 +50,7 @@ body{
   width:100%;
   text-align:center;
   z-index:5;
-  transition:0.6s;
+  transition:.6s;
 }
 
 .inviteText{
@@ -89,7 +71,7 @@ body{
   50%{border-color:transparent}
 }
 
-/* DOOR */
+/* ✅ DOOR */
 #doorIntro{
   position:fixed;
   width:100%;
@@ -102,7 +84,7 @@ body{
   position:absolute;
   width:50%;
   height:100%;
-  background:rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.2);
   backdrop-filter:blur(10px);
   transition:2s ease;
 }
@@ -113,13 +95,13 @@ body{
 .open .left{ transform:rotateY(-110deg);}
 .open .right{ transform:rotateY(110deg);}
 
-/* PETALS */
+/* ✅ PETALS */
 #petalContainer{
   position:fixed;
   width:100%;
   height:100%;
   pointer-events:none;
-  z-index:50;
+  z-index:20;
 }
 
 .petal{
@@ -145,26 +127,24 @@ section{
   background:rgba(255,255,255,0.85);
   padding:20px;
   border-radius:15px;
-  text-align:center;
+  z-index:5;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ✅ MUSIC -->
-<audio id="music" preload="auto" loop>
-  <source src="music.mp3" type="audio/mpeg">
+<!-- ✅ SINGLE IMAGE ONLY -->
+<div id="mainBg"></div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  music.mp3
 </audio>
 
-<!-- INTRO -->
-<div class="bg">
-  <div class="bg-blur"></div>
-  <div class="bg-clear"></div>
-
-  <div class="inviteContent">
-    <h1 class="inviteText">You are exclusively invited 💍</h1>
-  </div>
+<!-- TEXT -->
+<div class="inviteContent">
+  <h1 class="inviteText">You are exclusively invited 💍</h1>
 </div>
 
 <!-- DOOR -->
@@ -177,10 +157,7 @@ section{
 <div id="petalContainer"></div>
 
 <!-- HERO -->
-<section class="bg">
-  <div class="bg-blur"></div>
-  <div class="bg-clear"></div>
-
+<section>
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
   </div>
@@ -192,7 +169,7 @@ const door=document.getElementById("doorIntro");
 const music=document.getElementById("music");
 const petals=document.getElementById("petalContainer");
 
-/* ENABLE SOUND */
+/* ENABLE MUSIC */
 document.body.addEventListener("click",()=>{
   music.play().catch(()=>{});
 },{once:true});
@@ -200,12 +177,12 @@ document.body.addEventListener("click",()=>{
 /* FLOW */
 window.onload=()=>{
 
-  // fade text only
+  // Fade text
   setTimeout(()=>{
     content.style.opacity="0";
   },3000);
 
-  // 2 sec pause
+  // Pause 2 sec
   setTimeout(()=>{
     openDoor();
   },5000);
@@ -213,11 +190,11 @@ window.onload=()=>{
 
 /* DOOR */
 function openDoor(){
+
   door.classList.add("open");
 
-  document.querySelectorAll(".bg").forEach(bg=>{
-    bg.classList.add("clearView");
-  });
+  // ✅ REMOVE BLUR (same image)
+  document.body.classList.add("clearView");
 
   music.play().catch(()=>{});
   startPetals();
@@ -230,14 +207,13 @@ function openDoor(){
 
 /* PETALS */
 function createPetal(){
-  const p=document.createElement("div");
+  let p=document.createElement("div");
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
 
   let s=15+Math.random()*20;
   p.style.width=s+"px";
   p.style.height=s+"px";
-  p.style.animationDuration=(3+Math.random()*3)+"s";
 
   petals.appendChild(p);
   setTimeout(()=>p.remove(),5000);
