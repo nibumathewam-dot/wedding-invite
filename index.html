@@ -4,6 +4,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
+/* ✅ BASE */
 body{
   margin:0;
   font-family:sans-serif;
@@ -11,14 +13,15 @@ body{
   background:black;
 }
 
-/* ENABLE SCROLL */
 body.scroll{
-  overflow:auto;
+  overflow-y:auto;
 }
 
-/* IMAGE */
+/* ✅ IMAGE */
 #imageContainer{
   position:fixed;
+  top:0;
+  left:0;
   width:100%;
   height:100vh;
   overflow:hidden;
@@ -27,7 +30,8 @@ body.scroll{
 
 #bgImg{
   width:100%;
-  height:auto;
+  height:100%;
+  object-fit:cover;
   display:block;
   filter:blur(15px);
   transform:scale(1.05);
@@ -39,7 +43,7 @@ body.scroll{
   transform:scale(1)!important;
 }
 
-/* TEXT */
+/* ✅ TEXT */
 #text{
   position:absolute;
   top:40%;
@@ -49,7 +53,6 @@ body.scroll{
   z-index:2000;
 }
 
-/* TYPING */
 .typing{
   display:inline-block;
   font-size:28px;
@@ -75,7 +78,7 @@ body.scroll{
   to{border-right:none}
 }
 
-/* BUTTON */
+/* ✅ BUTTON */
 #btn{
   position:absolute;
   top:62%;
@@ -116,9 +119,11 @@ body.scroll{
   100%{box-shadow:0 0 10px #b8962e}
 }
 
-/* DOOR */
+/* ✅ DOOR */
 #door{
   position:fixed;
+  top:0;
+  left:0;
   width:100%;
   height:100%;
   display:flex;
@@ -128,7 +133,7 @@ body.scroll{
 
 .side{
   width:50%;
-  height:100%;
+  height:100vh;
   background:rgba(255,255,255,0.25);
   backdrop-filter:blur(8px);
   box-shadow: inset -5px 0 25px rgba(0,0,0,0.6);
@@ -139,13 +144,13 @@ body.scroll{
 .right{transform-origin:right;}
 
 .open .left{
-  transform:rotateY(-110deg) translateZ(20px);
+  transform:rotateY(-110deg);
 }
 .open .right{
-  transform:rotateY(110deg) translateZ(20px);
+  transform:rotateY(110deg);
 }
 
-/* 🌹 PETALS */
+/* ✅ PETALS */
 #petalContainer{
   position:fixed;
   top:0;
@@ -154,13 +159,11 @@ body.scroll{
   height:100%;
   pointer-events:none;
   z-index:9999;
-  overflow:hidden;
 }
 
 .petal{
   position:absolute;
   background:url('images/petal.png') center/contain no-repeat;
-  opacity:1;
   animation:fall linear forwards;
 }
 
@@ -168,30 +171,50 @@ body.scroll{
   from{transform:translateY(-10vh);}
   to{transform:translateY(110vh);}
 }
+
+/* ✅ MOBILE FIX */
+@media(max-width:768px){
+
+  #text{ top:35%; }
+
+  .typing{ font-size:22px; }
+
+  #btn{
+    width:110px;
+    height:110px;
+    top:60%;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- ✅ IMAGE -->
 <div id="imageContainer">
   <img id="bgImg" src="images/FandH.jpg">
 </div>
 
+<!-- ✅ TEXT -->
 <div id="text">
   <span class="typing">You are exclusively invited 💍</span>
 </div>
 
-<button id="btn" onclick="openDoor()">
-  Tap<br>to Open 💍
-</button>
+<!-- ✅ BUTTON -->
+<button id="btn" onclick="openDoor()">Tap<br>to Open 💍</button>
 
+<!-- ✅ DOOR -->
 <div id="door">
   <div class="side left"></div>
   <div class="side right"></div>
 </div>
 
+<!-- ✅ PETALS -->
 <div id="petalContainer"></div>
 
+<!-- ✅ MUSIC -->
 <audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -209,7 +232,6 @@ setTimeout(()=>{
 
 /* OPEN DOOR */
 function openDoor(){
-  btn.classList.remove("showBtn");
 
   document.getElementById("door").classList.add("open");
 
@@ -218,9 +240,6 @@ function openDoor(){
   img.classList.add("clear");
 
   document.body.classList.add("scroll");
-
-  document.getElementById("imageContainer").style.position="relative";
-  document.getElementById("imageContainer").style.height="auto";
 
   document.getElementById("text").style.display="none";
   btn.style.display="none";
@@ -232,41 +251,36 @@ function openDoor(){
   },1800);
 }
 
-/* 🌹 CREATE PETAL */
+/* PETALS */
 function createPetal(){
   let p=document.createElement("div");
   p.className="petal";
 
   p.style.left=Math.random()*100+"vw";
-  p.style.top="-30px";   // start above screen
+  p.style.top="-30px";
 
   let size=20+Math.random()*25;
   p.style.width=size+"px";
   p.style.height=size+"px";
 
-  let duration=5+Math.random()*3;
+  let duration=4+Math.random()*3;
   p.style.animationDuration=duration+"s";
-
-  p.style.zIndex=10000;
 
   petals.appendChild(p);
 
-  setTimeout(()=>{
-    if(p.parentNode) p.remove();
-  },duration*1000);
+  setTimeout(()=>p.remove(),duration*1000);
 }
 
-/* ✅ INFINITE */
-let petalInterval;
+let interval;
 
 function startPetals(){
-  if(petalInterval) return;
+  if(interval) return;
 
-  petalInterval=setInterval(()=>{
-    if(petals.children.length<50){
+  interval=setInterval(()=>{
+    if(petals.children.length<40){
       createPetal();
     }
-  },180);
+  },200);
 }
 </script>
 
