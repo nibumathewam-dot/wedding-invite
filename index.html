@@ -23,13 +23,14 @@ body {
   overflow: hidden;
 }
 
+/* ✅ BOTH now use COVER (important) */
 .bg-blur {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url('images/FandH.jpg') center/cover no-repeat;
   filter: blur(25px);
-  transform: scale(1.3);
+  transform: scale(1.25);
   transition: all 2s ease;
 }
 
@@ -37,8 +38,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url('images/FandH.jpg') center/contain no-repeat;
-  background-color: black;
+  background: url('images/FandH.jpg') center/cover no-repeat;
   opacity: 0;
   transition: opacity 2s ease;
 }
@@ -52,14 +52,13 @@ body {
   opacity: 1;
 }
 
-/* INVITE TEXT */
+/* TEXT */
 .inviteContent {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
   padding: 0 15px;
-  box-sizing: border-box;
   text-align: center;
   z-index: 2;
 }
@@ -67,13 +66,12 @@ body {
 .inviteText {
   color: white;
   font-size: clamp(1.3rem, 6vw, 2.8rem);
+  border-right: 3px solid white;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 3px solid white;
   width: 0;
   max-width: 90vw;
   margin: auto;
-  text-align: center;
   animation: typing 3s steps(30,end) forwards, blink .7s infinite;
 }
 
@@ -99,7 +97,7 @@ body {
   position: absolute;
   width: 50%;
   height: 100%;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.4);
   backdrop-filter: blur(8px);
   transition: transform 2s ease;
 }
@@ -206,7 +204,7 @@ const doorIntro = document.getElementById("doorIntro");
 const music = document.getElementById("music");
 const petalContainer = document.getElementById("petalContainer");
 
-/* MUSIC (mobile safe) */
+/* MUSIC */
 document.body.addEventListener("click", () => {
   music.play().catch(()=>{});
 }, { once:true });
@@ -239,6 +237,7 @@ function createPetal(){
   const p=document.createElement("div");
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
+
   let size=15+Math.random()*20;
   p.style.width=size+"px";
   p.style.height=size+"px";
