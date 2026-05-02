@@ -15,7 +15,7 @@ body {
   overflow: hidden;
 }
 
-/* BACKGROUND SYSTEM */
+/* BACKGROUND */
 .bg {
   position: relative;
   width: 100%;
@@ -23,25 +23,22 @@ body {
   overflow: hidden;
 }
 
-/* ✅ OPTIMIZED IMAGE LAYERS */
 .bg-blur, .bg-clear {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url('images/FandH.jpg') center/cover no-repeat;
-  top: 0;
-  left: 0;
 }
 
 .bg-blur {
   filter: blur(20px);
   transform: scale(1.1);
-  transition: all 1.5s ease;
+  transition: 1.5s;
 }
 
 .bg-clear {
   opacity: 0;
-  transition: opacity 1.5s ease;
+  transition: 1.5s;
 }
 
 .clearView .bg-blur {
@@ -65,13 +62,11 @@ body {
 
 .inviteText {
   color: white;
-  font-size: clamp(1.3rem, 6vw, 2.5rem);
+  font-size: clamp(1.3rem,6vw,2.5rem);
   border-right: 3px solid white;
   white-space: nowrap;
   overflow: hidden;
   width: 0;
-  max-width: 90%;
-  margin: auto;
   animation: typing 3s steps(30,end) forwards, blink .6s infinite;
 }
 
@@ -89,7 +84,7 @@ body {
   position: fixed;
   width: 100%;
   height: 100vh;
-  z-index: 1000;
+  z-index: 999;
   perspective: 1200px;
 }
 
@@ -99,7 +94,7 @@ body {
   height: 100%;
   background: rgba(255,255,255,0.4);
   backdrop-filter: blur(8px);
-  transition: transform 1.8s ease;
+  transition: transform 2s;
 }
 
 .left { left:0; transform-origin:left; }
@@ -114,7 +109,7 @@ body {
   width:100%;
   height:100%;
   pointer-events:none;
-  z-index: 2000;
+  z-index: 1000;
 }
 
 .petal {
@@ -124,11 +119,11 @@ body {
 }
 
 @keyframes fall {
-  0% { transform: translateY(-10vh) rotate(0deg); }
-  100% { transform: translateY(110vh) rotate(360deg); }
+  from { transform: translateY(-10vh); }
+  to { transform: translateY(110vh); }
 }
 
-/* CONTENT */
+/* HERO */
 section {
   height:100vh;
   display:flex;
@@ -140,11 +135,7 @@ section {
   background: rgba(255,255,255,0.85);
   padding: 20px;
   border-radius: 15px;
-  text-align:center;
-  z-index: 2;
 }
-
-h1 { color:#b8962e; }
 
 .rsvp-btn {
   margin-top:15px;
@@ -166,7 +157,7 @@ h1 { color:#b8962e; }
 </audio>
 
 <!-- TYPING SOUND -->
-<audio id="typingSound">
+<audio id="typingSound" preload="auto">
   <source src="typing.mp3" type="audio/mpeg">
 </audio>
 
@@ -189,7 +180,6 @@ h1 { color:#b8962e; }
   <div class="door right"></div>
 </div>
 
-<!-- PETALS -->
 <div id="petalContainer"></div>
 
 <!-- HERO -->
@@ -199,7 +189,6 @@ h1 { color:#b8962e; }
 
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
-    <p>Are Getting Married ✨</p>
     <button onclick="openRSVP()" class="rsvp-btn">RSVP 💌</button>
   </div>
 </section>
@@ -211,22 +200,23 @@ const music = document.getElementById("music");
 const typingSound = document.getElementById("typingSound");
 const petalContainer = document.getElementById("petalContainer");
 
-/* USER CLICK → START AUDIO (MOBILE SAFE) */
+/* TRY AUTO PLAY (desktop works) */
+typingSound.play().catch(()=>{});
+
+/* UNLOCK AUDIO ON FIRST TAP */
 document.body.addEventListener("click", () => {
-  music.play().catch(()=>{});
   typingSound.play().catch(()=>{});
+  music.play().catch(()=>{});
 }, { once:true });
 
-/* AUTO FLOW */
+/* MAIN FLOW */
 window.onload = () => {
 
-  // stop typing sound
   setTimeout(()=>{
     typingSound.pause();
     typingSound.currentTime = 0;
   },3000);
 
-  // no pause → directly move to door
   setTimeout(()=>{
     inviteIntro.style.opacity = "0";
 
@@ -251,7 +241,7 @@ function openDoor(){
   setTimeout(()=>{
     doorIntro.style.display="none";
     document.body.style.overflow="auto";
-  },1800);
+  },2000);
 }
 
 /* PETALS */
@@ -263,10 +253,9 @@ function createPetal(){
   let size=15+Math.random()*20;
   p.style.width=size+"px";
   p.style.height=size+"px";
-  p.style.animationDuration=(3+Math.random()*3)+"s";
 
   petalContainer.appendChild(p);
-  setTimeout(()=>p.remove(),6000);
+  setTimeout(()=>p.remove(),5000);
 }
 
 function startPetals(){
