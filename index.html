@@ -16,7 +16,6 @@ body {
   background: black;
   overflow-x: hidden;
   overflow-y: hidden;
-  -webkit-tap-highlight-color: transparent;
 }
 
 /* BACKGROUND */
@@ -35,6 +34,7 @@ body {
   filter: blur(25px);
   transform: scale(1.1);
   z-index: 0;
+  transition: all 1.5s ease;
 }
 
 .bg::after {
@@ -42,8 +42,20 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url('images/FandH.jpg') center/contain no-repeat;
+  background: url('images/FandH.jpg') center center / contain no-repeat;
+  background-color: black;
+  opacity: 0;
   z-index: 1;
+  transition: opacity 1.5s ease;
+}
+
+.clearView::before {
+  filter: blur(0px);
+  transform: scale(1);
+}
+
+.clearView::after {
+  opacity: 1;
 }
 
 /* INTRO */
@@ -52,11 +64,6 @@ body {
   width: 100%;
   height: 100vh;
   z-index: 20000;
-}
-
-.fadeOut {
-  opacity: 0;
-  transition: opacity 1s ease;
 }
 
 .inviteContent {
@@ -104,9 +111,7 @@ body {
   top: 0;
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(6px);
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
   transition: transform 2s ease;
-  z-index: 3;
 }
 
 .left { left: 0; transform-origin: left; }
@@ -161,26 +166,22 @@ h1 {
 button {
   position: fixed;
   top: 20px;
-  z-index: 3000;
   padding: 8px 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
 }
 
 #musicBtn { right: 20px; }
 #skipBtn { left: 20px; }
 
-/* LINKS */
-a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 20px;
-  border: 1px solid #b8962e;
-  border-radius: 20px;
-  color: #b8962e;
-  text-decoration: none;
+.rsvp-btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #b8962e;
+  color: white;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
 }
+
 </style>
 </head>
 
@@ -190,7 +191,7 @@ a {
 <div id="inviteIntro" class="bg">
   <div class="inviteContent">
     <h1 class="inviteText">You are exclusively invited 💍</h1>
-    <p style="color:white;margin-top:15px;">Fathima 💍 Habeeb</p>
+    <p style="color:white;">Fathima 💍 Habeeb</p>
   </div>
 </div>
 
@@ -216,6 +217,7 @@ a {
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
+    <button onclick="openRSVP()" class="rsvp-btn">RSVP 💌</button>
   </div>
 </section>
 
@@ -224,9 +226,7 @@ a {
   <div class="overlay">
     <h1>Wedding</h1>
     <p>May 26, 2026</p>
-    <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
-      View Venue 📍
-    </a>
+    <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">View Venue 📍</a>
   </div>
 </section>
 
@@ -244,28 +244,24 @@ const doorIntro = document.getElementById("doorIntro");
 const petalContainer = document.getElementById("petalContainer");
 const music = document.getElementById("music");
 
-/* MUSIC AUTOPLAY FIX */
 document.body.addEventListener("click", () => {
   music.play().catch(()=>{});
 }, { once: true });
 
-/* INTRO */
 window.addEventListener("load", () => {
   setTimeout(() => {
-    inviteIntro.classList.add("fadeOut");
-
-    setTimeout(() => {
-      inviteIntro.style.display = "none";
-      document.body.style.overflowY = "auto";
-      openDoor();
-    }, 1000);
-
+    inviteIntro.style.display = "none";
+    document.body.style.overflowY = "auto";
   }, 4000);
 });
 
-/* DOOR */
+/* DOOR + CLEAR IMAGE */
 function openDoor(){
   doorIntro.classList.add("open");
+
+  document.querySelectorAll(".bg").forEach(el => {
+    el.classList.add("clearView");
+  });
 
   setTimeout(()=>{
     doorIntro.style.display="none";
@@ -273,9 +269,12 @@ function openDoor(){
   },2000);
 }
 
-/* PETALS */
-let petalInterval;
+/* RSVP */
+function openRSVP(){
+  window.open("rsvp.html","RSVP","width=420,height=650");
+}
 
+/* PETALS */
 function createPetal(){
   const p = document.createElement("div");
   p.className="petal";
@@ -289,8 +288,8 @@ function createPetal(){
 }
 
 function startPetals(){
-  petalInterval = setInterval(createPetal,200);
-  setTimeout(() => clearInterval(petalInterval), 15000);
+  let interval = setInterval(createPetal,200);
+  setTimeout(()=>clearInterval(interval),15000);
 }
 
 /* SKIP */
@@ -301,47 +300,27 @@ function skipIntro(){
   startPetals();
 }
 
-/* MUSIC TOGGLE */
+/* MUSIC */
 function toggleMusic(){
   music.muted = !music.muted;
 }
 
 /* COUNTDOWN */
-const date = new Date("May 26, 2026 00:00:00").getTime();
+const date = new Date("May 26, 2026").getTime();
 
 setInterval(()=>{
   let now = new Date().getTime();
   let gap = Math.max(date - now, 0);
 
-  let d = Math.floor(gap / (1000 * 60 * 60 * 24));
-  let h = Math.floor((gap / (1000 * 60 * 60)) % 24);
-  let m = Math.floor((gap / (1000 * 60)) % 60);
-  let s = Math.floor((gap / 1000) % 60);
+  let d = Math.floor(gap/(1000*60*60*24));
+  let h = Math.floor((gap/(1000*60*60))%24);
+  let m = Math.floor((gap/(1000*60))%60);
+  let s = Math.floor((gap/1000)%60);
 
-  document.getElementById("timer").innerHTML = `
-    <div style="display:flex;gap:20px;justify-content:center;">
-      ${box(d,"Days")}
-      ${box(h,"Hours")}
-      ${box(m,"Min")}
-      ${box(s,"Sec")}
-    </div>
-  `;
+  document.getElementById("timer").innerHTML =
+  `${d} Days ${h} Hours ${m} Min ${s} Sec`;
 },1000);
 
-function box(val,label){
-  return `
-    <div style="
-      background:white;
-      padding:10px 15px;
-      border-radius:10px;
-      box-shadow:0 5px 15px rgba(0,0,0,0.1);
-      text-align:center;
-      color:#b8962e;
-    ">
-      <div style="font-size:1.6em">${val}</div>
-      <small>${label}</small>
-    </div>`;
-}
 </script>
 
 </body>
