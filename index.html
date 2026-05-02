@@ -15,6 +15,8 @@ body{
 }
 body.scroll{ overflow-y:auto; }
 
+.section{ height:100vh; }
+
 /* ✅ IMAGE */
 #imageContainer{
   position:fixed;
@@ -30,7 +32,7 @@ body.scroll{ overflow-y:auto; }
   object-fit:cover;
   filter:blur(15px);
   transform:scale(1.05);
-  transition:2s ease;
+  transition:2s;
 }
 .clear{
   filter:blur(0)!important;
@@ -44,15 +46,16 @@ body.scroll{ overflow-y:auto; }
   width:100%;
   text-align:center;
   color:white;
-  z-index:2000;
+  z-index:3;
 }
 
+/* ✅ TYPING */
 .typing{
   display:inline-block;
-  font-size:28px;
+  font-size:26px;
+  border-right:3px solid white;
   white-space:nowrap;
   overflow:hidden;
-  border-right:3px solid white;
   max-width:0;
 
   animation:
@@ -65,53 +68,30 @@ body.scroll{ overflow-y:auto; }
   from{max-width:0}
   to{max-width:100%}
 }
-@keyframes blink{
-  50%{border-color:transparent}
-}
-@keyframes hideCursor{
-  to{border-right:none}
-}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes hideCursor{to{border-right:none}}
 
-/* ✅ COUPLE BOX */
+/* ✅ COUPLE */
 #coupleName{
   position:absolute;
   top:30%;
   left:50%;
   transform:translate(-50%,20px);
   text-align:center;
-
-  font-size:32px;
   color:#ffd700;
-
-  padding:22px 35px;
-  border-radius:22px;
-
-  background:rgba(255,255,255,0.10);
-  backdrop-filter:blur(12px);
-
-  z-index:2000;
+  padding:20px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.1);
   opacity:0;
+  z-index:3;
 }
 
-/* ✅ FIXED 2-LINE TEXT */
-.tagline{
-  max-width:260px;   /* 🔥 key fix */
-  margin:0 auto;
-  line-height:1.4;
-  word-break:keep-all;
-}
-
-/* ✅ NAMES */
-.names{
-  font-size:40px;
-  color:white;
-  margin-top:8px;
-}
+.tagline{ max-width:240px; margin:auto; }
+.names{ font-size:30px; color:white; }
 
 .showNames{
   animation:fadeIn 2s forwards;
 }
-
 @keyframes fadeIn{
   to{opacity:1; transform:translate(-50%,0);}
 }
@@ -126,27 +106,24 @@ body.scroll{ overflow-y:auto; }
   height:130px;
   border-radius:50%;
   border:none;
+
   background:radial-gradient(circle,#ffd700,#b8962e);
   color:white;
 
   display:flex;
-  justify-content:center;
   align-items:center;
-  text-align:center;
+  justify-content:center;
 
   cursor:pointer;
-  z-index:2000;
+  z-index:4;
   opacity:0;
 }
 
 .showBtn{
   animation:fadeBtn 1s forwards,pulse 1.6s infinite;
 }
-
 @keyframes fadeBtn{to{opacity:1}}
-@keyframes pulse{
-  50%{transform:translateX(-50%) scale(1.1)}
-}
+@keyframes pulse{50%{transform:translateX(-50%) scale(1.1)}}
 
 /* ✅ DOOR */
 #door{
@@ -154,50 +131,20 @@ body.scroll{ overflow-y:auto; }
   width:100%;
   height:100%;
   display:flex;
-  z-index:1000;
-  perspective:1400px;
+  z-index:2;
 }
 
 .side{
   width:50%;
   height:100vh;
   background:rgba(255,255,255,0.2);
-  backdrop-filter:blur(8px);
   transition:1.8s;
 }
-
 .left{transform-origin:left;}
 .right{transform-origin:right;}
 
 .open .left{transform:rotateY(-110deg);}
 .open .right{transform:rotateY(110deg);}
-
-/* ✅ PETALS */
-#petalContainer{
-  position:fixed;
-  top:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:9999;
-}
-
-.petal{
-  position:absolute;
-  width:25px;
-  height:25px;
-
-  background-image:url('images/petal.png');
-  background-size:contain;
-  background-repeat:no-repeat;
-
-  animation:fall linear forwards;
-}
-
-@keyframes fall{
-  from{transform:translateY(-10vh) rotate(0deg);}
-  to{transform:translateY(110vh) rotate(360deg);}
-}
 
 /* ✅ STORY */
 #story{
@@ -205,31 +152,62 @@ body.scroll{ overflow-y:auto; }
   background:#111;
   color:white;
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   text-align:center;
+  position:relative;
+  z-index:2;
 }
 
 .storyBox{
   max-width:600px;
+  padding:20px;
   line-height:1.7;
 }
 
-/* ✅ MOBILE PERFECT CONTROL */
+/* ✅ 🌸 PETALS (FINAL FIX) */
+#petalContainer{
+  position:fixed;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:10;
+}
+
+.petal{
+  position:absolute;
+  width:25px;
+  height:25px;
+
+  /* ✅ ALWAYS VISIBLE fallback */
+  background-color:red;
+
+  /* ✅ REAL PETAL */
+  background-image:url('images/petal.png');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+
+  opacity:0.9;
+
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateY(-10vh) translateX(0) rotate(0deg);
+  }
+  50%{
+    transform:translateY(50vh) translateX(25px) rotate(180deg);
+  }
+  100%{
+    transform:translateY(110vh) translateX(-25px) rotate(360deg);
+  }
+}
+
+/* ✅ MOBILE */
 @media(max-width:768px){
-
-  .tagline{
-    max-width:220px;   /* 🔥 ensures 2 lines */
-  }
-
-  #coupleName{
-    font-size:24px;
-  }
-
-  .names{
-    font-size:30px;
-  }
-
+  .names{font-size:26px;}
 }
 
 </style>
@@ -237,47 +215,42 @@ body.scroll{ overflow-y:auto; }
 
 <body>
 
-<!-- ✅ IMAGE -->
+<div class="section">
+
 <div id="imageContainer">
   <img id="bgImg" src="images/FandH.jpg">
 </div>
 
-<!-- ✅ TEXT -->
 <div id="text">
   <span class="typing">You are exclusively invited 💍</span>
 </div>
 
-<!-- ✅ COUPLE (PERFECT 2 LINES) -->
 <div id="coupleName">
-  <div class="tagline">
-    We are getting<br>
-    married 💍
-  </div>
+  <div class="tagline">We are getting<br>married 💍</div>
   <div class="names">Fathima ❤️ Habeeb</div>
 </div>
 
-<!-- ✅ BUTTON -->
 <button id="btn" onclick="openDoor()">Tap<br>to Open 💍</button>
 
-<!-- ✅ DOOR -->
 <div id="door">
   <div class="side left"></div>
   <div class="side right"></div>
 </div>
 
-<!-- ✅ STORY -->
-<div id="story">
-  <div class="storyBox">
-    <h2>Our Story 💫</h2>
-    <p>It started with a smile…</p>
-    <p>Now it’s forever 💍</p>
-  </div>
 </div>
 
-<!-- ✅ PETALS -->
+<div id="story">
+<div class="storyBox">
+<h2>Our Story 💫</h2>
+<p>Every love story has a beginning… ours began with a simple moment.</p>
+<p>Through smiles and memories, we found something beautiful.</p>
+<p>Now we step into forever together 💖</p>
+<p><b>Join us 💍</b></p>
+</div>
+</div>
+
 <div id="petalContainer"></div>
 
-<!-- ✅ MUSIC -->
 <audio id="music" src="music.mp3" loop></audio>
 
 <script>
@@ -287,11 +260,9 @@ const img=document.getElementById("bgImg");
 const petals=document.getElementById("petalContainer");
 const music=document.getElementById("music");
 
-/* ✅ SHOW BUTTON AFTER TYPING */
-document.querySelector(".typing").addEventListener("animationend",(e)=>{
-  if(e.animationName==="typing"){
-    btn.classList.add("showBtn");
-  }
+/* ✅ SHOW BUTTON */
+document.querySelector(".typing").addEventListener("animationend",()=>{
+  btn.classList.add("showBtn");
 });
 
 /* ✅ OPEN */
@@ -310,13 +281,9 @@ function openDoor(){
   document.getElementById("coupleName").classList.add("showNames");
 
   startPetals();
-
-  setTimeout(()=>{
-    document.getElementById("door").style.display="none";
-  },1800);
 }
 
-/* ✅ PETALS */
+/* ✅ 🌸 PETALS */
 let interval;
 
 function createPetal(){
@@ -340,12 +307,7 @@ function createPetal(){
 
 function startPetals(){
   if(interval) return;
-
-  interval=setInterval(()=>{
-    if(petals.children.length<25){
-      createPetal();
-    }
-  },200);
+  interval=setInterval(createPetal,180);
 }
 
 </script>
