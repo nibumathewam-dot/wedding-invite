@@ -9,109 +9,150 @@ body{
   margin:0;
   overflow:hidden;
   font-family:sans-serif;
-  background:black;
 }
 
 /* ✅ BACKGROUND */
-#mainBg{
+#bg{
   position:fixed;
   width:100%;
   height:100vh;
   background:url('images/FandH.jpg') center/cover no-repeat;
-  filter:blur(20px);
+
+  filter:blur(15px);
   transform:scale(1.1);
-  transition:1.5s ease;
+  transition:2s ease;
+
   z-index:1;
 }
 
-/* ✅ CLEAR IMAGE */
-.clearView #mainBg{
-  filter:blur(0);
-  transform:scale(1);
-}
-
 /* ✅ TEXT */
-.inviteContent{
+#text{
   position:absolute;
-  top:40%;
+  top:45%;
   width:100%;
   text-align:center;
-  z-index:10;
   color:white;
+  z-index:100;
 }
 
-.inviteText{
-  font-size:clamp(22px,6vw,36px);
+/* ✅ SLOW TYPING */
+.typing{
+  display:inline-block;
+  font-size:28px;
+  white-space:nowrap;
+  overflow:hidden;
+  border-right:3px solid white;
+
+  max-width:0;
+
+  animation:
+    typing 5s steps(30,end) forwards,
+    blink 0.7s step-end 5,
+    hideCursor 0.1s forwards 5s;
 }
 
-/* ✅ BUTTON */
-#tapBtn{
+@keyframes typing{
+  from{ max-width:0 }
+  to{ max-width:100% }
+}
+
+@keyframes blink{
+  50%{ border-color:transparent }
+}
+
+@keyframes hideCursor{
+  to{ border-right:none }
+}
+
+/* ✅ GOLD ROUND BUTTON */
+#btn{
   position:absolute;
-  top:60%;
+  top:62%;
   left:50%;
   transform:translateX(-50%);
-  padding:12px 25px;
+
+  width:130px;
+  height:130px;
+  border-radius:50%;
+
   border:none;
-  border-radius:30px;
-  background:#b8962e;
-  color:white;
-  font-size:16px;
   cursor:pointer;
-  z-index:10;
-  display:none;
-  animation:pulse 1.5s infinite;
+
+  background: radial-gradient(circle, #ffd700, #b8962e);
+  color:white;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+
+  font-size:14px;
+  z-index:100;
+
+  opacity:0;
+}
+
+/* ✅ BUTTON ANIMATION */
+.showBtn{
+  animation:
+    fadeIn 1s forwards,
+    pulse 1.6s infinite,
+    glow 2s infinite;
+}
+
+@keyframes fadeIn{
+  to{ opacity:1; }
 }
 
 @keyframes pulse{
-  0%{transform:translateX(-50%) scale(1);}
-  50%{transform:translateX(-50%) scale(1.1);}
-  100%{transform:translateX(-50%) scale(1);}
+  0%{ transform:translateX(-50%) scale(1); }
+  50%{ transform:translateX(-50%) scale(1.12); }
+  100%{ transform:translateX(-50%) scale(1); }
 }
 
-/* ✅ DOOR */
-#doorIntro{
+@keyframes glow{
+  0%{ box-shadow:0 0 10px #b8962e; }
+  50%{ box-shadow:0 0 40px #ffd700; }
+  100%{ box-shadow:0 0 10px #b8962e; }
+}
+
+/* ✅ REALISTIC DOOR */
+#door{
   position:fixed;
   width:100%;
   height:100%;
-  z-index:20;
-  perspective:1500px;
+  display:flex;
+  z-index:10;
+
+  perspective:1400px;
 }
 
-.door{
-  position:absolute;
+.side{
   width:50%;
   height:100%;
-  background:rgba(255,255,255,0.2);
+
+  background:rgba(255,255,255,0.25);
   backdrop-filter:blur(8px);
-  transition:2s ease;
+
+  box-shadow: inset -5px 0 20px rgba(0,0,0,0.5);
+
+  transition:transform 2s cubic-bezier(0.7,0,0.3,1);
 }
 
-.left{ left:0; transform-origin:left;}
-.right{ right:0; transform-origin:right;}
-
-.open .left{ transform:rotateY(-110deg);}
-.open .right{ transform:rotateY(110deg);}
-
-/* ✅ PETALS */
-#petalContainer{
-  position:fixed;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:50;
+.left{
+  transform-origin:left;
 }
 
-.petal{
-  position:absolute;
-  width:20px;
-  height:20px;
-  background:url('images/petal.png') center/contain no-repeat;
-  animation:fall linear forwards;
+.right{
+  transform-origin:right;
 }
 
-@keyframes fall{
-  from{transform:translateY(-10vh);}
-  to{transform:translateY(110vh);}
+.open .left{
+  transform:rotateY(-110deg) translateZ(20px);
+}
+
+.open .right{
+  transform:rotateY(110deg) translateZ(20px);
 }
 </style>
 </head>
@@ -119,77 +160,49 @@ body{
 <body>
 
 <!-- BACKGROUND -->
-<div id="mainBg"></div>
+<div id="bg"></div>
 
 <!-- TEXT -->
-<div class="inviteContent">
-  <h1 class="inviteText">You are exclusively invited 💍</h1>
+<div id="text">
+  <span class="typing">You are exclusively invited 💍</span>
 </div>
 
 <!-- BUTTON -->
-<button id="tapBtn" onclick="openDoor()">Tap to Open 💍</button>
+<button id="btn" onclick="openDoor()">
+  Tap<br>to Open 💍
+</button>
 
 <!-- DOOR -->
-<div id="doorIntro">
-  <div class="door left"></div>
-  <div class="door right"></div>
+<div id="door">
+  <div class="side left"></div>
+  <div class="side right"></div>
 </div>
 
-<!-- PETALS -->
-<div id="petalContainer"></div>
-
-<!-- MUSIC -->
-<audio id="music" loop>
-  music.mp3
-</audio>
-
 <script>
-const btn = document.getElementById("tapBtn");
-const door = document.getElementById("doorIntro");
-const petals = document.getElementById("petalContainer");
-const music = document.getElementById("music");
+const btn = document.getElementById("btn");
 
-/* ✅ SHOW BUTTON AFTER 2s */
+/* ✅ SHOW BUTTON AFTER TYPING */
 setTimeout(()=>{
-  btn.style.display = "block";
-},2000);
+  btn.classList.add("showBtn");
+},5200);
 
 /* ✅ OPEN DOOR */
 function openDoor(){
+
+  btn.classList.remove("showBtn");
+
+  document.getElementById("door").classList.add("open");
+
+  /* ✅ SMOOTH BACKGROUND REVEAL */
+  document.getElementById("bg").style.filter = "blur(0)";
+  document.getElementById("bg").style.transform = "scale(1)";
+
+  document.getElementById("text").style.display="none";
   btn.style.display="none";
 
-  door.classList.add("open");
-
-  document.body.classList.add("clearView");
-
-  music.play().catch(()=>{});
-
-  startPetals();
-
   setTimeout(()=>{
-    door.style.display="none";
-    document.body.style.overflow="auto";
+    document.getElementById("door").style.display="none";
   },2000);
-}
-
-/* ✅ PETALS */
-function createPetal(){
-  const p=document.createElement("div");
-  p.className="petal";
-  p.style.left=Math.random()*100+"vw";
-
-  let size=15+Math.random()*15;
-  p.style.width=size+"px";
-  p.style.height=size+"px";
-  p.style.animationDuration=(3+Math.random()*3)+"s";
-
-  petals.appendChild(p);
-  setTimeout(()=>p.remove(),5000);
-}
-
-function startPetals(){
-  let i=setInterval(createPetal,150);
-  setTimeout(()=>clearInterval(i),15000);
 }
 </script>
 
