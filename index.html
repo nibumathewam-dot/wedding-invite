@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Fathima 💍 Habeeb Wedding</title>
 
 <style>
 body{
   margin:0;
-  font-family:Poppins, sans-serif;
   background:black;
   overflow:hidden;
+  font-family:sans-serif;
 }
 
 /* BACKGROUND */
@@ -19,27 +18,25 @@ body{
   position:relative;
   width:100%;
   height:100vh;
-  overflow:hidden;
 }
 
-.bg-blur, .bg-clear{
+.bg-blur,.bg-clear{
   position:absolute;
   width:100%;
   height:100%;
-  top:0;
-  left:0;
+  top:0;left:0;
   background:url('images/FandH.jpg') center/cover no-repeat;
 }
 
 .bg-blur{
   filter:blur(20px);
-  transform:scale(1.15);
-  transition:2s ease;
+  transform:scale(1.1);
+  transition:1.8s ease;
 }
 
 .bg-clear{
   opacity:0;
-  transition:2s ease;
+  transition:1.8s ease;
 }
 
 .clearView .bg-blur{
@@ -59,16 +56,16 @@ body{
   width:100%;
   text-align:center;
   z-index:2;
+  transition:0.6s;
 }
 
 .inviteText{
   color:white;
-  font-size:clamp(1.3rem,6vw,2.5rem);
+  font-size:clamp(1.5rem,6vw,2.5rem);
   border-right:3px solid white;
-  white-space:nowrap;
   overflow:hidden;
+  white-space:nowrap;
   width:0;
-  margin:auto;
   animation:typing 3s steps(30,end) forwards, blink .6s infinite;
 }
 
@@ -80,62 +77,41 @@ body{
   50%{border-color:transparent}
 }
 
-/* 🚪 BEAST DOOR */
+/* DOOR */
 #doorIntro{
   position:fixed;
   width:100%;
-  height:100vh;
+  height:100%;
   z-index:999;
-  perspective:1600px;
+  perspective:1500px;
 }
 
 .door{
   position:absolute;
   width:50%;
   height:100%;
-  top:0;
-
-  background:linear-gradient(
-    rgba(255,255,255,0.35),
-    rgba(255,255,255,0.1)
-  );
-
+  background:linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0.1));
   backdrop-filter:blur(10px);
-  box-shadow:inset -5px 0 25px rgba(0,0,0,0.5);
-
-  transition:transform 2.2s cubic-bezier(0.7,0,0.3,1);
+  box-shadow:inset -5px 0 25px rgba(0,0,0,0.6);
+  transition:2s cubic-bezier(0.7,0,0.3,1);
 }
 
-.left{
-  left:0;
-  transform-origin:left;
-}
+.left{ left:0; transform-origin:left; }
+.right{ right:0; transform-origin:right; }
 
-.right{
-  right:0;
-  transform-origin:right;
-}
-
-/* GOLD CENTER LINE */
-.left::after, .right::after{
+/* GOLD LINE */
+.left:after,.right:after{
   content:"";
   position:absolute;
   width:2px;
   height:100%;
-  top:0;
-  background:linear-gradient(#f7d774,#b8962e);
+  background:#d4af37;
 }
+.left:after{right:0;}
+.right:after{left:0;}
 
-.left::after{ right:0; }
-.right::after{ left:0; }
-
-/* OPEN */
-.open .left{
-  transform:rotateY(-110deg) translateZ(30px);
-}
-.open .right{
-  transform:rotateY(110deg) translateZ(30px);
-}
+.open .left{transform:rotateY(-110deg);}
+.open .right{transform:rotateY(110deg);}
 
 /* PETALS */
 #petalContainer{
@@ -143,7 +119,6 @@ body{
   width:100%;
   height:100%;
   pointer-events:none;
-  z-index:1000;
 }
 
 .petal{
@@ -153,8 +128,8 @@ body{
 }
 
 @keyframes fall{
-  0%{transform:translateY(-10vh) rotate(0);}
-  100%{transform:translateY(110vh) rotate(360deg);}
+  0%{transform:translateY(-10vh);}
+  100%{transform:translateY(110vh);}
 }
 
 /* HERO */
@@ -175,30 +150,30 @@ section{
 .rsvp-btn{
   margin-top:15px;
   padding:10px 20px;
-  background:#b8962e;
-  color:white;
   border:none;
   border-radius:20px;
+  background:#b8962e;
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO -->
-<audio id="music" loop>
-  music.mp3
+<!-- ✅ MUSIC FIXED -->
+<audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="typingSound">
-  typing.mp3
+<!-- TYPING SOUND -->
+<audio id="typingSound" preload="auto">
+  <source src="typing.mp3" type="audio/mpeg">
 </audio>
 
 <!-- INTRO -->
 <div id="inviteIntro" class="bg">
   <div class="bg-blur"></div>
   <div class="bg-clear"></div>
-
   <div class="inviteContent">
     <h1 class="inviteText">You are exclusively invited 💍</h1>
   </div>
@@ -208,19 +183,16 @@ section{
 <div id="doorIntro" class="bg">
   <div class="bg-blur"></div>
   <div class="bg-clear"></div>
-
   <div class="door left"></div>
   <div class="door right"></div>
 </div>
 
-<!-- PETALS -->
 <div id="petalContainer"></div>
 
 <!-- HERO -->
 <section class="bg">
   <div class="bg-blur"></div>
   <div class="bg-clear"></div>
-
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
@@ -229,81 +201,69 @@ section{
 </section>
 
 <script>
-const inviteIntro=document.getElementById("inviteIntro");
-const doorIntro=document.getElementById("doorIntro");
+const content=document.querySelector(".inviteContent");
+const door=document.getElementById("doorIntro");
+const typing=document.getElementById("typingSound");
 const music=document.getElementById("music");
-const typingSound=document.getElementById("typingSound");
-const petalContainer=document.getElementById("petalContainer");
+const petals=document.getElementById("petalContainer");
 
-/* TRY AUTO */
-typingSound.play().catch(()=>{});
-
-/* UNLOCK ON CLICK */
+/* AUDIO ON FIRST TAP */
 document.body.addEventListener("click",()=>{
-  typingSound.play();
+  typing.play();
   music.play();
 },{once:true});
 
 /* FLOW */
 window.onload=()=>{
+  
+  setTimeout(()=>typing.pause(),3000);
+
   setTimeout(()=>{
-    typingSound.pause();
+    content.style.opacity="0";
   },3000);
 
   setTimeout(()=>{
-    inviteIntro.style.opacity="0";
-
-    setTimeout(()=>{
-      inviteIntro.style.display="none";
-      openDoor();
-    },400);
-
-  },3000);
+    openDoor();
+  },5000);
 };
 
 /* DOOR */
 function openDoor(){
-  doorIntro.classList.add("open");
-
-  /* LIGHT FLASH */
-  document.body.style.background="white";
-  setTimeout(()=>{
-    document.body.style.background="black";
-  },150);
+  door.classList.add("open");
 
   document.querySelectorAll(".bg").forEach(el=>{
     el.classList.add("clearView");
   });
 
+  music.play();
+
   startPetals();
 
   setTimeout(()=>{
-    doorIntro.style.display="none";
+    door.style.display="none";
     document.body.style.overflow="auto";
   },2000);
 }
 
 /* PETALS */
 function createPetal(){
-  const p=document.createElement("div");
+  let p=document.createElement("div");
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
 
   let s=15+Math.random()*20;
   p.style.width=s+"px";
   p.style.height=s+"px";
-  p.style.animationDuration=(3+Math.random()*3)+"s";
 
-  petalContainer.appendChild(p);
-  setTimeout(()=>p.remove(),6000);
+  petals.appendChild(p);
+  setTimeout(()=>p.remove(),5000);
 }
 
 function startPetals(){
-  let i=setInterval(createPetal,150);
+  let i=setInterval(createPetal,200);
   setTimeout(()=>clearInterval(i),15000);
 }
 
-/* RSVP */
 function openRSVP(){
   window.open("rsvp.html","RSVP","width=420,height=650");
 }
