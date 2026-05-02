@@ -23,26 +23,29 @@ body {
   overflow: hidden;
 }
 
+/* BLUR IMAGE */
 .bg-blur {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url('images/FandH.jpg') center/cover no-repeat;
   filter: blur(25px);
-  transform: scale(1.2);
-  transition: all 1.5s ease;
+  transform: scale(1.3);
+  transition: all 2s ease;
 }
 
+/* CLEAR IMAGE */
 .bg-clear {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url('images/FandH.jpg') center center / contain no-repeat;
+  background: url('images/FandH.jpg') center/contain no-repeat;
   background-color: black;
   opacity: 0;
-  transition: opacity 1.5s ease;
+  transition: opacity 2s ease;
 }
 
+/* AFTER DOOR OPEN */
 .clearView .bg-blur {
   filter: blur(0);
   transform: scale(1);
@@ -52,14 +55,14 @@ body {
   opacity: 1;
 }
 
-/* INTRO TEXT */
+/* TEXT */
 .inviteContent {
   position: absolute;
-  z-index: 2;
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
   text-align: center;
+  z-index: 2;
 }
 
 .inviteText {
@@ -70,10 +73,10 @@ body {
   overflow: hidden;
   width: 0;
   margin: auto;
-  animation: typing 3s steps(30,end) forwards, blink 0.8s infinite;
+  animation: typing 3s steps(30,end) forwards, blink .7s infinite;
 }
 
-@keyframes typing { from{width:0} to{width:100%} }
+@keyframes typing { from {width:0} to {width:100%} }
 @keyframes blink { 50%{border-color:transparent} }
 
 /* DOOR */
@@ -89,12 +92,12 @@ body {
   position: absolute;
   width: 50%;
   height: 100%;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(8px);
   transition: transform 2s ease;
 }
 
-.left { left: 0; transform-origin:left; }
+.left { left:0; transform-origin:left; }
 .right { right:0; transform-origin:right; }
 
 .open .left { transform: rotateY(-100deg); }
@@ -106,22 +109,23 @@ body {
   width:100%;
   height:100%;
   pointer-events:none;
+  z-index: 1000;
 }
 
 .petal {
   position:absolute;
-  background:url('images/petal.png') no-repeat center/contain;
+  background:url('images/petal.png') center/contain no-repeat;
   width:20px;
   height:20px;
   animation:fall linear forwards;
 }
 
 @keyframes fall {
-  from { transform: translateY(-10vh); }
-  to { transform: translateY(110vh); }
+  0% { transform: translateY(-10vh) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
 }
 
-/* CONTENT */
+/* SECTION */
 section {
   height:100vh;
   display:flex;
@@ -151,6 +155,9 @@ h1 { color:#b8962e; }
 </head>
 
 <body>
+
+<!-- MUSIC -->
+<audio id="music" src="music.mp3" loop></audio>
 
 <!-- INTRO -->
 <div id="inviteIntro" class="bg">
@@ -186,28 +193,25 @@ h1 { color:#b8962e; }
   </div>
 </section>
 
-<!-- VENUE -->
-<section>
-  <div class="overlay">
-    <h1>Wedding</h1>
-    <p>May 26, 2026</p>
-    <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">View Venue 📍</a>
-  </div>
-</section>
-
 <script>
 const inviteIntro = document.getElementById("inviteIntro");
 const doorIntro = document.getElementById("doorIntro");
+const music = document.getElementById("music");
 const petalContainer = document.getElementById("petalContainer");
 
-/* INTRO REMOVE */
-window.onload = () => {
-  setTimeout(() => {
+/* MUSIC FIX (mobile safe) */
+document.body.addEventListener("click", () => {
+  music.play().catch(()=>{});
+}, { once:true });
+
+/* INTRO */
+window.onload = ()=>{
+  setTimeout(()=>{
     inviteIntro.style.display="none";
   },4000);
 };
 
-/* DOOR + CLEAR IMAGE */
+/* DOOR + CLEAR */
 function openDoor(){
   doorIntro.classList.add("open");
 
@@ -215,16 +219,12 @@ function openDoor(){
     el.classList.add("clearView");
   });
 
+  startPetals();
+
   setTimeout(()=>{
     doorIntro.style.display="none";
-    startPetals();
     document.body.style.overflow="auto";
   },2000);
-}
-
-/* RSVP */
-function openRSVP(){
-  window.open("rsvp.html","RSVP","width=420,height=650");
 }
 
 /* PETALS */
@@ -232,13 +232,22 @@ function createPetal(){
   const p=document.createElement("div");
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
+  p.style.width=(15+Math.random()*20)+"px";
+  p.style.height=p.style.width;
+  p.style.animationDuration=(3+Math.random()*3)+"s";
+
   petalContainer.appendChild(p);
-  setTimeout(()=>p.remove(),5000);
+  setTimeout(()=>p.remove(),6000);
 }
 
 function startPetals(){
-  let i=setInterval(createPetal,200);
-  setTimeout(()=>clearInterval(i),15000);
+  let interval=setInterval(createPetal,200);
+  setTimeout(()=>clearInterval(interval),15000);
+}
+
+/* RSVP */
+function openRSVP(){
+  window.open("rsvp.html","RSVP","width=420,height=650");
 }
 </script>
 
