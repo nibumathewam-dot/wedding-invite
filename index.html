@@ -32,12 +32,14 @@ body.scroll{
   display:block;
 
   filter:blur(15px);
+  transform:scale(1.05);
   transition:2s ease;
 }
 
 /* CLEAR IMAGE */
 .clear{
   filter:blur(0)!important;
+  transform:scale(1) !important;
 }
 
 /* TEXT */
@@ -88,12 +90,15 @@ body.scroll{
   height:130px;
   border-radius:50%;
   border:none;
+
   background:radial-gradient(circle,#ffd700,#b8962e);
   color:white;
+
   display:flex;
   justify-content:center;
   align-items:center;
   text-align:center;
+
   font-size:14px;
   cursor:pointer;
   z-index:2000;
@@ -104,19 +109,19 @@ body.scroll{
   animation:fadeIn 1s forwards, pulse 1.6s infinite, glow 2s infinite;
 }
 
-@keyframes fadeIn{to{opacity:1;}}
+@keyframes fadeIn{to{opacity:1}}
 @keyframes pulse{
-  0%{transform:translateX(-50%) scale(1);}
-  50%{transform:translateX(-50%) scale(1.12);}
-  100%{transform:translateX(-50%) scale(1);}
+  0%{transform:translateX(-50%) scale(1)}
+  50%{transform:translateX(-50%) scale(1.12)}
+  100%{transform:translateX(-50%) scale(1)}
 }
 @keyframes glow{
-  0%{box-shadow:0 0 10px #b8962e;}
-  50%{box-shadow:0 0 40px #ffd700;}
-  100%{box-shadow:0 0 10px #b8962e;}
+  0%{box-shadow:0 0 10px #b8962e}
+  50%{box-shadow:0 0 40px #ffd700}
+  100%{box-shadow:0 0 10px #b8962e}
 }
 
-/* DOOR */
+/* ✅ REALISTIC DOOR */
 #door{
   position:fixed;
   width:100%;
@@ -129,18 +134,27 @@ body.scroll{
 .side{
   width:50%;
   height:100%;
+
   background:rgba(255,255,255,0.25);
   backdrop-filter:blur(8px);
-  transition:transform 2s ease;
+
+  box-shadow: inset -5px 0 25px rgba(0,0,0,0.6);
+
+  transition:transform 1.8s cubic-bezier(0.7,0,0.3,1);
 }
 
 .left{transform-origin:left;}
 .right{transform-origin:right;}
 
-.open .left{transform:rotateY(-110deg);}
-.open .right{transform:rotateY(110deg);}
+.open .left{
+  transform:rotateY(-110deg) translateZ(20px);
+}
 
-/* 🌹 PETALS (FIXED VISIBLE) */
+.open .right{
+  transform:rotateY(110deg) translateZ(20px);
+}
+
+/* 🌹 PETALS */
 #petalContainer{
   position:fixed;
   top:0;
@@ -154,7 +168,7 @@ body.scroll{
 .petal{
   position:absolute;
   background:url('images/petal.png') center/contain no-repeat;
-  opacity:0.95;
+  opacity:0.9;
   animation:fall linear forwards;
 }
 
@@ -167,31 +181,25 @@ body.scroll{
 
 <body>
 
-<!-- IMAGE -->
 <div id="imageContainer">
   <img id="bgImg" src="images/FandH.jpg">
 </div>
 
-<!-- TEXT -->
 <div id="text">
   <span class="typing">You are exclusively invited 💍</span>
 </div>
 
-<!-- BUTTON -->
 <button id="btn" onclick="openDoor()">
   Tap<br>to Open 💍
 </button>
 
-<!-- DOOR -->
 <div id="door">
   <div class="side left"></div>
   <div class="side right"></div>
 </div>
 
-<!-- PETALS -->
 <div id="petalContainer"></div>
 
-<!-- MUSIC -->
 <audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -230,26 +238,25 @@ function openDoor(){
 
   setTimeout(()=>{
     document.getElementById("door").style.display="none";
-  },2000);
+  },1800);  // ✅ FIXED timing
 }
 
-/* ✅ CREATE SMOOTH PETAL */
+/* PETALS */
 function createPetal(){
   let p=document.createElement("div");
   p.className="petal";
 
   p.style.left=Math.random()*100+"vw";
 
-  let size=15+Math.random()*30;
+  let size=15+Math.random()*20;
   p.style.width=size+"px";
   p.style.height=size+"px";
 
-  let duration=5+Math.random()*4;
+  let duration=5+Math.random()*3;
   p.style.animationDuration=duration+"s";
 
   petals.appendChild(p);
 
-  /* ✅ REMOVE CLEANLY AFTER FALL */
   setTimeout(()=>{
     if(p.parentNode){
       p.remove();
@@ -257,23 +264,18 @@ function createPetal(){
   },duration*1000);
 }
 
-/* ✅ TRUE INFINITE + NO LAG */
+/* ✅ INFINITE + CONTROLLED */
 let petalInterval;
 
 function startPetals(){
 
-  if(petalInterval) return;   // ✅ prevents duplicate intervals
+  if(petalInterval) return;
 
   petalInterval=setInterval(()=>{
-
-    /* ✅ limit max petals (avoid lag) */
-    if(petals.children.length > 60){
-      return;
+    if(petals.children.length < 50){
+      createPetal();
     }
-
-    createPetal();
-
-  },150);
+  },180);
 }
 </script>
 
