@@ -12,16 +12,11 @@ body{
   overflow:hidden;
   background:black;
 }
-
-body.scroll{
-  overflow-y:auto;
-}
+body.scroll{ overflow-y:auto; }
 
 /* ✅ IMAGE */
 #imageContainer{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100vh;
   overflow:hidden;
@@ -32,7 +27,6 @@ body.scroll{
   width:100%;
   height:100%;
   object-fit:cover;
-  display:block;
   filter:blur(15px);
   transform:scale(1.05);
   transition:2s ease;
@@ -71,11 +65,72 @@ body.scroll{
   from{max-width:0}
   to{max-width:100%}
 }
-@keyframes blink{
-  50%{border-color:transparent}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes hideCursor{to{border-right:none}}
+
+/* ✅ PREMIUM BOX */
+#coupleName{
+  position:absolute;
+  top:30%;
+  left:50%;
+  transform:translate(-50%,20px);
+  text-align:center;
+
+  font-size:32px;
+  font-family:Georgia, serif;
+  letter-spacing:2px;
+  color:#ffd700;
+
+  padding:22px 35px;
+  border-radius:22px;
+
+  background:rgba(255,255,255,0.10);
+  backdrop-filter:blur(12px);
+
+  border:1px solid rgba(255,255,255,0.35);
+
+  text-shadow:
+    0 0 10px rgba(255,215,0,0.8),
+    0 0 30px rgba(255,215,0,0.6);
+
+  box-shadow:
+    0 0 25px rgba(0,0,0,0.6),
+    inset 0 0 15px rgba(255,255,255,0.15);
+
+  z-index:2000;
+  opacity:0;
 }
-@keyframes hideCursor{
-  to{border-right:none}
+
+.names{
+  font-size:40px;
+  color:white;
+  margin-top:8px;
+
+  text-shadow:
+    0 0 20px #ffd700,
+    0 0 40px #ffd700;
+}
+
+.showNames{
+  animation:
+    fadeIn 2s forwards,
+    float 4s infinite,
+    glow 2.5s infinite;
+}
+
+@keyframes fadeIn{
+  to{opacity:1; transform:translate(-50%,0);}
+}
+
+@keyframes float{
+  0%,100%{transform:translate(-50%,0)}
+  50%{transform:translate(-50%,-10px)}
+}
+
+@keyframes glow{
+  0%{box-shadow:0 0 15px #ffd700;}
+  50%{box-shadow:0 0 60px #ffd700;}
+  100%{box-shadow:0 0 15px #ffd700;}
 }
 
 /* ✅ BUTTON */
@@ -88,42 +143,32 @@ body.scroll{
   height:130px;
   border-radius:50%;
   border:none;
-
   background:radial-gradient(circle,#ffd700,#b8962e);
   color:white;
 
   display:flex;
   justify-content:center;
   align-items:center;
-  text-align:center;
 
-  font-size:14px;
   cursor:pointer;
   z-index:2000;
   opacity:0;
 }
 
 .showBtn{
-  animation:fadeIn 1s forwards, pulse 1.6s infinite, glow 2s infinite;
+  animation:fadeBtn 1s forwards,pulse 1.6s infinite;
 }
 
-@keyframes fadeIn{to{opacity:1}}
+@keyframes fadeBtn{to{opacity:1}}
 @keyframes pulse{
   0%{transform:translateX(-50%) scale(1)}
-  50%{transform:translateX(-50%) scale(1.12)}
+  50%{transform:translateX(-50%) scale(1.1)}
   100%{transform:translateX(-50%) scale(1)}
-}
-@keyframes glow{
-  0%{box-shadow:0 0 10px #b8962e}
-  50%{box-shadow:0 0 40px #ffd700}
-  100%{box-shadow:0 0 10px #b8962e}
 }
 
 /* ✅ DOOR */
 #door{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   display:flex;
@@ -134,58 +179,16 @@ body.scroll{
 .side{
   width:50%;
   height:100vh;
-  background:rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.2);
   backdrop-filter:blur(8px);
-  box-shadow: inset -5px 0 25px rgba(0,0,0,0.6);
-  transition:transform 1.8s cubic-bezier(0.7,0,0.3,1);
+  transition:1.8s;
 }
 
 .left{transform-origin:left;}
 .right{transform-origin:right;}
 
-.open .left{
-  transform:rotateY(-110deg);
-}
-.open .right{
-  transform:rotateY(110deg);
-}
-
-/* ✅ PETALS */
-#petalContainer{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:9999;
-}
-
-.petal{
-  position:absolute;
-  background:url('images/petal.png') center/contain no-repeat;
-  animation:fall linear forwards;
-}
-
-@keyframes fall{
-  from{transform:translateY(-10vh);}
-  to{transform:translateY(110vh);}
-}
-
-/* ✅ MOBILE FIX */
-@media(max-width:768px){
-
-  #text{ top:35%; }
-
-  .typing{ font-size:22px; }
-
-  #btn{
-    width:110px;
-    height:110px;
-    top:60%;
-  }
-
-}
+.open .left{transform:rotateY(-110deg);}
+.open .right{transform:rotateY(110deg);}
 
 </style>
 </head>
@@ -202,6 +205,12 @@ body.scroll{
   <span class="typing">You are exclusively invited 💍</span>
 </div>
 
+<!-- ✅ COUPLE BOX -->
+<div id="coupleName">
+  <div>We are getting married</div>
+  <div class="names">Fathima ❤️ Habeeb</div>
+</div>
+
 <!-- ✅ BUTTON -->
 <button id="btn" onclick="openDoor()">Tap<br>to Open 💍</button>
 
@@ -211,77 +220,39 @@ body.scroll{
   <div class="side right"></div>
 </div>
 
-<!-- ✅ PETALS -->
-<div id="petalContainer"></div>
-
 <!-- ✅ MUSIC -->
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+<audio id="music" src="music.mp3"></audio>
 
 <script>
+
 const btn=document.getElementById("btn");
 const img=document.getElementById("bgImg");
-const petals=document.getElementById("petalContainer");
 const music=document.getElementById("music");
 
-/* SHOW BUTTON */
-setTimeout(()=>{
+/* ✅ SHOW BUTTON */
+document.querySelector(".typing").addEventListener("animationend",()=>{
   btn.classList.add("showBtn");
-},5200);
+});
 
-/* OPEN DOOR */
+/* ✅ OPEN DOOR */
 function openDoor(){
-
-  document.getElementById("door").classList.add("open");
 
   music.play().catch(()=>{});
 
-  img.classList.add("clear");
+  document.getElementById("door").classList.add("open");
 
-  document.body.classList.add("scroll");
+  img.classList.add("clear");
 
   document.getElementById("text").style.display="none";
   btn.style.display="none";
 
-  startPetals();
+  document.getElementById("coupleName").classList.add("showNames");
 
   setTimeout(()=>{
     document.getElementById("door").style.display="none";
   },1800);
 }
 
-/* PETALS */
-function createPetal(){
-  let p=document.createElement("div");
-  p.className="petal";
-
-  p.style.left=Math.random()*100+"vw";
-  p.style.top="-30px";
-
-  let size=20+Math.random()*25;
-  p.style.width=size+"px";
-  p.style.height=size+"px";
-
-  let duration=4+Math.random()*3;
-  p.style.animationDuration=duration+"s";
-
-  petals.appendChild(p);
-
-  setTimeout(()=>p.remove(),duration*1000);
-}
-
-let interval;
-
-function startPetals(){
-  if(interval) return;
-
-  interval=setInterval(()=>{
-    if(petals.children.length<40){
-      createPetal();
-    }
-  },200);
-}
 </script>
 
 </body>
