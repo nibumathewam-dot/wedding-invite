@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fathima 💍 Habeeb Wedding</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
+https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap
 
 <style>
 body {
@@ -23,22 +23,20 @@ body {
   overflow: hidden;
 }
 
-/* ✅ BOTH now use COVER (important) */
-.bg-blur {
+.bg-blur, .bg-clear {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url('images/FandH.jpg') center/cover no-repeat;
+}
+
+.bg-blur {
   filter: blur(25px);
   transform: scale(1.25);
   transition: all 2s ease;
 }
 
 .bg-clear {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url('images/FandH.jpg') center/cover no-repeat;
   opacity: 0;
   transition: opacity 2s ease;
 }
@@ -52,7 +50,7 @@ body {
   opacity: 1;
 }
 
-/* TEXT */
+/* INVITE TEXT */
 .inviteContent {
   position: absolute;
   top: 50%;
@@ -120,7 +118,7 @@ body {
 .petal {
   position:absolute;
   background:url('images/petal.png') center/contain no-repeat;
-  animation:fall linear forwards;
+  animation: fall linear forwards;
 }
 
 @keyframes fall {
@@ -137,7 +135,7 @@ section {
 }
 
 .overlay {
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   padding: 20px;
   border-radius: 15px;
   text-align:center;
@@ -161,7 +159,12 @@ h1 { color:#b8962e; }
 
 <!-- MUSIC -->
 <audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
+  music.mp3
+</audio>
+
+<!-- TYPING SOUND -->
+<audio id="typingSound" preload="auto">
+  typing.mp3
 </audio>
 
 <!-- INTRO -->
@@ -179,8 +182,8 @@ h1 { color:#b8962e; }
   <div class="bg-blur"></div>
   <div class="bg-clear"></div>
 
-  <div class="door left" onclick="openDoor()"></div>
-  <div class="door right" onclick="openDoor()"></div>
+  <div class="door left"></div>
+  <div class="door right"></div>
 </div>
 
 <!-- PETALS -->
@@ -202,21 +205,35 @@ h1 { color:#b8962e; }
 const inviteIntro = document.getElementById("inviteIntro");
 const doorIntro = document.getElementById("doorIntro");
 const music = document.getElementById("music");
+const typingSound = document.getElementById("typingSound");
 const petalContainer = document.getElementById("petalContainer");
 
-/* MUSIC */
+/* START AUDIO ON FIRST TOUCH */
 document.body.addEventListener("click", () => {
   music.play().catch(()=>{});
+  typingSound.play().catch(()=>{});
 }, { once:true });
 
-/* INTRO */
-window.onload = ()=>{
+/* AUTO FLOW */
+window.onload = () => {
+
+  // stop typing sound after typing completes
   setTimeout(()=>{
-    inviteIntro.style.display="none";
-  },4000);
+    typingSound.pause();
+    typingSound.currentTime = 0;
+  },3000);
+
+  // remove intro + open door immediately
+  setTimeout(()=>{
+    inviteIntro.style.opacity = "0";
+    setTimeout(()=>{
+      inviteIntro.style.display="none";
+      openDoor();
+    },500);
+  },3000);
 };
 
-/* DOOR */
+/* DOOR + CLEAR */
 function openDoor(){
   doorIntro.classList.add("open");
 
@@ -248,8 +265,8 @@ function createPetal(){
 }
 
 function startPetals(){
-  let interval=setInterval(createPetal,200);
-  setTimeout(()=>clearInterval(interval),15000);
+  let i=setInterval(createPetal,200);
+  setTimeout(()=>clearInterval(i),15000);
 }
 
 /* RSVP */
