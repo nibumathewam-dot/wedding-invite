@@ -2,47 +2,61 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wedding Invite</title>
 
 <style>
 body{
   margin:0;
-  overflow:hidden;
   font-family:sans-serif;
+  overflow:hidden;
+  background:black;
 }
 
-/* ✅ BACKGROUND */
-#bg{
+/* ENABLE SCROLL AFTER OPEN */
+body.scroll{
+  overflow:auto;
+}
+
+/* IMAGE CONTAINER */
+#imageContainer{
   position:fixed;
   width:100%;
   height:100vh;
-  background:url('images/FandH.jpg') center/cover no-repeat;
-
-  filter:blur(15px);
-  transform:scale(1.1);
-  transition:2s ease;
-
+  overflow:hidden;
   z-index:1;
 }
 
-/* ✅ TEXT */
+/* IMAGE */
+#bgImg{
+  width:100%;
+  height:auto;
+  display:block;
+
+  filter:blur(15px);
+  transition:2s ease;
+}
+
+/* CLEAR IMAGE */
+.clear{
+  filter:blur(0)!important;
+}
+
+/* TEXT */
 #text{
   position:absolute;
-  top:45%;
+  top:40%;
   width:100%;
   text-align:center;
   color:white;
-  z-index:100;
+  z-index:2000;
 }
 
-/* ✅ SLOW TYPING */
+/* TYPING */
 .typing{
   display:inline-block;
   font-size:28px;
   white-space:nowrap;
   overflow:hidden;
   border-right:3px solid white;
-
   max-width:0;
 
   animation:
@@ -52,115 +66,111 @@ body{
 }
 
 @keyframes typing{
-  from{ max-width:0 }
-  to{ max-width:100% }
+  from{max-width:0}
+  to{max-width:100%}
 }
 
 @keyframes blink{
-  50%{ border-color:transparent }
+  50%{border-color:transparent}
 }
 
 @keyframes hideCursor{
-  to{ border-right:none }
+  to{border-right:none}
 }
 
-/* ✅ GOLD ROUND BUTTON */
+/* BUTTON */
 #btn{
   position:absolute;
   top:62%;
   left:50%;
   transform:translateX(-50%);
-
   width:130px;
   height:130px;
   border-radius:50%;
-
   border:none;
-  cursor:pointer;
-
-  background: radial-gradient(circle, #ffd700, #b8962e);
+  background:radial-gradient(circle,#ffd700,#b8962e);
   color:white;
-
   display:flex;
   justify-content:center;
   align-items:center;
   text-align:center;
-
   font-size:14px;
-  z-index:100;
-
+  cursor:pointer;
+  z-index:2000;
   opacity:0;
 }
 
-/* ✅ BUTTON ANIMATION */
 .showBtn{
-  animation:
-    fadeIn 1s forwards,
-    pulse 1.6s infinite,
-    glow 2s infinite;
+  animation:fadeIn 1s forwards, pulse 1.6s infinite, glow 2s infinite;
 }
 
-@keyframes fadeIn{
-  to{ opacity:1; }
-}
-
+@keyframes fadeIn{to{opacity:1;}}
 @keyframes pulse{
-  0%{ transform:translateX(-50%) scale(1); }
-  50%{ transform:translateX(-50%) scale(1.12); }
-  100%{ transform:translateX(-50%) scale(1); }
+  0%{transform:translateX(-50%) scale(1);}
+  50%{transform:translateX(-50%) scale(1.12);}
+  100%{transform:translateX(-50%) scale(1);}
 }
-
 @keyframes glow{
-  0%{ box-shadow:0 0 10px #b8962e; }
-  50%{ box-shadow:0 0 40px #ffd700; }
-  100%{ box-shadow:0 0 10px #b8962e; }
+  0%{box-shadow:0 0 10px #b8962e;}
+  50%{box-shadow:0 0 40px #ffd700;}
+  100%{box-shadow:0 0 10px #b8962e;}
 }
 
-/* ✅ REALISTIC DOOR */
+/* DOOR */
 #door{
   position:fixed;
   width:100%;
   height:100%;
   display:flex;
-  z-index:10;
-
+  z-index:1000;
   perspective:1400px;
 }
 
 .side{
   width:50%;
   height:100%;
-
   background:rgba(255,255,255,0.25);
   backdrop-filter:blur(8px);
-
-  box-shadow: inset -5px 0 20px rgba(0,0,0,0.5);
-
-  transition:transform 2s cubic-bezier(0.7,0,0.3,1);
+  transition:transform 2s ease;
 }
 
-.left{
-  transform-origin:left;
+.left{transform-origin:left;}
+.right{transform-origin:right;}
+
+.open .left{transform:rotateY(-110deg);}
+.open .right{transform:rotateY(110deg);}
+
+/* 🌹 PETALS (FIXED VISIBLE) */
+#petalContainer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:9999;
 }
 
-.right{
-  transform-origin:right;
+.petal{
+  position:absolute;
+  background:url('images/petal.png') center/contain no-repeat;
+  opacity:0.95;
+  animation:fall linear forwards;
 }
 
-.open .left{
-  transform:rotateY(-110deg) translateZ(20px);
-}
-
-.open .right{
-  transform:rotateY(110deg) translateZ(20px);
+@keyframes fall{
+  from{transform:translateY(-10vh);}
+  to{transform:translateY(110vh);}
 }
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND -->
-<div id="bg"></div>
+<!-- IMAGE -->
+<div id="imageContainer">
+  <img id="bgImg" src="images/FandH.jpg">
+</div>
 
 <!-- TEXT -->
 <div id="text">
@@ -178,31 +188,92 @@ body{
   <div class="side right"></div>
 </div>
 
-<script>
-const btn = document.getElementById("btn");
+<!-- PETALS -->
+<div id="petalContainer"></div>
 
-/* ✅ SHOW BUTTON AFTER TYPING */
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const btn=document.getElementById("btn");
+const img=document.getElementById("bgImg");
+const petals=document.getElementById("petalContainer");
+const music=document.getElementById("music");
+
+/* SHOW BUTTON */
 setTimeout(()=>{
   btn.classList.add("showBtn");
 },5200);
 
-/* ✅ OPEN DOOR */
+/* OPEN DOOR */
 function openDoor(){
 
   btn.classList.remove("showBtn");
 
   document.getElementById("door").classList.add("open");
 
-  /* ✅ SMOOTH BACKGROUND REVEAL */
-  document.getElementById("bg").style.filter = "blur(0)";
-  document.getElementById("bg").style.transform = "scale(1)";
+  music.play().catch(()=>{});
+
+  img.classList.add("clear");
+
+  document.body.classList.add("scroll");
+
+  document.getElementById("imageContainer").style.position="relative";
+  document.getElementById("imageContainer").style.height="auto";
 
   document.getElementById("text").style.display="none";
   btn.style.display="none";
 
+  startPetals();
+
   setTimeout(()=>{
     document.getElementById("door").style.display="none";
   },2000);
+}
+
+/* ✅ CREATE SMOOTH PETAL */
+function createPetal(){
+  let p=document.createElement("div");
+  p.className="petal";
+
+  p.style.left=Math.random()*100+"vw";
+
+  let size=15+Math.random()*30;
+  p.style.width=size+"px";
+  p.style.height=size+"px";
+
+  let duration=5+Math.random()*4;
+  p.style.animationDuration=duration+"s";
+
+  petals.appendChild(p);
+
+  /* ✅ REMOVE CLEANLY AFTER FALL */
+  setTimeout(()=>{
+    if(p.parentNode){
+      p.remove();
+    }
+  },duration*1000);
+}
+
+/* ✅ TRUE INFINITE + NO LAG */
+let petalInterval;
+
+function startPetals(){
+
+  if(petalInterval) return;   // ✅ prevents duplicate intervals
+
+  petalInterval=setInterval(()=>{
+
+    /* ✅ limit max petals (avoid lag) */
+    if(petals.children.length > 60){
+      return;
+    }
+
+    createPetal();
+
+  },150);
 }
 </script>
 
