@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wedding Invite</title>
 
 <style>
 body{
@@ -12,32 +11,23 @@ body{
   background:black;
 }
 
-/* ✅ ONLY ONE IMAGE IN ENTIRE SITE */
+/* ✅ SINGLE BACKGROUND */
 #mainBg{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100vh;
-
   background:url('images/FandH.jpg') 50% 30% / cover no-repeat;
-
   filter:blur(20px);
   transform:scale(1.1);
-
   transition:1.5s ease;
   z-index:1;
 }
 
-/* ✅ DESKTOP FIX */
 @media (min-width:1024px){
-  #mainBg{
-    background-position:center top;
-  }
+  #mainBg{ background-position:center top; }
 }
 
-/* ✅ CLEAR AFTER DOOR */
-.clearView #mainBg{
+body.clearView #mainBg{
   filter:blur(0);
   transform:scale(1);
 }
@@ -45,12 +35,10 @@ body{
 /* TEXT */
 .inviteContent{
   position:absolute;
-  top:50%;
-  transform:translateY(-50%);
+  top:40%;
   width:100%;
   text-align:center;
   z-index:5;
-  transition:.6s;
 }
 
 .inviteText{
@@ -60,6 +48,7 @@ body{
   white-space:nowrap;
   overflow:hidden;
   width:0;
+  margin:auto;
   animation:typing 3s steps(30,end) forwards, blink .6s infinite;
 }
 
@@ -71,7 +60,33 @@ body{
   50%{border-color:transparent}
 }
 
-/* ✅ DOOR */
+/* ✅ TAP BUTTON */
+.tapBtn{
+  position:absolute;
+  top:60%;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 25px;
+  border-radius:30px;
+  background:#b8962e;
+  color:white;
+  border:none;
+  font-size:16px;
+  cursor:pointer;
+
+  opacity:0;
+  transition:0.5s;
+
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:translateX(-50%) scale(1);}
+  50%{transform:translateX(-50%) scale(1.1);}
+  100%{transform:translateX(-50%) scale(1);}
+}
+
+/* DOOR */
 #doorIntro{
   position:fixed;
   width:100%;
@@ -84,7 +99,7 @@ body{
   position:absolute;
   width:50%;
   height:100%;
-  background:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.25);
   backdrop-filter:blur(10px);
   transition:2s ease;
 }
@@ -95,7 +110,7 @@ body{
 .open .left{ transform:rotateY(-110deg);}
 .open .right{ transform:rotateY(110deg);}
 
-/* ✅ PETALS */
+/* PETALS */
 #petalContainer{
   position:fixed;
   width:100%;
@@ -127,14 +142,13 @@ section{
   background:rgba(255,255,255,0.85);
   padding:20px;
   border-radius:15px;
-  z-index:5;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ✅ SINGLE IMAGE ONLY -->
+<!-- BACKGROUND -->
 <div id="mainBg"></div>
 
 <!-- MUSIC -->
@@ -146,6 +160,11 @@ section{
 <div class="inviteContent">
   <h1 class="inviteText">You are exclusively invited 💍</h1>
 </div>
+
+<!-- ✅ TAP BUTTON -->
+<button id="tapBtn" class="tapBtn" onclick="openDoor()">
+  Tap to Open 💍
+</button>
 
 <!-- DOOR -->
 <div id="doorIntro">
@@ -164,39 +183,29 @@ section{
 </section>
 
 <script>
-const content=document.querySelector(".inviteContent");
+const tapBtn=document.getElementById("tapBtn");
 const door=document.getElementById("doorIntro");
 const music=document.getElementById("music");
 const petals=document.getElementById("petalContainer");
 
-/* ENABLE MUSIC */
-document.body.addEventListener("click",()=>{
-  music.play().catch(()=>{});
-},{once:true});
-
-/* FLOW */
+/* SHOW BUTTON AFTER TEXT */
 window.onload=()=>{
-
-  // Fade text
   setTimeout(()=>{
-    content.style.opacity="0";
+    tapBtn.style.opacity="1";
   },3000);
-
-  // Pause 2 sec
-  setTimeout(()=>{
-    openDoor();
-  },5000);
 };
 
-/* DOOR */
+/* CLICK → OPEN DOOR */
 function openDoor(){
+
+  tapBtn.style.display="none";
 
   door.classList.add("open");
 
-  // ✅ REMOVE BLUR (same image)
   document.body.classList.add("clearView");
 
   music.play().catch(()=>{});
+
   startPetals();
 
   setTimeout(()=>{
@@ -214,6 +223,7 @@ function createPetal(){
   let s=15+Math.random()*20;
   p.style.width=s+"px";
   p.style.height=s+"px";
+  p.style.animationDuration=(3+Math.random()*3)+"s";
 
   petals.appendChild(p);
   setTimeout(()=>p.remove(),5000);
