@@ -32,7 +32,6 @@ body.scroll{ overflow-y:auto; }
   transform:scale(1.05);
   transition:2s ease;
 }
-
 .clear{
   filter:blur(0)!important;
   transform:scale(1)!important;
@@ -80,6 +79,7 @@ body.scroll{ overflow-y:auto; }
   left:50%;
   transform:translate(-50%,20px);
   text-align:center;
+
   font-size:32px;
   color:#ffd700;
 
@@ -93,12 +93,19 @@ body.scroll{ overflow-y:auto; }
   opacity:0;
 }
 
+/* ✅ FORCE 2 LINES */
+.tagline{
+  line-height:1.4;
+}
+
+/* ✅ NAMES */
 .names{
   font-size:40px;
   color:white;
   margin-top:8px;
 }
 
+/* ✅ ANIMATION */
 .showNames{
   animation:fadeIn 2s forwards;
 }
@@ -179,7 +186,7 @@ body.scroll{ overflow-y:auto; }
   width:25px;
   height:25px;
 
-  background-image:url('images/petal.png'); /* ✅ transparent PNG */
+  background-image:url('images/petal.png'); /* use transparent png */
   background-size:contain;
   background-repeat:no-repeat;
 
@@ -191,7 +198,7 @@ body.scroll{ overflow-y:auto; }
   to{transform:translateY(110vh) rotate(360deg);}
 }
 
-/* ✅ STORY PAGE */
+/* ✅ STORY */
 #story{
   height:100vh;
   background:#111;
@@ -205,6 +212,12 @@ body.scroll{ overflow-y:auto; }
 .storyBox{
   max-width:600px;
   line-height:1.7;
+}
+
+/* ✅ MOBILE FIX */
+@media(max-width:768px){
+  #coupleName{ font-size:26px; }
+  .names{ font-size:32px; }
 }
 
 </style>
@@ -222,9 +235,11 @@ body.scroll{ overflow-y:auto; }
   <span class="typing">You are exclusively invited 💍</span>
 </div>
 
-<!-- ✅ NAMES -->
+<!-- ✅ COUPLE TEXT (FORCED 2 LINES) -->
 <div id="coupleName">
-  <div>We are getting married</div>
+  <div class="tagline">
+    We are getting<br>married 💍
+  </div>
   <div class="names">Fathima ❤️ Habeeb</div>
 </div>
 
@@ -282,11 +297,10 @@ function openDoor(){
   },1800);
 }
 
-/* ✅ PETAL LOGIC */
+/* ✅ PETALS */
 let interval;
 
 function createPetal(){
-
   let p=document.createElement("div");
   p.className="petal";
 
@@ -300,7 +314,6 @@ function createPetal(){
   p.style.animationDuration=duration+"s";
 
   petals.appendChild(p);
-
   setTimeout(()=>p.remove(),duration*1000);
 }
 
