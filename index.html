@@ -3,162 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Fathima 💍 Habeeb Wedding</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
-
 <style>
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: black;
-  overflow: hidden;
+body{
+  margin:0;
+  font-family:Poppins, sans-serif;
+  background:black;
+  overflow:hidden;
 }
 
 /* BACKGROUND */
-.bg {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
+.bg{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
 }
 
-.bg-blur, .bg-clear {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url('images/FandH.jpg') center/cover no-repeat;
+.bg-blur, .bg-clear{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  background:url('images/FandH.jpg') center/cover no-repeat;
 }
 
-.bg-blur {
-  filter: blur(20px);
-  transform: scale(1.1);
-  transition: 1.5s;
+.bg-blur{
+  filter:blur(20px);
+  transform:scale(1.15);
+  transition:2s ease;
 }
 
-.bg-clear {
-  opacity: 0;
-  transition: 1.5s;
+.bg-clear{
+  opacity:0;
+  transition:2s ease;
 }
 
-.clearView .bg-blur {
-  filter: blur(0);
-  transform: scale(1);
+.clearView .bg-blur{
+  filter:blur(0);
+  transform:scale(1);
 }
 
-.clearView .bg-clear {
-  opacity: 1;
+.clearView .bg-clear{
+  opacity:1;
 }
 
 /* TEXT */
-.inviteContent {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  text-align: center;
-  z-index: 2;
+.inviteContent{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:100%;
+  text-align:center;
+  z-index:2;
 }
 
-.inviteText {
-  color: white;
-  font-size: clamp(1.3rem,6vw,2.5rem);
-  border-right: 3px solid white;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 0;
-  animation: typing 3s steps(30,end) forwards, blink .6s infinite;
+.inviteText{
+  color:white;
+  font-size:clamp(1.3rem,6vw,2.5rem);
+  border-right:3px solid white;
+  white-space:nowrap;
+  overflow:hidden;
+  width:0;
+  margin:auto;
+  animation:typing 3s steps(30,end) forwards, blink .6s infinite;
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 90% }
+@keyframes typing{
+  from{width:0}
+  to{width:90%}
+}
+@keyframes blink{
+  50%{border-color:transparent}
 }
 
-@keyframes blink {
-  50% { border-color: transparent }
+/* 🚪 BEAST DOOR */
+#doorIntro{
+  position:fixed;
+  width:100%;
+  height:100vh;
+  z-index:999;
+  perspective:1600px;
 }
 
-/* DOOR */
-#doorIntro {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  z-index: 999;
-  perspective: 1200px;
+.door{
+  position:absolute;
+  width:50%;
+  height:100%;
+  top:0;
+
+  background:linear-gradient(
+    rgba(255,255,255,0.35),
+    rgba(255,255,255,0.1)
+  );
+
+  backdrop-filter:blur(10px);
+  box-shadow:inset -5px 0 25px rgba(0,0,0,0.5);
+
+  transition:transform 2.2s cubic-bezier(0.7,0,0.3,1);
 }
 
-.door {
-  position: absolute;
-  width: 50%;
-  height: 100%;
-  background: rgba(255,255,255,0.4);
-  backdrop-filter: blur(8px);
-  transition: transform 2s;
+.left{
+  left:0;
+  transform-origin:left;
 }
 
-.left { left:0; transform-origin:left; }
-.right { right:0; transform-origin:right; }
+.right{
+  right:0;
+  transform-origin:right;
+}
 
-.open .left { transform: rotateY(-100deg); }
-.open .right { transform: rotateY(100deg); }
+/* GOLD CENTER LINE */
+.left::after, .right::after{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:100%;
+  top:0;
+  background:linear-gradient(#f7d774,#b8962e);
+}
+
+.left::after{ right:0; }
+.right::after{ left:0; }
+
+/* OPEN */
+.open .left{
+  transform:rotateY(-110deg) translateZ(30px);
+}
+.open .right{
+  transform:rotateY(110deg) translateZ(30px);
+}
 
 /* PETALS */
-#petalContainer {
-  position: fixed;
+#petalContainer{
+  position:fixed;
   width:100%;
   height:100%;
   pointer-events:none;
-  z-index: 1000;
+  z-index:1000;
 }
 
-.petal {
+.petal{
   position:absolute;
   background:url('images/petal.png') center/contain no-repeat;
-  animation: fall linear forwards;
+  animation:fall linear forwards;
 }
 
-@keyframes fall {
-  from { transform: translateY(-10vh); }
-  to { transform: translateY(110vh); }
+@keyframes fall{
+  0%{transform:translateY(-10vh) rotate(0);}
+  100%{transform:translateY(110vh) rotate(360deg);}
 }
 
 /* HERO */
-section {
+section{
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-.overlay {
-  background: rgba(255,255,255,0.85);
-  padding: 20px;
-  border-radius: 15px;
+.overlay{
+  background:rgba(255,255,255,0.85);
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
 }
 
-.rsvp-btn {
+.rsvp-btn{
   margin-top:15px;
   padding:10px 20px;
   background:#b8962e;
   color:white;
   border:none;
   border-radius:20px;
-  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- MUSIC -->
+<!-- AUDIO -->
 <audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
+  music.mp3
 </audio>
 
-<!-- TYPING SOUND -->
-<audio id="typingSound" preload="auto">
-  <source src="typing.mp3" type="audio/mpeg">
+<audio id="typingSound">
+  typing.mp3
 </audio>
 
 <!-- INTRO -->
@@ -180,6 +213,7 @@ section {
   <div class="door right"></div>
 </div>
 
+<!-- PETALS -->
 <div id="petalContainer"></div>
 
 <!-- HERO -->
@@ -189,36 +223,35 @@ section {
 
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
+    <p>Are Getting Married ✨</p>
     <button onclick="openRSVP()" class="rsvp-btn">RSVP 💌</button>
   </div>
 </section>
 
 <script>
-const inviteIntro = document.getElementById("inviteIntro");
-const doorIntro = document.getElementById("doorIntro");
-const music = document.getElementById("music");
-const typingSound = document.getElementById("typingSound");
-const petalContainer = document.getElementById("petalContainer");
+const inviteIntro=document.getElementById("inviteIntro");
+const doorIntro=document.getElementById("doorIntro");
+const music=document.getElementById("music");
+const typingSound=document.getElementById("typingSound");
+const petalContainer=document.getElementById("petalContainer");
 
-/* TRY AUTO PLAY (desktop works) */
+/* TRY AUTO */
 typingSound.play().catch(()=>{});
 
-/* UNLOCK AUDIO ON FIRST TAP */
-document.body.addEventListener("click", () => {
-  typingSound.play().catch(()=>{});
-  music.play().catch(()=>{});
-}, { once:true });
+/* UNLOCK ON CLICK */
+document.body.addEventListener("click",()=>{
+  typingSound.play();
+  music.play();
+},{once:true});
 
-/* MAIN FLOW */
-window.onload = () => {
-
+/* FLOW */
+window.onload=()=>{
   setTimeout(()=>{
     typingSound.pause();
-    typingSound.currentTime = 0;
   },3000);
 
   setTimeout(()=>{
-    inviteIntro.style.opacity = "0";
+    inviteIntro.style.opacity="0";
 
     setTimeout(()=>{
       inviteIntro.style.display="none";
@@ -231,6 +264,12 @@ window.onload = () => {
 /* DOOR */
 function openDoor(){
   doorIntro.classList.add("open");
+
+  /* LIGHT FLASH */
+  document.body.style.background="white";
+  setTimeout(()=>{
+    document.body.style.background="black";
+  },150);
 
   document.querySelectorAll(".bg").forEach(el=>{
     el.classList.add("clearView");
@@ -250,16 +289,17 @@ function createPetal(){
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
 
-  let size=15+Math.random()*20;
-  p.style.width=size+"px";
-  p.style.height=size+"px";
+  let s=15+Math.random()*20;
+  p.style.width=s+"px";
+  p.style.height=s+"px";
+  p.style.animationDuration=(3+Math.random()*3)+"s";
 
   petalContainer.appendChild(p);
-  setTimeout(()=>p.remove(),5000);
+  setTimeout(()=>p.remove(),6000);
 }
 
 function startPetals(){
-  let i=setInterval(createPetal,200);
+  let i=setInterval(createPetal,150);
   setTimeout(()=>clearInterval(i),15000);
 }
 
