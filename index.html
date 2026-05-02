@@ -32,6 +32,7 @@ body.scroll{ overflow-y:auto; }
   transform:scale(1.05);
   transition:2s ease;
 }
+
 .clear{
   filter:blur(0)!important;
   transform:scale(1)!important;
@@ -79,7 +80,6 @@ body.scroll{ overflow-y:auto; }
   left:50%;
   transform:translate(-50%,20px);
   text-align:center;
-
   font-size:32px;
   color:#ffd700;
 
@@ -93,19 +93,16 @@ body.scroll{ overflow-y:auto; }
   opacity:0;
 }
 
-/* ✅ FORCE 2 LINES */
 .tagline{
   line-height:1.4;
 }
 
-/* ✅ NAMES */
 .names{
   font-size:40px;
   color:white;
   margin-top:8px;
 }
 
-/* ✅ ANIMATION */
 .showNames{
   animation:fadeIn 2s forwards;
 }
@@ -174,7 +171,6 @@ body.scroll{ overflow-y:auto; }
 #petalContainer{
   position:fixed;
   top:0;
-  left:0;
   width:100%;
   height:100%;
   pointer-events:none;
@@ -186,7 +182,7 @@ body.scroll{ overflow-y:auto; }
   width:25px;
   height:25px;
 
-  background-image:url('images/petal.png'); /* use transparent png */
+  background-image:url('images/petal.png'); /* transparent PNG required */
   background-size:contain;
   background-repeat:no-repeat;
 
@@ -214,7 +210,7 @@ body.scroll{ overflow-y:auto; }
   line-height:1.7;
 }
 
-/* ✅ MOBILE FIX */
+/* ✅ MOBILE */
 @media(max-width:768px){
   #coupleName{ font-size:26px; }
   .names{ font-size:32px; }
@@ -235,7 +231,7 @@ body.scroll{ overflow-y:auto; }
   <span class="typing">You are exclusively invited 💍</span>
 </div>
 
-<!-- ✅ COUPLE TEXT (FORCED 2 LINES) -->
+<!-- ✅ COUPLE (FORCED 2 LINES) -->
 <div id="coupleName">
   <div class="tagline">
     We are getting<br>married 💍
@@ -257,18 +253,22 @@ body.scroll{ overflow-y:auto; }
   <div class="storyBox">
     <h2>Our Story 💫</h2>
     <p>It started with a smile…</p>
-    <p>Now it’s forever 💍</p>
+    <p>Now it's forever 💍</p>
   </div>
 </div>
 
 <!-- ✅ PETALS -->
 <div id="petalContainer"></div>
 
+<!-- ✅ MUSIC -->
+<audio id="music" src="music.mp3" loop></audio>
+
 <script>
 
 const btn=document.getElementById("btn");
 const img=document.getElementById("bgImg");
 const petals=document.getElementById("petalContainer");
+const music=document.getElementById("music");
 
 /* ✅ SHOW BUTTON AFTER TYPING */
 document.querySelector(".typing").addEventListener("animationend",(e)=>{
@@ -279,6 +279,10 @@ document.querySelector(".typing").addEventListener("animationend",(e)=>{
 
 /* ✅ OPEN */
 function openDoor(){
+
+  /* ✅ PLAY MUSIC */
+  music.currentTime = 0;
+  music.play().catch(()=>{});
 
   document.getElementById("door").classList.add("open");
   img.classList.add("clear");
@@ -297,7 +301,7 @@ function openDoor(){
   },1800);
 }
 
-/* ✅ PETALS */
+/* ✅ PETALS LOGIC */
 let interval;
 
 function createPetal(){
@@ -314,11 +318,13 @@ function createPetal(){
   p.style.animationDuration=duration+"s";
 
   petals.appendChild(p);
+
   setTimeout(()=>p.remove(),duration*1000);
 }
 
 function startPetals(){
   if(interval) return;
+
   interval=setInterval(()=>{
     if(petals.children.length<25){
       createPetal();
