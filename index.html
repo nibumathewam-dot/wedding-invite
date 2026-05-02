@@ -16,9 +16,10 @@ body {
   background: black;
   overflow-x: hidden;
   overflow-y: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* BACKGROUND SYSTEM */
+/* BACKGROUND */
 .bg {
   position: relative;
   width: 100%;
@@ -45,12 +46,17 @@ body {
   z-index: 1;
 }
 
-/* INVITE INTRO */
+/* INTRO */
 #inviteIntro {
   position: fixed;
   width: 100%;
   height: 100vh;
   z-index: 20000;
+}
+
+.fadeOut {
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
 .inviteContent {
@@ -98,6 +104,7 @@ body {
   top: 0;
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
   transition: transform 2s ease;
   z-index: 3;
 }
@@ -150,13 +157,19 @@ h1 {
   color: #b8962e;
 }
 
-/* BUTTON */
+/* BUTTONS */
 button {
   position: fixed;
   top: 20px;
-  right: 20px;
   z-index: 3000;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
+
+#musicBtn { right: 20px; }
+#skipBtn { left: 20px; }
 
 /* LINKS */
 a {
@@ -173,7 +186,7 @@ a {
 
 <body>
 
-<!-- INVITE INTRO -->
+<!-- INTRO -->
 <div id="inviteIntro" class="bg">
   <div class="inviteContent">
     <h1 class="inviteText">You are exclusively invited 💍</h1>
@@ -186,7 +199,8 @@ a {
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<button onclick="toggleMusic()">🔊</button>
+<button id="musicBtn" onclick="toggleMusic()">🔊</button>
+<button id="skipBtn" onclick="skipIntro()">Skip ⏩</button>
 
 <!-- DOOR -->
 <div id="doorIntro" class="bg">
@@ -205,12 +219,11 @@ a {
   </div>
 </section>
 
-<!-- DATE & VENUE -->
+<!-- VENUE -->
 <section style="background:#fff;">
   <div class="overlay">
     <h1>Wedding</h1>
     <p>May 26, 2026</p>
-
     <a href="https://maps.google.com/?q=Bangalore+Palace" target="_blank">
       View Venue 📍
     </a>
@@ -226,22 +239,27 @@ a {
 </section>
 
 <script>
+const inviteIntro = document.getElementById("inviteIntro");
+const doorIntro = document.getElementById("doorIntro");
+const petalContainer = document.getElementById("petalContainer");
+const music = document.getElementById("music");
 
-/* INTRO + MUSIC */
+/* MUSIC AUTOPLAY FIX */
+document.body.addEventListener("click", () => {
+  music.play().catch(()=>{});
+}, { once: true });
+
+/* INTRO */
 window.addEventListener("load", () => {
-  const music = document.getElementById("music");
-
-  music.play().catch(() => {
-    document.body.addEventListener("click", () => music.play(), { once: true });
-  });
-
   setTimeout(() => {
-    inviteIntro.style.opacity = "0";
+    inviteIntro.classList.add("fadeOut");
+
     setTimeout(() => {
       inviteIntro.style.display = "none";
       document.body.style.overflowY = "auto";
       openDoor();
     }, 1000);
+
   }, 4000);
 });
 
@@ -256,6 +274,8 @@ function openDoor(){
 }
 
 /* PETALS */
+let petalInterval;
+
 function createPetal(){
   const p = document.createElement("div");
   p.className="petal";
@@ -269,38 +289,59 @@ function createPetal(){
 }
 
 function startPetals(){
-  setInterval(createPetal,200);
+  petalInterval = setInterval(createPetal,200);
+  setTimeout(() => clearInterval(petalInterval), 15000);
 }
 
-/* MUSIC */
+/* SKIP */
+function skipIntro(){
+  inviteIntro.style.display="none";
+  doorIntro.style.display="none";
+  document.body.style.overflowY="auto";
+  startPetals();
+}
+
+/* MUSIC TOGGLE */
 function toggleMusic(){
-  music.muted=!music.muted;
+  music.muted = !music.muted;
 }
 
-/* COUNTDOWN (FULL) */
+/* COUNTDOWN */
 const date = new Date("May 26, 2026 00:00:00").getTime();
 
 setInterval(()=>{
   let now = new Date().getTime();
-  let gap = date - now;
+  let gap = Math.max(date - now, 0);
 
-  if (gap < 0) gap = 0;
-
-  let days = Math.floor(gap / (1000 * 60 * 60 * 24));
-  let hours = Math.floor((gap / (1000 * 60 * 60)) % 24);
-  let minutes = Math.floor((gap / (1000 * 60)) % 60);
-  let seconds = Math.floor((gap / 1000) % 60);
+  let d = Math.floor(gap / (1000 * 60 * 60 * 24));
+  let h = Math.floor((gap / (1000 * 60 * 60)) % 24);
+  let m = Math.floor((gap / (1000 * 60)) % 60);
+  let s = Math.floor((gap / 1000) % 60);
 
   document.getElementById("timer").innerHTML = `
-    <div style="display:flex;gap:15px;justify-content:center;font-size:1.5em;color:#b8962e;">
-      <div>${days}<br><small>Days</small></div>
-      <div>${hours}<br><small>Hours</small></div>
-      <div>${minutes}<br><small>Minutes</small></div>
-      <div>${seconds}<br><small>Seconds</small></div>
+    <div style="display:flex;gap:20px;justify-content:center;">
+      ${box(d,"Days")}
+      ${box(h,"Hours")}
+      ${box(m,"Min")}
+      ${box(s,"Sec")}
     </div>
   `;
 },1000);
 
+function box(val,label){
+  return `
+    <div style="
+      background:white;
+      padding:10px 15px;
+      border-radius:10px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+      text-align:center;
+      color:#b8962e;
+    ">
+      <div style="font-size:1.6em">${val}</div>
+      <small>${label}</small>
+    </div>`;
+}
 </script>
 
 </body>
