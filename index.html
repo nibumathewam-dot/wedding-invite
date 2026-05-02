@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Fathima 💍 Habeeb Wedding</title>
 
 <style>
@@ -18,34 +19,38 @@ body{
   position:relative;
   width:100%;
   height:100vh;
+  overflow:hidden;
 }
 
-.bg-blur,.bg-clear{
+/* ✅ FIX: ONLY ONE IMAGE VISIBLE */
+.bg-blur, .bg-clear{
   position:absolute;
   width:100%;
   height:100%;
-  top:0;left:0;
+  top:0;
+  left:0;
   background:url('images/FandH.jpg') center/cover no-repeat;
 }
 
 .bg-blur{
   filter:blur(20px);
   transform:scale(1.1);
-  transition:1.8s ease;
+  transition:1.5s ease;
+  opacity:1;
 }
 
 .bg-clear{
-  opacity:0;
-  transition:1.8s ease;
+  opacity:0;              /* ✅ hidden initially */
+  transition:1.5s ease;
 }
 
+/* ✅ WHEN DOOR OPENS */
 .clearView .bg-blur{
-  filter:blur(0);
-  transform:scale(1);
+  opacity:0;              /* ✅ hide blur image */
 }
 
 .clearView .bg-clear{
-  opacity:1;
+  opacity:1;              /* ✅ show only clear image */
 }
 
 /* TEXT */
@@ -63,8 +68,8 @@ body{
   color:white;
   font-size:clamp(1.5rem,6vw,2.5rem);
   border-right:3px solid white;
-  overflow:hidden;
   white-space:nowrap;
+  overflow:hidden;
   width:0;
   animation:typing 3s steps(30,end) forwards, blink .6s infinite;
 }
@@ -99,7 +104,6 @@ body{
 .left{ left:0; transform-origin:left; }
 .right{ right:0; transform-origin:right; }
 
-/* GOLD LINE */
 .left:after,.right:after{
   content:"";
   position:absolute;
@@ -160,20 +164,16 @@ section{
 
 <body>
 
-<!-- ✅ MUSIC FIXED -->
+<!-- ✅ ONLY MUSIC (typing removed) -->
 <audio id="music" loop preload="auto">
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<!-- TYPING SOUND -->
-<audio id="typingSound" preload="auto">
-  <source src="typing.mp3" type="audio/mpeg">
+  music.mp3
 </audio>
 
 <!-- INTRO -->
-<div id="inviteIntro" class="bg">
+<div class="bg">
   <div class="bg-blur"></div>
   <div class="bg-clear"></div>
+
   <div class="inviteContent">
     <h1 class="inviteText">You are exclusively invited 💍</h1>
   </div>
@@ -183,6 +183,7 @@ section{
 <div id="doorIntro" class="bg">
   <div class="bg-blur"></div>
   <div class="bg-clear"></div>
+
   <div class="door left"></div>
   <div class="door right"></div>
 </div>
@@ -193,6 +194,7 @@ section{
 <section class="bg">
   <div class="bg-blur"></div>
   <div class="bg-clear"></div>
+
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
@@ -203,25 +205,23 @@ section{
 <script>
 const content=document.querySelector(".inviteContent");
 const door=document.getElementById("doorIntro");
-const typing=document.getElementById("typingSound");
 const music=document.getElementById("music");
 const petals=document.getElementById("petalContainer");
 
-/* AUDIO ON FIRST TAP */
+/* MUSIC START (mobile safe) */
 document.body.addEventListener("click",()=>{
-  typing.play();
-  music.play();
+  music.play().catch(()=>{});
 },{once:true});
 
 /* FLOW */
 window.onload=()=>{
-  
-  setTimeout(()=>typing.pause(),3000);
 
+  // fade text
   setTimeout(()=>{
     content.style.opacity="0";
   },3000);
 
+  // 2 sec pause
   setTimeout(()=>{
     openDoor();
   },5000);
@@ -235,7 +235,7 @@ function openDoor(){
     el.classList.add("clearView");
   });
 
-  music.play();
+  music.play().catch(()=>{});
 
   startPetals();
 
