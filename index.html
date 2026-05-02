@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Invite</title>
 
 <style>
 body{
@@ -11,72 +12,53 @@ body{
   background:black;
 }
 
-/* ✅ SINGLE BACKGROUND */
+/* ✅ BACKGROUND */
 #mainBg{
   position:fixed;
   width:100%;
   height:100vh;
-  background:url('images/FandH.jpg') 50% 30% / cover no-repeat;
+  background:url('images/FandH.jpg') center/cover no-repeat;
   filter:blur(20px);
   transform:scale(1.1);
   transition:1.5s ease;
   z-index:1;
 }
 
-@media (min-width:1024px){
-  #mainBg{ background-position:center top; }
-}
-
-body.clearView #mainBg{
+/* ✅ CLEAR IMAGE */
+.clearView #mainBg{
   filter:blur(0);
   transform:scale(1);
 }
 
-/* TEXT */
+/* ✅ TEXT */
 .inviteContent{
   position:absolute;
   top:40%;
   width:100%;
   text-align:center;
-  z-index:5;
+  z-index:10;
+  color:white;
 }
 
 .inviteText{
-  color:white;
-  font-size:clamp(1.5rem,6vw,2.5rem);
-  border-right:3px solid white;
-  white-space:nowrap;
-  overflow:hidden;
-  width:0;
-  margin:auto;
-  animation:typing 3s steps(30,end) forwards, blink .6s infinite;
+  font-size:clamp(22px,6vw,36px);
 }
 
-@keyframes typing{
-  from{width:0}
-  to{width:90%}
-}
-@keyframes blink{
-  50%{border-color:transparent}
-}
-
-/* ✅ TAP BUTTON */
-.tapBtn{
+/* ✅ BUTTON */
+#tapBtn{
   position:absolute;
   top:60%;
   left:50%;
   transform:translateX(-50%);
   padding:12px 25px;
+  border:none;
   border-radius:30px;
   background:#b8962e;
   color:white;
-  border:none;
   font-size:16px;
   cursor:pointer;
-
-  opacity:0;
-  transition:0.5s;
-
+  z-index:10;
+  display:none;
   animation:pulse 1.5s infinite;
 }
 
@@ -86,12 +68,12 @@ body.clearView #mainBg{
   100%{transform:translateX(-50%) scale(1);}
 }
 
-/* DOOR */
+/* ✅ DOOR */
 #doorIntro{
   position:fixed;
   width:100%;
   height:100%;
-  z-index:10;
+  z-index:20;
   perspective:1500px;
 }
 
@@ -99,8 +81,8 @@ body.clearView #mainBg{
   position:absolute;
   width:50%;
   height:100%;
-  background:rgba(255,255,255,0.25);
-  backdrop-filter:blur(10px);
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(8px);
   transition:2s ease;
 }
 
@@ -110,38 +92,26 @@ body.clearView #mainBg{
 .open .left{ transform:rotateY(-110deg);}
 .open .right{ transform:rotateY(110deg);}
 
-/* PETALS */
+/* ✅ PETALS */
 #petalContainer{
   position:fixed;
   width:100%;
   height:100%;
   pointer-events:none;
-  z-index:20;
+  z-index:50;
 }
 
 .petal{
   position:absolute;
+  width:20px;
+  height:20px;
   background:url('images/petal.png') center/contain no-repeat;
   animation:fall linear forwards;
 }
 
 @keyframes fall{
-  0%{transform:translateY(-10vh);}
-  100%{transform:translateY(110vh);}
-}
-
-/* HERO */
-section{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.overlay{
-  background:rgba(255,255,255,0.85);
-  padding:20px;
-  border-radius:15px;
+  from{transform:translateY(-10vh);}
+  to{transform:translateY(110vh);}
 }
 </style>
 </head>
@@ -151,20 +121,13 @@ section{
 <!-- BACKGROUND -->
 <div id="mainBg"></div>
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  music.mp3
-</audio>
-
 <!-- TEXT -->
 <div class="inviteContent">
   <h1 class="inviteText">You are exclusively invited 💍</h1>
 </div>
 
-<!-- ✅ TAP BUTTON -->
-<button id="tapBtn" class="tapBtn" onclick="openDoor()">
-  Tap to Open 💍
-</button>
+<!-- BUTTON -->
+<button id="tapBtn" onclick="openDoor()">Tap to Open 💍</button>
 
 <!-- DOOR -->
 <div id="doorIntro">
@@ -175,30 +138,25 @@ section{
 <!-- PETALS -->
 <div id="petalContainer"></div>
 
-<!-- HERO -->
-<section>
-  <div class="overlay">
-    <h1>Fathima 💍 Habeeb</h1>
-  </div>
-</section>
+<!-- MUSIC -->
+<audio id="music" loop>
+  music.mp3
+</audio>
 
 <script>
-const tapBtn=document.getElementById("tapBtn");
-const door=document.getElementById("doorIntro");
-const music=document.getElementById("music");
-const petals=document.getElementById("petalContainer");
+const btn = document.getElementById("tapBtn");
+const door = document.getElementById("doorIntro");
+const petals = document.getElementById("petalContainer");
+const music = document.getElementById("music");
 
-/* SHOW BUTTON AFTER TEXT */
-window.onload=()=>{
-  setTimeout(()=>{
-    tapBtn.style.opacity="1";
-  },3000);
-};
+/* ✅ SHOW BUTTON AFTER 2s */
+setTimeout(()=>{
+  btn.style.display = "block";
+},2000);
 
-/* CLICK → OPEN DOOR */
+/* ✅ OPEN DOOR */
 function openDoor(){
-
-  tapBtn.style.display="none";
+  btn.style.display="none";
 
   door.classList.add("open");
 
@@ -214,15 +172,15 @@ function openDoor(){
   },2000);
 }
 
-/* PETALS */
+/* ✅ PETALS */
 function createPetal(){
-  let p=document.createElement("div");
+  const p=document.createElement("div");
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
 
-  let s=15+Math.random()*20;
-  p.style.width=s+"px";
-  p.style.height=s+"px";
+  let size=15+Math.random()*15;
+  p.style.width=size+"px";
+  p.style.height=size+"px";
   p.style.animationDuration=(3+Math.random()*3)+"s";
 
   petals.appendChild(p);
