@@ -8,64 +8,51 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
 <style>
-html { scroll-behavior: smooth; }
-
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: black;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
-/* BACKGROUND */
+/* BACKGROUND SYSTEM */
 .bg {
   position: relative;
   width: 100%;
   height: 100vh;
+  overflow: hidden;
 }
 
-.bg::before {
-  content: "";
+.bg-blur {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url('images/FandH.jpg') center/cover no-repeat;
   filter: blur(25px);
-  transform: scale(1.1);
-  z-index: 0;
+  transform: scale(1.2);
   transition: all 1.5s ease;
 }
 
-.bg::after {
-  content: "";
+.bg-clear {
   position: absolute;
   width: 100%;
   height: 100%;
   background: url('images/FandH.jpg') center center / contain no-repeat;
   background-color: black;
   opacity: 0;
-  z-index: 1;
   transition: opacity 1.5s ease;
 }
 
-.clearView::before {
-  filter: blur(0px);
+.clearView .bg-blur {
+  filter: blur(0);
   transform: scale(1);
 }
 
-.clearView::after {
+.clearView .bg-clear {
   opacity: 1;
 }
 
-/* INTRO */
-#inviteIntro {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  z-index: 20000;
-}
-
+/* INTRO TEXT */
 .inviteContent {
   position: absolute;
   z-index: 2;
@@ -78,22 +65,16 @@ body {
 .inviteText {
   color: white;
   font-size: 2em;
+  border-right: 3px solid white;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 3px solid white;
   width: 0;
   margin: auto;
-  animation: typing 3s steps(30, end) forwards, blink 0.7s infinite;
+  animation: typing 3s steps(30,end) forwards, blink 0.8s infinite;
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-@keyframes blink {
-  50% { border-color: transparent }
-}
+@keyframes typing { from{width:0} to{width:100%} }
+@keyframes blink { 50%{border-color:transparent} }
 
 /* DOOR */
 #doorIntro {
@@ -108,14 +89,13 @@ body {
   position: absolute;
   width: 50%;
   height: 100%;
-  top: 0;
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(6px);
   transition: transform 2s ease;
 }
 
-.left { left: 0; transform-origin: left; }
-.right { right: 0; transform-origin: right; }
+.left { left: 0; transform-origin:left; }
+.right { right:0; transform-origin:right; }
 
 .open .left { transform: rotateY(-100deg); }
 .open .right { transform: rotateY(100deg); }
@@ -123,65 +103,50 @@ body {
 /* PETALS */
 #petalContainer {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 5000;
+  width:100%;
+  height:100%;
+  pointer-events:none;
 }
 
 .petal {
-  position: absolute;
-  background: url('images/petal.png') no-repeat center/contain;
-  animation: fall linear forwards;
+  position:absolute;
+  background:url('images/petal.png') no-repeat center/contain;
+  width:20px;
+  height:20px;
+  animation:fall linear forwards;
 }
 
 @keyframes fall {
-  0% { transform: translateY(-10vh) rotate(0deg); }
-  100% { transform: translateY(110vh) rotate(360deg); }
+  from { transform: translateY(-10vh); }
+  to { transform: translateY(110vh); }
 }
 
-/* SECTIONS */
+/* CONTENT */
 section {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 .overlay {
-  position: relative;
-  z-index: 2;
-  background: rgba(255,255,255,0.75);
-  padding: 25px;
+  background: rgba(255,255,255,0.8);
+  padding: 20px;
   border-radius: 15px;
-  text-align: center;
+  text-align:center;
 }
 
-h1 {
-  font-family: 'Playfair Display';
-  color: #b8962e;
-}
-
-/* BUTTONS */
-button {
-  position: fixed;
-  top: 20px;
-  padding: 8px 12px;
-}
-
-#musicBtn { right: 20px; }
-#skipBtn { left: 20px; }
+h1 { color:#b8962e; }
 
 .rsvp-btn {
-  margin-top: 20px;
-  padding: 12px 25px;
-  background: #b8962e;
-  color: white;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
+  margin-top:15px;
+  padding:10px 20px;
+  background:#b8962e;
+  color:white;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
 }
-
 </style>
 </head>
 
@@ -189,22 +154,19 @@ button {
 
 <!-- INTRO -->
 <div id="inviteIntro" class="bg">
+  <div class="bg-blur"></div>
+  <div class="bg-clear"></div>
+
   <div class="inviteContent">
     <h1 class="inviteText">You are exclusively invited 💍</h1>
-    <p style="color:white;">Fathima 💍 Habeeb</p>
   </div>
 </div>
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<button id="musicBtn" onclick="toggleMusic()">🔊</button>
-<button id="skipBtn" onclick="skipIntro()">Skip ⏩</button>
-
 <!-- DOOR -->
 <div id="doorIntro" class="bg">
+  <div class="bg-blur"></div>
+  <div class="bg-clear"></div>
+
   <div class="door left" onclick="openDoor()"></div>
   <div class="door right" onclick="openDoor()"></div>
 </div>
@@ -214,6 +176,9 @@ button {
 
 <!-- HERO -->
 <section class="bg">
+  <div class="bg-blur"></div>
+  <div class="bg-clear"></div>
+
   <div class="overlay">
     <h1>Fathima 💍 Habeeb</h1>
     <p>Are Getting Married ✨</p>
@@ -222,7 +187,7 @@ button {
 </section>
 
 <!-- VENUE -->
-<section style="background:#fff;">
+<section>
   <div class="overlay">
     <h1>Wedding</h1>
     <p>May 26, 2026</p>
@@ -230,42 +195,30 @@ button {
   </div>
 </section>
 
-<!-- COUNTDOWN -->
-<section style="background:#fffaf5;">
-  <div class="overlay">
-    <h1>Countdown</h1>
-    <div id="timer"></div>
-  </div>
-</section>
-
 <script>
 const inviteIntro = document.getElementById("inviteIntro");
 const doorIntro = document.getElementById("doorIntro");
 const petalContainer = document.getElementById("petalContainer");
-const music = document.getElementById("music");
 
-document.body.addEventListener("click", () => {
-  music.play().catch(()=>{});
-}, { once: true });
-
-window.addEventListener("load", () => {
+/* INTRO REMOVE */
+window.onload = () => {
   setTimeout(() => {
-    inviteIntro.style.display = "none";
-    document.body.style.overflowY = "auto";
-  }, 4000);
-});
+    inviteIntro.style.display="none";
+  },4000);
+};
 
 /* DOOR + CLEAR IMAGE */
 function openDoor(){
   doorIntro.classList.add("open");
 
-  document.querySelectorAll(".bg").forEach(el => {
+  document.querySelectorAll(".bg").forEach(el=>{
     el.classList.add("clearView");
   });
 
   setTimeout(()=>{
     doorIntro.style.display="none";
     startPetals();
+    document.body.style.overflow="auto";
   },2000);
 }
 
@@ -276,51 +229,17 @@ function openRSVP(){
 
 /* PETALS */
 function createPetal(){
-  const p = document.createElement("div");
+  const p=document.createElement("div");
   p.className="petal";
-  p.style.left = Math.random()*100+"vw";
-  let size=15+Math.random()*25;
-  p.style.width=size+"px";
-  p.style.height=size+"px";
-  p.style.animationDuration=(3+Math.random()*3)+"s";
+  p.style.left=Math.random()*100+"vw";
   petalContainer.appendChild(p);
-  setTimeout(()=>p.remove(),6000);
+  setTimeout(()=>p.remove(),5000);
 }
 
 function startPetals(){
-  let interval = setInterval(createPetal,200);
-  setTimeout(()=>clearInterval(interval),15000);
+  let i=setInterval(createPetal,200);
+  setTimeout(()=>clearInterval(i),15000);
 }
-
-/* SKIP */
-function skipIntro(){
-  inviteIntro.style.display="none";
-  doorIntro.style.display="none";
-  document.body.style.overflowY="auto";
-  startPetals();
-}
-
-/* MUSIC */
-function toggleMusic(){
-  music.muted = !music.muted;
-}
-
-/* COUNTDOWN */
-const date = new Date("May 26, 2026").getTime();
-
-setInterval(()=>{
-  let now = new Date().getTime();
-  let gap = Math.max(date - now, 0);
-
-  let d = Math.floor(gap/(1000*60*60*24));
-  let h = Math.floor((gap/(1000*60*60))%24);
-  let m = Math.floor((gap/(1000*60))%60);
-  let s = Math.floor((gap/1000)%60);
-
-  document.getElementById("timer").innerHTML =
-  `${d} Days ${h} Hours ${m} Min ${s} Sec`;
-},1000);
-
 </script>
 
 </body>
