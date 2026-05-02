@@ -11,12 +11,12 @@ body{
   background:black;
 }
 
-/* ENABLE SCROLL AFTER OPEN */
+/* ENABLE SCROLL */
 body.scroll{
   overflow:auto;
 }
 
-/* IMAGE CONTAINER */
+/* IMAGE */
 #imageContainer{
   position:fixed;
   width:100%;
@@ -25,21 +25,18 @@ body.scroll{
   z-index:1;
 }
 
-/* IMAGE */
 #bgImg{
   width:100%;
   height:auto;
   display:block;
-
   filter:blur(15px);
   transform:scale(1.05);
   transition:2s ease;
 }
 
-/* CLEAR IMAGE */
 .clear{
   filter:blur(0)!important;
-  transform:scale(1) !important;
+  transform:scale(1)!important;
 }
 
 /* TEXT */
@@ -71,11 +68,9 @@ body.scroll{
   from{max-width:0}
   to{max-width:100%}
 }
-
 @keyframes blink{
   50%{border-color:transparent}
 }
-
 @keyframes hideCursor{
   to{border-right:none}
 }
@@ -121,7 +116,7 @@ body.scroll{
   100%{box-shadow:0 0 10px #b8962e}
 }
 
-/* ✅ REALISTIC DOOR */
+/* DOOR */
 #door{
   position:fixed;
   width:100%;
@@ -134,12 +129,9 @@ body.scroll{
 .side{
   width:50%;
   height:100%;
-
   background:rgba(255,255,255,0.25);
   backdrop-filter:blur(8px);
-
   box-shadow: inset -5px 0 25px rgba(0,0,0,0.6);
-
   transition:transform 1.8s cubic-bezier(0.7,0,0.3,1);
 }
 
@@ -149,7 +141,6 @@ body.scroll{
 .open .left{
   transform:rotateY(-110deg) translateZ(20px);
 }
-
 .open .right{
   transform:rotateY(110deg) translateZ(20px);
 }
@@ -163,12 +154,13 @@ body.scroll{
   height:100%;
   pointer-events:none;
   z-index:9999;
+  overflow:hidden;
 }
 
 .petal{
   position:absolute;
   background:url('images/petal.png') center/contain no-repeat;
-  opacity:0.9;
+  opacity:1;
   animation:fall linear forwards;
 }
 
@@ -217,7 +209,6 @@ setTimeout(()=>{
 
 /* OPEN DOOR */
 function openDoor(){
-
   btn.classList.remove("showBtn");
 
   document.getElementById("door").classList.add("open");
@@ -238,41 +229,41 @@ function openDoor(){
 
   setTimeout(()=>{
     document.getElementById("door").style.display="none";
-  },1800);  // ✅ FIXED timing
+  },1800);
 }
 
-/* PETALS */
+/* 🌹 CREATE PETAL */
 function createPetal(){
   let p=document.createElement("div");
   p.className="petal";
 
   p.style.left=Math.random()*100+"vw";
+  p.style.top="-30px";   // start above screen
 
-  let size=15+Math.random()*20;
+  let size=20+Math.random()*25;
   p.style.width=size+"px";
   p.style.height=size+"px";
 
   let duration=5+Math.random()*3;
   p.style.animationDuration=duration+"s";
 
+  p.style.zIndex=10000;
+
   petals.appendChild(p);
 
   setTimeout(()=>{
-    if(p.parentNode){
-      p.remove();
-    }
+    if(p.parentNode) p.remove();
   },duration*1000);
 }
 
-/* ✅ INFINITE + CONTROLLED */
+/* ✅ INFINITE */
 let petalInterval;
 
 function startPetals(){
-
   if(petalInterval) return;
 
   petalInterval=setInterval(()=>{
-    if(petals.children.length < 50){
+    if(petals.children.length<50){
       createPetal();
     }
   },180);
