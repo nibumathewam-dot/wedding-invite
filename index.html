@@ -15,7 +15,7 @@ body {
   overflow: hidden;
 }
 
-/* BACKGROUND SYSTEM */
+/* BACKGROUND */
 .bg {
   position: relative;
   width: 100%;
@@ -23,7 +23,6 @@ body {
   overflow: hidden;
 }
 
-/* BLUR IMAGE */
 .bg-blur {
   position: absolute;
   width: 100%;
@@ -34,7 +33,6 @@ body {
   transition: all 2s ease;
 }
 
-/* CLEAR IMAGE */
 .bg-clear {
   position: absolute;
   width: 100%;
@@ -45,7 +43,6 @@ body {
   transition: opacity 2s ease;
 }
 
-/* AFTER DOOR OPEN */
 .clearView .bg-blur {
   filter: blur(0);
   transform: scale(1);
@@ -55,29 +52,39 @@ body {
   opacity: 1;
 }
 
-/* TEXT */
+/* INVITE TEXT */
 .inviteContent {
   position: absolute;
-  width: 100%;
   top: 50%;
   transform: translateY(-50%);
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
   text-align: center;
   z-index: 2;
 }
 
 .inviteText {
   color: white;
-  font-size: 2em;
-  border-right: 3px solid white;
+  font-size: clamp(1.3rem, 6vw, 2.8rem);
   white-space: nowrap;
   overflow: hidden;
+  border-right: 3px solid white;
   width: 0;
+  max-width: 90vw;
   margin: auto;
+  text-align: center;
   animation: typing 3s steps(30,end) forwards, blink .7s infinite;
 }
 
-@keyframes typing { from {width:0} to {width:100%} }
-@keyframes blink { 50%{border-color:transparent} }
+@keyframes typing {
+  from { width: 0 }
+  to { width: 90% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
 
 /* DOOR */
 #doorIntro {
@@ -115,8 +122,6 @@ body {
 .petal {
   position:absolute;
   background:url('images/petal.png') center/contain no-repeat;
-  width:20px;
-  height:20px;
   animation:fall linear forwards;
 }
 
@@ -157,7 +162,9 @@ h1 { color:#b8962e; }
 <body>
 
 <!-- MUSIC -->
-<audio id="music" src="music.mp3" loop></audio>
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <!-- INTRO -->
 <div id="inviteIntro" class="bg">
@@ -199,7 +206,7 @@ const doorIntro = document.getElementById("doorIntro");
 const music = document.getElementById("music");
 const petalContainer = document.getElementById("petalContainer");
 
-/* MUSIC FIX (mobile safe) */
+/* MUSIC (mobile safe) */
 document.body.addEventListener("click", () => {
   music.play().catch(()=>{});
 }, { once:true });
@@ -211,7 +218,7 @@ window.onload = ()=>{
   },4000);
 };
 
-/* DOOR + CLEAR */
+/* DOOR */
 function openDoor(){
   doorIntro.classList.add("open");
 
@@ -232,8 +239,9 @@ function createPetal(){
   const p=document.createElement("div");
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
-  p.style.width=(15+Math.random()*20)+"px";
-  p.style.height=p.style.width;
+  let size=15+Math.random()*20;
+  p.style.width=size+"px";
+  p.style.height=size+"px";
   p.style.animationDuration=(3+Math.random()*3)+"s";
 
   petalContainer.appendChild(p);
