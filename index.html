@@ -5,6 +5,9 @@
 
 <style>
 
+/* ✅ NEW ELEGANT FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;700&display=swap');
+
 /* ✅ BASE */
 body{
   margin:0;
@@ -88,9 +91,26 @@ body.scroll{ overflow-y:auto; }
   z-index:3;
 }
 
-.tagline{ max-width:240px; margin:auto; }
-.names{ font-size:30px; color:white; }
+/* ✅ ELEGANT TAGLINE */
+.tagline{
+  max-width:240px;
+  margin:auto;
+  font-family:'Great Vibes', cursive;
+  font-size:34px;
+  letter-spacing:1px;
+  color:#ffd700;
+}
 
+/* ✅ ELEGANT NAMES */
+.names{
+  font-family:'Cormorant Garamond', serif;
+  font-size:34px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:white;
+}
+
+/* ✅ SHOW ANIMATION */
 .showNames{
   animation:fadeIn 2s forwards;
 }
@@ -197,7 +217,7 @@ body.scroll{ overflow-y:auto; }
 }
 @keyframes fall{to{transform:translateY(110vh);}}
 
-/* ✅ POPPERS (FIXED) */
+/* ✅ POPPERS */
 .confetti{
   position:absolute;
   width:10px;
@@ -292,6 +312,7 @@ function openDoor(){
   },2000);
 }
 
+/* PETALS */
 let interval;
 function startPetals(){
   if(interval) return;
@@ -304,30 +325,25 @@ function startPetals(){
   },180);
 }
 
-/* ✅ FIXED POPPERS */
+/* POPPERS */
 function poppers(){
   for(let i=0;i<180;i++){
     let c=document.createElement("div");
     c.className="confetti";
-
     c.style.left=innerWidth/2+"px";
     c.style.top=innerHeight/2+"px";
     c.style.background=`hsl(${Math.random()*360},100%,50%)`;
-
     document.body.appendChild(c);
-
-    let a=Math.random()*6.28;
-    let d=200+Math.random()*300;
-
+    let a=Math.random()*6.28,d=200+Math.random()*300;
     c.animate([
       {transform:"translate(0,0)",opacity:1},
       {transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`,opacity:0}
     ],{duration:1200});
-
     setTimeout(()=>c.remove(),1200);
   }
 }
 
+/* FIREWORKS */
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 
@@ -345,7 +361,6 @@ function burstFireworks(){
 
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-
   particles.forEach((p,i)=>{
     p.x+=Math.cos(p.a)*p.s;
     p.y+=Math.sin(p.a)*p.s;
@@ -353,7 +368,6 @@ function animate(){
     ctx.fillRect(p.x,p.y,2,2);
     if(p.l<=0) particles.splice(i,1);
   });
-
   requestAnimationFrame(animate);
 }
 animate();
