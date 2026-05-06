@@ -200,6 +200,42 @@ body.scroll{ overflow-y:auto; }
   box-shadow:0 0 40px rgba(255,105,180,0.6);
 }
 
+/* 🕌 TIMELINE PAGE (NEW) */
+#timeline{
+  height:100vh;
+  background:linear-gradient(to bottom,#111,#222);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.timelineBox{
+  max-width:600px;
+  padding:25px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(12px);
+  box-shadow:0 0 30px rgba(255,215,0,0.3);
+}
+
+.event{
+  margin:15px 0;
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,0.2);
+}
+
+.venue a{
+  display:inline-block;
+  margin-top:10px;
+  padding:10px 15px;
+  background:#ffd700;
+  color:black;
+  text-decoration:none;
+  border-radius:10px;
+}
+
 /* ✅ PETALS */
 #petalContainer{
   position:fixed;
@@ -234,7 +270,10 @@ body.scroll{ overflow-y:auto; }
   pointer-events:none;
   z-index:9;
 }
-
+#timeline{
+  position:relative;
+  z-index:20; /* higher than everything */
+}
 </style>
 </head>
 
@@ -274,6 +313,37 @@ body.scroll{ overflow-y:auto; }
 </div>
 </div>
 
+<!-- 🕌 TIMELINE PAGE -->
+<div id="timeline">
+  <div class="timelineBox">
+    <h2>Wedding Events 🕌</h2>
+
+    <div class="event">
+      <h3>Nikkah 💍</h3>
+      <p>Time: 10:30 AM</p>
+    </div>
+
+    <div class="event">
+      <h3>Lunch 🍽</h3>
+      <p>Time: 1:00 PM</p>
+    </div>
+
+    <div class="event">
+      <h3>Walima 🌸</h3>
+      <p>Time: 7:00 PM</p>
+    </div>
+
+    <div class="venue">
+      <h3>Venue 📍</h3>
+      <p>Masjid / Hall Name</p>
+
+      <a href="https://maps.google.com/?q=YOUR_LOCATION_HERE" target="_blank">
+        Open in Google Maps 🗺
+      </a>
+    </div>
+  </div>
+</div>
+
 <div id="petalContainer"></div>
 <canvas id="fireworks"></canvas>
 
@@ -310,6 +380,11 @@ function openDoor(){
   setTimeout(()=>{
     document.getElementById("story").scrollIntoView({behavior:"smooth"});
   },2000);
+
+  /* ➕ AUTO SCROLL TO TIMELINE */
+  setTimeout(()=>{
+    document.getElementById("timeline").scrollIntoView({behavior:"smooth"});
+  },6000);
 }
 
 /* PETALS */
@@ -371,55 +446,6 @@ function animate(){
   requestAnimationFrame(animate);
 }
 animate();
-
-
-/* =========================================
-   🔒 SAFE FULL FIX (ADDED ONLY)
-   ========================================= */
-
-(function(){
-  const originalOpenDoor = openDoor;
-  let triggered = false;
-  window.openDoor = function(){
-    if(triggered) return;
-    triggered = true;
-    originalOpenDoor();
-  };
-})();
-
-window.addEventListener("resize", () => {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-});
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden && interval) {
-    clearInterval(interval);
-    interval = null;
-  }
-});
-
-document.body.addEventListener("click", () => {
-  if (music.paused) {
-    music.play().catch(()=>{});
-  }
-}, { once: true });
-
-window.addEventListener("load", () => {
-  img.style.objectPosition = "center top";
-});
-
-setInterval(()=>{
-  if (particles.length > 800) {
-    particles.splice(0, particles.length - 500);
-  }
-}, 2000);
-
-window.addEventListener("touchmove", function(e){
-  if(!document.body.classList.contains("scroll")){
-    e.preventDefault();
-  }
-},{ passive:false });
 
 </script>
 
