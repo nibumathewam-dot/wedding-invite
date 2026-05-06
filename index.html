@@ -372,6 +372,55 @@ function animate(){
 }
 animate();
 
+
+/* =========================================
+   🔒 SAFE FULL FIX (ADDED ONLY)
+   ========================================= */
+
+(function(){
+  const originalOpenDoor = openDoor;
+  let triggered = false;
+  window.openDoor = function(){
+    if(triggered) return;
+    triggered = true;
+    originalOpenDoor();
+  };
+})();
+
+window.addEventListener("resize", () => {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && interval) {
+    clearInterval(interval);
+    interval = null;
+  }
+});
+
+document.body.addEventListener("click", () => {
+  if (music.paused) {
+    music.play().catch(()=>{});
+  }
+}, { once: true });
+
+window.addEventListener("load", () => {
+  img.style.objectPosition = "center top";
+});
+
+setInterval(()=>{
+  if (particles.length > 800) {
+    particles.splice(0, particles.length - 500);
+  }
+}, 2000);
+
+window.addEventListener("touchmove", function(e){
+  if(!document.body.classList.contains("scroll")){
+    e.preventDefault();
+  }
+},{ passive:false });
+
 </script>
 
 </body>
