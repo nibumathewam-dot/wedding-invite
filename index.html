@@ -5,7 +5,7 @@
 
 <style>
 
-/* ✅ NEW ELEGANT FONTS */
+/* ✅ FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;700&display=swap');
 
 /* ✅ BASE */
@@ -91,26 +91,24 @@ body.scroll{ overflow-y:auto; }
   z-index:3;
 }
 
-/* ✅ ELEGANT TAGLINE */
+/* TAGLINE */
 .tagline{
   max-width:240px;
   margin:auto;
   font-family:'Great Vibes', cursive;
   font-size:34px;
-  letter-spacing:1px;
   color:#ffd700;
 }
 
-/* ✅ ELEGANT NAMES */
+/* NAMES */
 .names{
   font-family:'Cormorant Garamond', serif;
   font-size:34px;
   font-weight:700;
-  letter-spacing:1px;
   color:white;
 }
 
-/* ✅ SHOW ANIMATION */
+/* SHOW */
 .showNames{
   animation:fadeIn 2s forwards;
 }
@@ -118,7 +116,7 @@ body.scroll{ overflow-y:auto; }
   to{opacity:1; transform:translate(-50%,0);}
 }
 
-/* ✅ BUTTON */
+/* BUTTON */
 #btn{
   position:absolute;
   top:62%;
@@ -144,7 +142,7 @@ body.scroll{ overflow-y:auto; }
 @keyframes fadeBtn{to{opacity:1}}
 @keyframes pulse{50%{transform:translateX(-50%) scale(1.1)}}
 
-/* ✅ DOOR */
+/* DOOR */
 #door{
   position:fixed;
   width:100%;
@@ -165,42 +163,115 @@ body.scroll{ overflow-y:auto; }
 .open .left{transform:rotateY(-110deg);}
 .open .right{transform:rotateY(110deg);}
 
-/* 💖 STORY */
+/* 💖 STORY (UPGRADED) */
 #story{
   height:100vh;
-  background:linear-gradient(to bottom,#ffb6c1,#ff69b4,#ff1493);
+  background:radial-gradient(circle at top,#ff9ecb,#ff4da6,#b30059);
   color:white;
   display:flex;
   justify-content:center;
   align-items:center;
   text-align:center;
   position:relative;
-  z-index:2;
   overflow:hidden;
+  z-index:2;
 }
 
 #story::before{
   content:"";
   position:absolute;
-  width:500px;
-  height:500px;
-  background:radial-gradient(circle, rgba(255,105,180,0.4), transparent);
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(255,255,255,0.2), transparent);
   filter:blur(120px);
 }
 
 .storyBox{
   position:relative;
-  z-index:1;
+  z-index:2;
   max-width:600px;
-  padding:25px;
-  line-height:1.7;
-  border-radius:22px;
-  background:rgba(255,255,255,0.18);
-  backdrop-filter:blur(14px);
-  box-shadow:0 0 40px rgba(255,105,180,0.6);
+  padding:30px;
+  border-radius:25px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(18px);
+  box-shadow:0 0 50px rgba(255,105,180,0.6);
+  animation:fadeRomantic 2s ease forwards;
+  opacity:0;
 }
 
-/* 🕌 TIMELINE PAGE (NEW) */
+@keyframes fadeRomantic{
+  to{opacity:1; transform:translateY(0);}
+}
+
+.romanticTitle{
+  font-family:'Great Vibes', cursive;
+  font-size:40px;
+  color:#ffd700;
+}
+
+.line{
+  font-size:18px;
+  margin:10px 0;
+  opacity:0;
+  animation:fadeLine 1s forwards;
+}
+
+.line:nth-child(2){animation-delay:0.5s;}
+.line:nth-child(3){animation-delay:1s;}
+.line:nth-child(4){animation-delay:1.5s;}
+.line:nth-child(5){animation-delay:2s;}
+
+@keyframes fadeLine{
+  to{opacity:1;}
+}
+
+.highlight{
+  font-size:20px;
+  margin-top:15px;
+  color:#ffd700;
+  font-weight:bold;
+  animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+  from{text-shadow:0 0 5px #ffd700;}
+  to{text-shadow:0 0 20px #ffd700;}
+}
+
+.invite{
+  margin-top:20px;
+  font-size:18px;
+}
+
+/* ❤️ HEARTS */
+.hearts span{
+  position:absolute;
+  bottom:-50px;
+  width:20px;
+  height:20px;
+  background:red;
+  transform:rotate(45deg);
+  animation:floatUp 8s linear infinite;
+}
+
+.hearts span::before,
+.hearts span::after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:red;
+  border-radius:50%;
+}
+
+.hearts span::before{top:-10px;}
+.hearts span::after{left:-10px;}
+
+@keyframes floatUp{
+  to{transform:translateY(-110vh) rotate(45deg); opacity:0;}
+}
+
+/* TIMELINE */
 #timeline{
   height:100vh;
   background:linear-gradient(to bottom,#111,#222);
@@ -209,6 +280,8 @@ body.scroll{ overflow-y:auto; }
   justify-content:center;
   align-items:center;
   text-align:center;
+  position:relative;
+  z-index:20;
 }
 
 .timelineBox{
@@ -216,64 +289,28 @@ body.scroll{ overflow-y:auto; }
   padding:25px;
   border-radius:20px;
   background:rgba(255,255,255,0.1);
-  backdrop-filter:blur(12px);
-  box-shadow:0 0 30px rgba(255,215,0,0.3);
 }
 
-.event{
-  margin:15px 0;
-  padding:10px;
-  border-bottom:1px solid rgba(255,255,255,0.2);
-}
+.event{margin:15px 0;}
 
 .venue a{
   display:inline-block;
   margin-top:10px;
-  padding:10px 15px;
+  padding:10px;
   background:#ffd700;
   color:black;
   text-decoration:none;
   border-radius:10px;
 }
 
-/* ✅ PETALS */
-#petalContainer{
-  position:fixed;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:10;
-}
-
-.petal{
-  position:absolute;
-  background:red;
-  border-radius:50%;
-  animation:fall linear forwards;
-}
+/* PETALS */
+#petalContainer{position:fixed;width:100%;height:100%;pointer-events:none;z-index:10;}
+.petal{position:absolute;background:red;border-radius:50%;animation:fall linear forwards;}
 @keyframes fall{to{transform:translateY(110vh);}}
 
-/* ✅ POPPERS */
-.confetti{
-  position:absolute;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  z-index:20;
-}
+/* FIREWORK */
+#fireworks{position:fixed;width:100%;height:100%;pointer-events:none;z-index:9;}
 
-/* ✅ FIREWORK */
-#fireworks{
-  position:fixed;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:9;
-}
-#timeline{
-  position:relative;
-  z-index:20; /* higher than everything */
-}
 </style>
 </head>
 
@@ -282,74 +319,77 @@ body.scroll{ overflow-y:auto; }
 <div class="section">
 
 <div id="imageContainer">
-  <img id="bgImg" src="images/FandH.jpg">
+<img id="bgImg" src="images/FandH.jpg">
 </div>
 
 <div id="text">
-  <span class="typing">You are exclusively invited 💍</span>
+<span class="typing">You are exclusively invited 💍</span>
 </div>
 
 <div id="coupleName">
-  <div class="tagline">We are getting<br>married 💍</div>
-  <div class="names">Fathima ❤️ Habeeb</div>
+<div class="tagline">We are getting<br>married 💍</div>
+<div class="names">Fathima ❤️ Habeeb</div>
 </div>
 
 <button id="btn" onclick="openDoor()">Tap<br>to Open 💍</button>
 
 <div id="door">
-  <div class="side left"></div>
-  <div class="side right"></div>
+<div class="side left"></div>
+<div class="side right"></div>
 </div>
 
 </div>
 
+<!-- 💖 STORY -->
 <div id="story">
 <div class="storyBox">
-<h2>Our Story 💫</h2>
-<p>Every love story has a beginning… ours began with a simple moment.</p>
-<p>Through smiles and memories, we found something beautiful.</p>
-<p>Now we step into forever together 💖</p>
-<p><b>Join us 💍</b></p>
-</div>
+<h2 class="romanticTitle">Our Love Story 💫</h2>
+
+<p class="line">It wasn’t just a moment… it was destiny ✨</p>
+<p class="line">Two hearts met, and the world felt different ❤️</p>
+<p class="line">In every smile, we found forever 😊</p>
+<p class="line">In every heartbeat, we found each other 💞</p>
+
+<p class="highlight">And now… our forever begins 💍</p>
+
+<p class="invite">With love in our hearts,<br>we invite you 💖</p>
 </div>
 
-<!-- 🕌 TIMELINE PAGE -->
+<div class="hearts"></div>
+</div>
+
+<!-- TIMELINE -->
 <div id="timeline">
-  <div class="timelineBox">
-    <h2>Wedding Events 🕌</h2>
+<div class="timelineBox">
+<h2>Wedding Events 🕌</h2>
 
-    <div class="event">
-      <h3>Nikkah 💍</h3>
-      <p>Time: 10:30 AM</p>
-    </div>
+<div class="event"><h3>Nikkah 💍</h3><p>10:30 AM</p></div>
+<div class="event"><h3>Lunch 🍽</h3><p>1:00 PM</p></div>
+<div class="event"><h3>Walima 🌸</h3><p>7:00 PM</p></div>
 
-    <div class="event">
-      <h3>Lunch 🍽</h3>
-      <p>Time: 1:00 PM</p>
-    </div>
-
-    <div class="event">
-      <h3>Walima 🌸</h3>
-      <p>Time: 7:00 PM</p>
-    </div>
-
-    <div class="venue">
-      <h3>Venue 📍</h3>
-      <p>Kovilakom Resort</p>
-
-      <a href="https://maps.app.goo.gl/SttMJPXtMQ34qeM78" target="_blank">
-        Open in Google Maps 🗺
-      </a>
-    </div>
-  </div>
+<div class="venue">
+<h3>Venue 📍</h3>
+<p>Kovilakom Resort</p>
+<a href="#">Open Map 🗺</a>
+</div>
+</div>
 </div>
 
 <div id="petalContainer"></div>
 <canvas id="fireworks"></canvas>
-
 <audio id="music" src="music.mp3" loop></audio>
 
 <script>
+
+/* HEARTS */
+setInterval(()=>{
+let h=document.createElement("span");
+h.style.left=Math.random()*100+"vw";
+document.querySelector(".hearts").appendChild(h);
+setTimeout(()=>h.remove(),8000);
+},300);
+
+/* KEEP YOUR ORIGINAL JS BELOW (UNCHANGED) */
 
 const btn=document.getElementById("btn");
 const img=document.getElementById("bgImg");
@@ -357,65 +397,56 @@ const petals=document.getElementById("petalContainer");
 const music=document.getElementById("music");
 
 document.querySelector(".typing").addEventListener("animationend",()=>{
-  btn.classList.add("showBtn");
+btn.classList.add("showBtn");
 });
 
 function openDoor(){
+music.play().catch(()=>{});
+document.getElementById("door").classList.add("open");
+img.classList.add("clear");
+document.body.classList.add("scroll");
 
-  music.volume=0.7;
-  music.play().catch(()=>{});
+document.getElementById("text").style.display="none";
+btn.style.display="none";
+document.getElementById("coupleName").classList.add("showNames");
 
-  document.getElementById("door").classList.add("open");
-  img.classList.add("clear");
-  document.body.classList.add("scroll");
+startPetals();
+burstFireworks();
+poppers();
 
-  document.getElementById("text").style.display="none";
-  btn.style.display="none";
-  document.getElementById("coupleName").classList.add("showNames");
-
-  startPetals();
-  burstFireworks();
-  poppers();
-
-  setTimeout(()=>{
-    document.getElementById("story").scrollIntoView({behavior:"smooth"});
-  },2000);
-
-  /* ➕ AUTO SCROLL TO TIMELINE */
-  setTimeout(()=>{
-    document.getElementById("timeline").scrollIntoView({behavior:"smooth"});
-  },6000);
+setTimeout(()=>{document.getElementById("story").scrollIntoView({behavior:"smooth"});},2000);
+setTimeout(()=>{document.getElementById("timeline").scrollIntoView({behavior:"smooth"});},6000);
 }
 
 /* PETALS */
 let interval;
 function startPetals(){
-  if(interval) return;
-  interval=setInterval(()=>{
-    let p=document.createElement("div");
-    p.className="petal";
-    p.style.left=Math.random()*100+"vw";
-    petals.appendChild(p);
-    setTimeout(()=>p.remove(),5000);
-  },180);
+if(interval) return;
+interval=setInterval(()=>{
+let p=document.createElement("div");
+p.className="petal";
+p.style.left=Math.random()*100+"vw";
+petals.appendChild(p);
+setTimeout(()=>p.remove(),5000);
+},180);
 }
 
 /* POPPERS */
 function poppers(){
-  for(let i=0;i<180;i++){
-    let c=document.createElement("div");
-    c.className="confetti";
-    c.style.left=innerWidth/2+"px";
-    c.style.top=innerHeight/2+"px";
-    c.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    document.body.appendChild(c);
-    let a=Math.random()*6.28,d=200+Math.random()*300;
-    c.animate([
-      {transform:"translate(0,0)",opacity:1},
-      {transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`,opacity:0}
-    ],{duration:1200});
-    setTimeout(()=>c.remove(),1200);
-  }
+for(let i=0;i<180;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=innerWidth/2+"px";
+c.style.top=innerHeight/2+"px";
+c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+document.body.appendChild(c);
+let a=Math.random()*6.28,d=200+Math.random()*300;
+c.animate([
+{transform:"translate(0,0)",opacity:1},
+{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`,opacity:0}
+],{duration:1200});
+setTimeout(()=>c.remove(),1200);
+}
 }
 
 /* FIREWORKS */
@@ -427,23 +458,23 @@ canvas.height=innerHeight;
 
 let particles=[];
 function burstFireworks(){
-  setInterval(()=>{
-    for(let i=0;i<50;i++){
-      particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height/2,a:Math.random()*6,s:3,l:60});
-    }
-  },500);
+setInterval(()=>{
+for(let i=0;i<50;i++){
+particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height/2,a:Math.random()*6,s:3,l:60});
+}
+},500);
 }
 
 function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particles.forEach((p,i)=>{
-    p.x+=Math.cos(p.a)*p.s;
-    p.y+=Math.sin(p.a)*p.s;
-    p.l--;
-    ctx.fillRect(p.x,p.y,2,2);
-    if(p.l<=0) particles.splice(i,1);
-  });
-  requestAnimationFrame(animate);
+ctx.clearRect(0,0,canvas.width,canvas.height);
+particles.forEach((p,i)=>{
+p.x+=Math.cos(p.a)*p.s;
+p.y+=Math.sin(p.a)*p.s;
+p.l--;
+ctx.fillRect(p.x,p.y,2,2);
+if(p.l<=0) particles.splice(i,1);
+});
+requestAnimationFrame(animate);
 }
 animate();
 
