@@ -91,7 +91,7 @@ body.scroll{ overflow-y:auto; }
   z-index:3;
 }
 
-/* ✅ ELEGANT TAGLINE */
+/* ✅ TAGLINE */
 .tagline{
   max-width:240px;
   margin:auto;
@@ -101,7 +101,7 @@ body.scroll{ overflow-y:auto; }
   color:#ffd700;
 }
 
-/* ✅ ELEGANT NAMES */
+/* ✅ NAMES */
 .names{
   font-family:'Cormorant Garamond', serif;
   font-size:34px;
@@ -110,7 +110,7 @@ body.scroll{ overflow-y:auto; }
   color:white;
 }
 
-/* ✅ SHOW ANIMATION */
+/* ✅ SHOW */
 .showNames{
   animation:fadeIn 2s forwards;
 }
@@ -165,7 +165,7 @@ body.scroll{ overflow-y:auto; }
 .open .left{transform:rotateY(-110deg);}
 .open .right{transform:rotateY(110deg);}
 
-/* 💖 STORY */
+/* 💖 STORY (ENHANCED) */
 #story{
   height:100vh;
   background:linear-gradient(to bottom,#ffb6c1,#ff69b4,#ff1493);
@@ -193,14 +193,60 @@ body.scroll{ overflow-y:auto; }
   z-index:1;
   max-width:600px;
   padding:25px;
-  line-height:1.7;
+  line-height:1.8;
   border-radius:22px;
   background:rgba(255,255,255,0.18);
   backdrop-filter:blur(14px);
   box-shadow:0 0 40px rgba(255,105,180,0.6);
+  animation:fadeRomantic 2s ease;
 }
 
-/* 🕌 TIMELINE PAGE (NEW) */
+/* ✨ NEW STYLES */
+.storyTitle{
+  font-family:'Great Vibes', cursive;
+  font-size:38px;
+  text-shadow:0 0 15px rgba(255,255,255,0.6);
+}
+
+.glow{
+  font-weight:bold;
+  text-shadow:0 0 10px #ff69b4,0 0 20px #ff1493;
+}
+
+.bigGlow{
+  font-size:26px;
+  text-shadow:0 0 15px #ff69b4,0 0 30px #ff1493;
+}
+
+@keyframes fadeRomantic{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* 💖 FLOAT HEARTS */
+.hearts{
+  position:absolute;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+.hearts::before,
+.hearts::after{
+  content:"💖 💕 💗 💓 💞";
+  position:absolute;
+  width:100%;
+  animation:floatHearts 12s linear infinite;
+  opacity:0.6;
+}
+.hearts::after{animation-delay:6s;}
+
+@keyframes floatHearts{
+  from{transform:translateY(100%);opacity:0;}
+  20%{opacity:0.6;}
+  to{transform:translateY(-120%);opacity:0;}
+}
+
+/* 🕌 TIMELINE */
 #timeline{
   height:100vh;
   background:linear-gradient(to bottom,#111,#222);
@@ -209,6 +255,8 @@ body.scroll{ overflow-y:auto; }
   justify-content:center;
   align-items:center;
   text-align:center;
+  position:relative;
+  z-index:20;
 }
 
 .timelineBox{
@@ -236,7 +284,7 @@ body.scroll{ overflow-y:auto; }
   border-radius:10px;
 }
 
-/* ✅ PETALS */
+/* PETALS */
 #petalContainer{
   position:fixed;
   width:100%;
@@ -244,7 +292,6 @@ body.scroll{ overflow-y:auto; }
   pointer-events:none;
   z-index:10;
 }
-
 .petal{
   position:absolute;
   background:red;
@@ -253,16 +300,7 @@ body.scroll{ overflow-y:auto; }
 }
 @keyframes fall{to{transform:translateY(110vh);}}
 
-/* ✅ POPPERS */
-.confetti{
-  position:absolute;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  z-index:20;
-}
-
-/* ✅ FIREWORK */
+/* FIREWORK */
 #fireworks{
   position:fixed;
   width:100%;
@@ -270,10 +308,7 @@ body.scroll{ overflow-y:auto; }
   pointer-events:none;
   z-index:9;
 }
-#timeline{
-  position:relative;
-  z-index:20; /* higher than everything */
-}
+
 </style>
 </head>
 
@@ -303,17 +338,28 @@ body.scroll{ overflow-y:auto; }
 
 </div>
 
+<!-- 💖 UPDATED STORY -->
 <div id="story">
 <div class="storyBox">
-<h2>Our Story 💫</h2>
-<p>Every love story has a beginning… ours began with a simple moment.</p>
-<p>Through smiles and memories, we found something beautiful.</p>
-<p>Now we step into forever together 💖</p>
-<p><b>Join us 💍</b></p>
-</div>
+
+<h2 class="storyTitle">Our Story 💫</h2>
+
+<p>Every <span class="glow">love story</span> has a beginning… but ours felt like <span class="glow">destiny</span>.</p>
+
+<p>Through smiles and little moments, something <span class="glow">magical</span> grew between us.</p>
+
+<p>And slowly, our hearts whispered one word… <span class="bigGlow">Forever 💖</span></p>
+
+<p>Now we begin our journey together, bound by <span class="glow">love</span> and promises.</p>
+
+<p><span class="bigGlow">Join us 💍</span></p>
+
 </div>
 
-<!-- 🕌 TIMELINE PAGE -->
+<div class="hearts"></div>
+</div>
+
+<!-- TIMELINE SAME -->
 <div id="timeline">
   <div class="timelineBox">
     <h2>Wedding Events 🕌</h2>
@@ -337,7 +383,7 @@ body.scroll{ overflow-y:auto; }
       <h3>Venue 📍</h3>
       <p>Masjid / Hall Name</p>
 
-      <a href="https://maps.google.com/?q=YOUR_LOCATION_HERE" target="_blank">
+      <a href="https://maps.app.goo.gl/SttMJPXtMQ34qeM78" target="_blank">
         Open in Google Maps 🗺
       </a>
     </div>
@@ -346,11 +392,11 @@ body.scroll{ overflow-y:auto; }
 
 <div id="petalContainer"></div>
 <canvas id="fireworks"></canvas>
-
 <audio id="music" src="music.mp3" loop></audio>
 
 <script>
 
+/* SAME JS - UNCHANGED */
 const btn=document.getElementById("btn");
 const img=document.getElementById("bgImg");
 const petals=document.getElementById("petalContainer");
@@ -361,7 +407,6 @@ document.querySelector(".typing").addEventListener("animationend",()=>{
 });
 
 function openDoor(){
-
   music.volume=0.7;
   music.play().catch(()=>{});
 
@@ -375,19 +420,16 @@ function openDoor(){
 
   startPetals();
   burstFireworks();
-  poppers();
 
   setTimeout(()=>{
     document.getElementById("story").scrollIntoView({behavior:"smooth"});
   },2000);
 
-  /* ➕ AUTO SCROLL TO TIMELINE */
   setTimeout(()=>{
     document.getElementById("timeline").scrollIntoView({behavior:"smooth"});
   },6000);
 }
 
-/* PETALS */
 let interval;
 function startPetals(){
   if(interval) return;
@@ -400,25 +442,6 @@ function startPetals(){
   },180);
 }
 
-/* POPPERS */
-function poppers(){
-  for(let i=0;i<180;i++){
-    let c=document.createElement("div");
-    c.className="confetti";
-    c.style.left=innerWidth/2+"px";
-    c.style.top=innerHeight/2+"px";
-    c.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    document.body.appendChild(c);
-    let a=Math.random()*6.28,d=200+Math.random()*300;
-    c.animate([
-      {transform:"translate(0,0)",opacity:1},
-      {transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`,opacity:0}
-    ],{duration:1200});
-    setTimeout(()=>c.remove(),1200);
-  }
-}
-
-/* FIREWORKS */
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 
