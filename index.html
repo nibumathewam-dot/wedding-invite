@@ -162,20 +162,108 @@ body.scroll{ overflow-y:auto; }
   width:100%;
   height:100%;
   display:flex;
+  perspective:1800px;
   z-index:2;
+  overflow:hidden;
+}
+
+#door::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at 50% 40%, rgba(255,240,200,0.28), transparent 30%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1.8s ease 0.2s;
+}
+
+#door::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:32%;
+  width:2px;
+  height:120%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0) 45%);
+  transform:translateX(-50%) rotate(10deg) scaleX(0);
+  opacity:0;
+  transition:transform 1.2s ease, opacity 1.2s ease;
+  pointer-events:none;
+}
+
+#door.open::before{
+  opacity:1;
+}
+
+#door.open::after{
+  opacity:1;
+  transform:translateX(-50%) rotate(10deg) scaleX(1);
 }
 
 .side{
   width:50%;
   height:100vh;
-  background:rgba(255,255,255,0.2);
-  transition:1.8s;
+  background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 45%);
+  border-left:1px solid rgba(255,255,255,0.08);
+  border-right:1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 0 120px rgba(255,255,255,0.08), 0 0 40px rgba(0,0,0,0.3);
+  transition:1.8s transform ease, background 1.8s ease, box-shadow 1.8s ease;
+  position:relative;
+  overflow:hidden;
 }
-.left{transform-origin:left;}
-.right{transform-origin:right;}
 
-.open .left{transform:rotateY(-110deg);}
-.open .right{transform:rotateY(110deg);}
+.side::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.35), transparent 18%),
+              radial-gradient(circle at 70% 80%, rgba(255,215,0,0.12), transparent 20%);
+  opacity:0.9;
+  pointer-events:none;
+}
+
+.side::after{
+  content:'';
+  position:absolute;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background: rgba(255,255,255,0.8);
+  box-shadow:0 0 24px rgba(255,255,255,0.65);
+  top:50%;
+  right:20%;
+  transform:translateY(-50%);
+  opacity:0.15;
+}
+
+.left::after{ right:20%; }
+.right::after{ left:20%; }
+
+.open .left{
+  transform:rotateY(-110deg) translateX(-2vw);
+  box-shadow: inset 0 0 120px rgba(255,255,255,0.04), -30px 0 80px rgba(0,0,0,0.25);
+}
+.open .right{
+  transform:rotateY(110deg) translateX(2vw);
+  box-shadow: inset 0 0 120px rgba(255,255,255,0.04), 30px 0 80px rgba(0,0,0,0.25);
+}
+
+.doorSparkle{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%);
+  filter: blur(1px);
+  opacity:0;
+  pointer-events:none;
+  animation: sparklePop 1.4s ease forwards;
+}
+
+@keyframes sparklePop{
+  0%{opacity:1; transform:scale(0.4) translateY(0);}
+  100%{opacity:0; transform:scale(1.4) translateY(-36px);}
+}
 
 /* 💖 STORY (ENHANCED) */
 #story{
@@ -897,7 +985,8 @@ function openDoor(){
   music.volume=0.7;
   music.play().catch(()=>{});
 
-  document.getElementById("door").classList.add("open");
+  const door = document.getElementById("door");
+  door.classList.add("open");
   img.classList.add("clear");
   document.body.classList.add("scroll");
 
@@ -905,21 +994,37 @@ function openDoor(){
   btn.style.display="none";
   document.getElementById("coupleName").classList.add("showNames");
 
+  startDoorSparkles();
   startPetals();
   burstFireworks();
   launchPopper();
 
   setTimeout(()=>{
     document.getElementById("story").scrollIntoView({behavior:"smooth"});
-  },2000);
+  },2200);
 
   setTimeout(()=>{
     document.getElementById("timeline").scrollIntoView({behavior:"smooth"});
-  },6000);
+  },6500);
 
   setTimeout(()=>{
     document.getElementById("countdown").scrollIntoView({behavior:"smooth"});
-  },10000);
+  },10800);
+}
+
+function startDoorSparkles(){
+  const door = document.getElementById('door');
+  for(let i=0;i<18;i++){
+    const sparkle=document.createElement('div');
+    sparkle.className='doorSparkle';
+    sparkle.style.left = 45 + Math.random()*20 + '%';
+    sparkle.style.top = 22 + Math.random()*18 + '%';
+    sparkle.style.animationDelay = (Math.random()*0.6) + 's';
+    sparkle.style.width = sparkle.style.height = (6 + Math.random()*10) + 'px';
+    door.appendChild(sparkle);
+    setTimeout(()=>sparkle.remove(), 1800);
+  }
+  setTimeout(startDoorSparkles, 1600);
 }
 
 function launchPopper(){
@@ -999,10 +1104,7 @@ rsvpForm.onsubmit = async function(e) {
   try {
     const response = await fetch('https://script.google.com/macros/s/AKfycbxj35xwVrbTHrMnHY1XeK_NEdRp7ag9q4QvIKrqs_nV-lxwMOsutHvL1f1-PDGVRqL6/exec', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, guests })
+      body: new URLSearchParams({ name, guests })
     });
 
     if (response.ok) {
