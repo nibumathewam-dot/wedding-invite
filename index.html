@@ -507,6 +507,181 @@ body.scroll{ overflow-y:auto; }
   line-height:1.6;
 }
 
+/* 📱 MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .timelineList {
+    padding-left: 20px;
+  }
+
+  .timeline-item {
+    padding: 14px 18px 14px 28px;
+  }
+
+  .timeline-item::before {
+    left: -4px;
+    width: 10px;
+    height: 10px;
+  }
+
+  .countdownDisplay {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .countdownItem {
+    min-width: 60px;
+    padding: 12px;
+  }
+
+  .countdownNumber {
+    font-size: 28px;
+  }
+
+  .countdownLabel {
+    font-size: 12px;
+  }
+
+  .countdownTitle {
+    font-size: 36px;
+  }
+
+  .timelineTitle {
+    font-size: 36px;
+  }
+
+  .storyTitle {
+    font-size: 32px;
+  }
+}
+
+/* RSVP MODAL */
+.rsvp-button {
+  margin-top: 24px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #ffd700, #ffe680);
+  color: #120800;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(255, 215, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rsvp-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(255, 215, 0, 0.35);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 24px;
+  width: min(400px, 90%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+.modal-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.modal-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #ffd700;
+  outline: none;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #ffd700, #ffe680);
+  color: #120800;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+}
+
 /* PETALS */
 #petalContainer{
   position:fixed;
@@ -667,6 +842,38 @@ body.scroll{ overflow-y:auto; }
     </div>
 
     <p class="countdownMessage">We're so excited to celebrate this beautiful moment with you! 💍</p>
+
+    <button id="rsvpBtn" class="rsvp-button">RSVP Now ✨</button>
+  </div>
+</div>
+
+<!-- RSVP MODAL -->
+<div id="rsvpModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 class="modal-title">RSVP for Our Wedding</h2>
+    <p class="modal-subtitle">Please let us know if you'll be joining us</p>
+
+    <form id="rsvpForm">
+      <div class="form-group">
+        <label for="guestName">Your Name</label>
+        <input type="text" id="guestName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="guestCount">Number of Guests</label>
+        <select id="guestCount" required>
+          <option value="">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5+">5+</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit RSVP</button>
+    </form>
   </div>
 </div>
 
@@ -739,7 +946,7 @@ function launchPopper(){
 
 /* ⏰ COUNTDOWN FUNCTION */
 function updateCountdown(){
-  const targetDate = new Date('2026-08-24T00:00:00').getTime();
+  const targetDate = new Date('2026-05-24T00:00:00').getTime();
   const now = new Date().getTime();
   const difference = targetDate - now;
 
@@ -763,6 +970,55 @@ function updateCountdown(){
 
 setInterval(updateCountdown, 1000);
 updateCountdown(); // Initial call
+
+// RSVP Modal
+const rsvpBtn = document.getElementById('rsvpBtn');
+const modal = document.getElementById('rsvpModal');
+const closeBtn = document.querySelector('.close');
+const rsvpForm = document.getElementById('rsvpForm');
+
+rsvpBtn.onclick = function() {
+  modal.style.display = 'block';
+}
+
+closeBtn.onclick = function() {
+  modal.style.display = 'none';
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = 'none';
+  }
+}
+
+rsvpForm.onsubmit = async function(e) {
+  e.preventDefault();
+  const name = document.getElementById('guestName').value;
+  const guests = document.getElementById('guestCount').value;
+
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxj35xwVrbTHrMnHY1XeK_NEdRp7ag9q4QvIKrqs_nV-lxwMOsutHvL1f1-PDGVRqL6/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, guests })
+    });
+
+    if (response.ok) {
+      alert(`Thank you, ${name}! Your RSVP for ${guests} guest(s) has been received. We can't wait to celebrate with you! 💍`);
+      modal.style.display = 'none';
+      rsvpForm.reset();
+    } else {
+      alert('Sorry, there was an error submitting your RSVP. Please try again.');
+    }
+  } catch (error) {
+    alert('Sorry, there was an error submitting your RSVP. Please try again.');
+    console.error('RSVP submission error:', error);
+  }
+}
+
+
 
 let interval;
 function startPetals(){
